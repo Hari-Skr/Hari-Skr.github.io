@@ -1,41 +1,44 @@
+import { ArrowRight, BrainCircuit, GraduationCap, Medal } from 'lucide-react'
 import { education } from '../../data/portfolio'
 import { StageHeading } from './Stage'
 
 export default function EducationStage() {
-  const nodes = [
-    ['Degree', education.degree],
-    ['Specialization', education.specialization],
-    ['University', education.university],
-    ['Period', education.period],
-  ]
-
   return (
     <>
       <StageHeading
         kicker="Education"
-        title="Academic background and"
+        title="Education and"
         accent="recognition."
-        description="Computer science education with a specialization in AI and machine learning."
+        description="A computer-science degree, an AI and machine-learning specialization, and a Silver Medal for Academic Excellence."
       />
-      <div className="education-network" data-reveal>
-        <svg viewBox="0 0 1000 420" aria-hidden="true">
-          <path d="M500 210 C370 76 264 86 122 112" />
-          <path d="M500 210 C360 336 250 327 105 300" />
-          <path d="M500 210 C640 74 750 84 892 112" />
-          <path d="M500 210 C650 333 758 324 905 296" />
-        </svg>
-        <div className="award-node">
-          <small>Award</small>
-          <strong>Silver Medal</strong>
-          <span>Academic Excellence</span>
-        </div>
-        {nodes.map(([label, value], index) => (
-          <div className={`education-node education-node-${index + 1}`} key={label}>
-            <small>{label}</small>
-            <strong>{value}</strong>
-          </div>
-        ))}
-      </div>
+
+      <section className="education-simple" data-reveal aria-label="Education and academic recognition">
+        <article className="education-card">
+          <span><GraduationCap size={27} strokeWidth={1.6} /></span>
+          <small>Degree</small>
+          <h3>{education.degree}</h3>
+          <p>{education.university}</p>
+          <i>{education.period}</i>
+        </article>
+
+        <ArrowRight className="education-divider" aria-hidden="true" size={28} strokeWidth={1.4} />
+
+        <article className="education-card">
+          <span><BrainCircuit size={27} strokeWidth={1.6} /></span>
+          <small>Specialization</small>
+          <h3>{education.specialization}</h3>
+          <p>Computer Science</p>
+        </article>
+
+        <ArrowRight className="education-divider" aria-hidden="true" size={28} strokeWidth={1.4} />
+
+        <article className="education-card education-card-award">
+          <span><Medal size={29} strokeWidth={1.6} /></span>
+          <small>Academic recognition</small>
+          <h3>Silver Medal</h3>
+          <p>Academic Excellence</p>
+        </article>
+      </section>
     </>
   )
 }

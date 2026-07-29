@@ -1,3 +1,68 @@
+@media (max-width: 1180px) {
+  .matrix-about {
+    grid-template-columns: minmax(260px, 0.9fr) auto minmax(380px, 1.1fr);
+  }
+
+  .matrix-equals {
+    display: none;
+  }
+
+  .matrix-output {
+    grid-column: 1 / -1;
+    width: min(480px, 100%);
+    justify-self: center;
+  }
+
+  .academic-system {
+    gap: 48px;
+    padding-inline: 36px;
+  }
+
+  .rnn-sequence {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .rnn-state {
+    min-height: auto;
+  }
+
+  .rnn-transition {
+    min-height: 42px;
+  }
+
+  .rnn-transition svg {
+    transform: rotate(90deg);
+  }
+
+  .rnn-transition::before {
+    inset: -10px 50% -10px auto;
+    width: 1px;
+    height: auto;
+  }
+
+  .linear-system {
+    padding: 52px 28px 32px;
+  }
+
+  .linear-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 20px;
+  }
+
+  .linear-connections,
+  .activation-hub {
+    display: none;
+  }
+
+  .layer-inspector {
+    position: relative;
+    inset: auto;
+    width: calc(100% - 56px);
+    margin: 32px 0 0 auto;
+  }
+}
+
 @media (max-width: 980px) {
   .hero-layout {
     grid-template-columns: 1fr;
@@ -17,7 +82,8 @@
   }
 
   .hero-landscape .landscape-heading,
-  .hero-landscape .curve-step {
+  .hero-landscape .loss-checkpoints,
+  .hero-landscape .loss-checkpoint-detail {
     display: none;
   }
 
@@ -30,21 +96,34 @@
     max-width: 620px;
   }
 
-  .linear-system {
-    padding: 52px 28px 32px;
+  .matrix-about {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .linear-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 30px 20px;
+  .matrix-operator {
+    justify-self: center;
   }
 
-  .linear-connections {
+  .matrix-output {
+    grid-column: auto;
+  }
+
+  .matrix-inspector {
+    grid-column: auto;
+  }
+
+  .academic-system {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .academic-system > svg {
     display: none;
   }
 
-  .layer-inspector {
-    width: calc(100% - 56px);
+  .academic-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .experience-network {
@@ -175,12 +254,21 @@
     text-align: center;
   }
 
-  .layer-node span {
+  .layer-node-copy strong {
     font-size: 12px;
+  }
+
+  .project-node {
+    min-height: 96px;
+  }
+
+  .project-node .layer-node-copy strong {
+    font-size: 13px;
   }
 
   .layer-inspector {
     width: calc(100% - 36px);
+    margin-top: 26px;
   }
 
   .portfolio {
@@ -193,7 +281,7 @@
   }
 
   .portfolio-intro h2 {
-    font-size: 51px;
+    font-size: 56px;
   }
 
   .journey-line {
@@ -234,11 +322,68 @@
   }
 
   .stage-heading h2 {
-    font-size: 45px;
+    font-size: 49px;
   }
 
   .stage-heading > div {
-    font-size: 16px;
+    font-size: 17px;
+  }
+
+  .matrix-about,
+  .academic-system,
+  .experience-rnn {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+
+  .matrix-grid {
+    gap: 7px;
+    padding-inline: 16px;
+  }
+
+  .matrix-grid > span {
+    min-height: 58px;
+    font-size: 11px;
+  }
+
+  .matrix-inspector {
+    grid-template-columns: 40px 1fr;
+    padding: 17px;
+  }
+
+  .matrix-inspector > svg {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+  }
+
+  .academic-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .academic-module,
+  .academic-core,
+  .academic-outcome {
+    min-height: auto;
+  }
+
+  .academic-core,
+  .academic-outcome {
+    padding-block: 42px;
+  }
+
+  .rnn-memory-rail {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    border-radius: 18px;
+  }
+
+  .rnn-state {
+    padding: 21px;
+  }
+
+  .rnn-role h3 {
+    font-size: 27px;
   }
 
   .education-network {
@@ -487,5 +632,307 @@
 
   .experience-line {
     left: 32px;
+  }
+}
+
+/* Refinements for the current visual systems */
+
+@media (max-width: 1180px) {
+  .linear-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .linear-activation {
+    align-self: stretch;
+  }
+
+  .activation-gate {
+    width: min(290px, 100%);
+    min-height: 240px;
+    margin-inline: auto;
+  }
+
+  .education-simple {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .education-divider {
+    display: none;
+  }
+
+  .education-card {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 980px) {
+  .matrix-about {
+    padding-top: 96px;
+  }
+
+  .matrix-hover-detail {
+    top: 18px;
+    right: 18px;
+    width: calc(100% - 36px);
+  }
+
+  .education-simple {
+    grid-template-columns: 1fr;
+  }
+
+  .education-card {
+    min-height: auto;
+  }
+
+  .credentials-network {
+    grid-template-columns: 1fr;
+  }
+
+  .mentor-note {
+    grid-column: auto;
+    padding: 38px;
+    border: 1px solid rgba(57, 114, 138, 0.14);
+  }
+}
+
+@media (max-width: 720px) {
+  .portfolio > .shell {
+    width: calc(100% - 12px);
+  }
+
+  .journey {
+    padding-left: 64px;
+  }
+
+  .journey-line {
+    left: 25px;
+  }
+
+  .stage-marker {
+    left: -64px;
+    width: 52px;
+  }
+
+  .linear-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-activation {
+    display: grid;
+  }
+
+  .activation-gate {
+    min-height: 220px;
+  }
+
+  .matrix-about {
+    padding-top: 122px;
+  }
+
+  .matrix-hover-detail {
+    grid-template-columns: 34px 1fr;
+    padding: 13px;
+  }
+
+  .matrix-hover-detail > svg {
+    width: 34px;
+    height: 34px;
+    padding: 8px;
+  }
+
+  .matrix-hover-detail p {
+    font-size: 11px;
+  }
+
+  .education-simple {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .education-card {
+    padding: 28px 24px;
+  }
+
+  .rnn-state-detail {
+    inset: 16px;
+    overflow-y: auto;
+  }
+
+  .credentials-network {
+    gap: 24px;
+  }
+
+  .mentor-note {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 980px) {
+  .about-profile {
+    grid-template-columns: 1fr;
+    gap: 46px;
+  }
+
+  .about-profile::before {
+    display: none;
+  }
+
+  .about-profile-lead {
+    max-width: 680px;
+  }
+
+  .career-timeline {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding: 20px 0 0 62px;
+  }
+
+  .career-track {
+    top: 0;
+    bottom: 0;
+    left: 25px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .career-role {
+    min-height: 360px;
+  }
+
+  .career-node {
+    top: 32px;
+    left: -66px;
+  }
+}
+
+@media (max-width: 720px) {
+  .portfolio > .shell {
+    width: calc(100% - 32px);
+  }
+
+  .hero-layout {
+    width: calc(100% - 32px);
+    grid-template-columns: 1fr;
+  }
+
+  .journey {
+    padding-left: 58px;
+  }
+
+  .journey-line {
+    left: 24px;
+  }
+
+  .stage-marker {
+    left: -58px;
+    width: 50px;
+  }
+
+  .stage-marker > span {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stage-marker > strong {
+    display: none;
+  }
+
+  .about-profile {
+    min-height: 0;
+    padding: 38px 4px;
+  }
+
+  .about-profile-note {
+    grid-template-columns: 26px 42px 1fr;
+    gap: 12px;
+    padding: 24px 4px;
+  }
+
+  .about-profile-note > svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .about-profile-note p {
+    font-size: 13px;
+  }
+
+  .career-timeline {
+    padding-left: 52px;
+  }
+
+  .career-track {
+    left: 20px;
+  }
+
+  .career-node {
+    left: -57px;
+    width: 50px;
+    height: 50px;
+    border-width: 5px;
+  }
+
+  .career-role {
+    min-height: 390px;
+    padding: 36px 22px 24px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .hero-layout {
+    grid-template-columns: minmax(0, 0.82fr) minmax(560px, 1.18fr);
+  }
+
+  .linear-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 34px;
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-heading {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .nav {
+    width: calc(100% - 32px);
+    height: 64px;
+  }
+
+  .site-header.is-scrolled .nav {
+    height: 58px;
+  }
+
+  .portfolio > .shell {
+    width: calc(100% - 32px);
+  }
+
+  .journey {
+    padding-left: 0;
+  }
+
+  .stage {
+    min-height: auto;
+  }
+
+  .stage-heading h2 {
+    font-size: 47px;
+  }
+
+  .linear-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .linear-layer-output .layer-stack {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(280px, 84vw);
   }
 }

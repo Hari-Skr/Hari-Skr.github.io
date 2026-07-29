@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import {
   Blocks,
   BrainCircuit,
@@ -56,146 +56,294 @@ const foundationLayer = [
   },
 ]
 
-const activationLayer = [
-  {
-    id: 'collaboration',
-    label: 'Collaboration',
-    detail: 'Working across product, data, and engineering concerns to move a feature forward.',
-    Icon: Handshake,
-  },
-  {
-    id: 'communication',
-    label: 'Communication',
-    detail: 'Making technical decisions understandable, useful, and ready for implementation.',
-    Icon: MessageCircleMore,
-  },
-  {
-    id: 'mentoring',
-    label: 'Mentoring',
-    detail: 'Supporting students through the intercampus AI Student Interest Group.',
-    Icon: Sparkles,
-  },
+const activation = {
+  id: 'activation',
+  label: 'Ways of working',
+  detail: 'Collaboration, clear communication, and mentoring turn technical foundations into work people can use.',
+  Icon: Sparkles,
+}
+
+const activationSignals = [
+  { label: 'Collaborate', Icon: Handshake },
+  { label: 'Communicate', Icon: MessageCircleMore },
+  { label: 'Mentor', Icon: Sparkles },
 ]
 
-function LayerNode({ item, activeId, onActivate, variant = '' }) {
+const projectLayer = projects.map((project) => ({
+  ...project,
+  label: project.title,
+  detail: project.summary,
+  Icon: GitBranch,
+}))
+
+const connectEveryNode = (sources, targets) =>
+  sources.flatMap((source) => targets.map((target) => [source.id, target.id]))
+
+const layerConnections = [
+  ...connectEveryNode(inputLayer, foundationLayer),
+  ...foundationLayer.map((item) => [item.id, activation.id]),
+  [activation.id, 'project-output'],
+]
+
+function curveBetween(start, end) {
+  const distance = Math.max(36, end.x - start.x)
+  const control = Math.max(34, distance * 0.46)
+  return `M ${start.x} ${start.y} C ${start.x + control} ${start.y}, ${end.x - control} ${end.y}, ${end.x} ${end.y}`
+}
+
+function curveDown(start, end) {
+  const control = Math.max(45, (end.y - start.y) * 0.5)
+  return `M ${start.x} ${start.y} C ${start.x} ${start.y + control}, ${end.x} ${end.y - control}, ${end.x} ${end.y}`
+}
+
+function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', isClone = false }) {
   const Icon = item.Icon
-  const isActive = activeId === item.id
+  const isActive = activeId === (item.loopKey ?? item.id)
 
   return (
     <button
+      ref={nodeRef}
       type="button"
       className={`layer-node ${variant} ${isActive ? 'is-active' : ''}`}
-      aria-pressed={isActive}
-      onMouseEnter={() => onActivate(item)}
-      onFocus={() => onActivate(item)}
-      onClick={() => onActivate(item)}
+      aria-hidden={isClone || undefined}
+      tabIndex={isClone ? -1 : 0}
+      onMouseEnter={() => onEnter(item)}
+      onMouseLeave={onLeave}
+      onFocus={() => onEnter(item)}
+      onBlur={onLeave}
     >
-      <Icon aria-hidden="true" size={18} strokeWidth={1.7} />
-      <span>{item.label}</span>
+      <span className="layer-node-icon">
+        <Icon aria-hidden="true" size={variant === 'project-node' ? 22 : 18} strokeWidth={1.7} />
+      </span>
+      <span className="layer-node-copy">
+        <strong>{item.label}</strong>
+        {variant === 'project-node' && <small>{item.type}</small>}
+      </span>
+      {variant !== 'project-node' && isActive && (
+        <span className="skill-node-tooltip" role="status">
+          <small>Familiar with</small>
+          <strong>{item.label}</strong>
+          <span>{item.detail}</span>
+        </span>
+      )}
+      {variant === 'project-node' && isActive && (
+        <span className="project-node-popover" role="status">
+          <small>{item.type}</small>
+          <strong>{item.label}</strong>
+          <span>{item.detail}</span>
+          {item.stack && <i>{item.stack.join(' · ')}</i>}
+        </span>
+      )}
     </button>
   )
 }
 
+function ProjectCard({ item }) {
+  const Icon = item.Icon
+
+  return (
+    <article className="project-card">
+      <header>
+        <span className="project-card-icon">
+          <Icon aria-hidden="true" size={22} strokeWidth={1.7} />
+        </span>
+        <small>{item.id} / {item.period}</small>
+      </header>
+      <div className="project-card-copy">
+        <span>{item.type}</span>
+        <h3>{item.label}</h3>
+        <p>{item.detail}</p>
+      </div>
+      <footer>
+        {item.stack.map((technology) => <span key={technology}>{technology}</span>)}
+      </footer>
+    </article>
+  )
+}
+
 export default function LinearLayerStage() {
-  const [activeItem, setActiveItem] = useState(inputLayer[0])
+  const [activeItem, setActiveItem] = useState(null)
+  const [diagram, setDiagram] = useState({ width: 0, height: 0, paths: [] })
+  const mapRef = useRef(null)
+  const nodeRefs = useRef({})
+
+  useLayoutEffect(() => {
+    const map = mapRef.current
+    if (!map) return undefined
+
+    let animationFrame
+
+    const measure = () => {
+      const mapBounds = map.getBoundingClientRect()
+      const mapWidth = map.clientWidth
+      const mapHeight = map.clientHeight
+      if (!mapBounds.width || !mapBounds.height || !mapWidth || !mapHeight) return
+
+      const scaleX = mapBounds.width / mapWidth
+      const scaleY = mapBounds.height / mapHeight
+      const pointFor = (id, edge) => {
+        const node = nodeRefs.current[id]
+        if (!node) return null
+        const bounds = node.getBoundingClientRect()
+        return {
+          x: (
+            edge === 'left'
+              ? bounds.left - mapBounds.left
+              : edge === 'right'
+                ? bounds.right - mapBounds.left
+                : bounds.left - mapBounds.left + bounds.width / 2
+          ) / scaleX,
+          y: (
+            edge === 'top'
+              ? bounds.top - mapBounds.top
+              : edge === 'bottom'
+                ? bounds.bottom - mapBounds.top
+                : bounds.top - mapBounds.top + bounds.height / 2
+          ) / scaleY,
+        }
+      }
+
+      const paths = layerConnections.flatMap(([source, target]) => {
+        const vertical = source === activation.id && target === 'project-output'
+        const start = pointFor(source, vertical ? 'bottom' : 'right')
+        const end = pointFor(target, vertical ? 'top' : 'left')
+        if (!start || !end) return []
+        return [{
+          id: `${source}-${target}`,
+          source,
+          target,
+          d: vertical ? curveDown(start, end) : curveBetween(start, end),
+        }]
+      })
+
+      setDiagram({ width: mapWidth, height: mapHeight, paths })
+    }
+
+    const scheduleMeasure = () => {
+      window.cancelAnimationFrame(animationFrame)
+      animationFrame = window.requestAnimationFrame(measure)
+    }
+
+    const resizeObserver = new ResizeObserver(scheduleMeasure)
+    resizeObserver.observe(map)
+    Object.values(nodeRefs.current).forEach((node) => node && resizeObserver.observe(node))
+    document.fonts?.ready.then(scheduleMeasure)
+    scheduleMeasure()
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  const registerNode = (id) => (node) => {
+    if (node) nodeRefs.current[id] = node
+  }
 
   return (
     <>
       <StageHeading
-        kicker="The build path"
-        title="From a clear signal to"
-        accent="useful software."
-        description="Code, engineering foundations, and collaborative habits come together in the projects below. Hover a node to inspect its role."
+        kicker="Skills and projects"
+        title="What I work with—and"
+        accent="what I have built."
+        description="The software, data, and AI foundations I use across professional and personal projects."
       />
 
-      <section className="linear-system" data-reveal aria-label="A linear map from engineering skills to selected projects">
+      <section className="linear-system" data-reveal aria-label="Engineering skills connected through a working layer to selected projects">
         <div className="linear-system-caption">
-          <span>What I believe</span>
-          <strong>Good software is built by connecting the right layers.</strong>
+          <span>My toolkit</span>
+          <strong>Software, data, and AI foundations connected to selected work.</strong>
         </div>
 
-        <svg className="linear-connections" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="layer-link" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#39728a" stopOpacity=".18" />
-              <stop offset=".52" stopColor="#756c91" stopOpacity=".42" />
-              <stop offset="1" stopColor="#39728a" stopOpacity=".54" />
-            </linearGradient>
-          </defs>
-          <g>
-            <path d="M190 132 C284 132 310 132 405 132" />
-            <path d="M190 132 C284 132 310 250 405 250" />
-            <path d="M190 250 C284 250 310 132 405 132" />
-            <path d="M190 250 C284 250 310 250 405 250" />
-            <path d="M190 250 C284 250 310 368 405 368" />
-            <path d="M190 368 C284 368 310 250 405 250" />
-            <path d="M190 368 C284 368 310 368 405 368" />
-            <path d="M595 132 C684 132 710 132 800 132" />
-            <path d="M595 132 C684 132 710 250 800 250" />
-            <path d="M595 250 C684 250 710 132 800 132" />
-            <path d="M595 250 C684 250 710 250 800 250" />
-            <path d="M595 250 C684 250 710 368 800 368" />
-            <path d="M595 368 C684 368 710 250 800 250" />
-            <path d="M595 368 C684 368 710 368 800 368" />
-            <path d="M990 132 C1040 132 1060 132 1110 132" />
-            <path d="M990 250 C1040 250 1060 250 1110 250" />
-            <path d="M990 368 C1040 368 1060 368 1110 368" />
-          </g>
-        </svg>
+        <div className="linear-map" ref={mapRef}>
+          {diagram.width > 0 && (
+            <svg
+              className="linear-connections"
+              viewBox={`0 0 ${diagram.width} ${diagram.height}`}
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="layer-link" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#39728a" stopOpacity=".24" />
+                  <stop offset=".55" stopColor="#756c91" stopOpacity=".42" />
+                  <stop offset="1" stopColor="#39728a" stopOpacity=".52" />
+                </linearGradient>
+                <linearGradient id="layer-link-active" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#756c91" />
+                  <stop offset="1" stopColor="#39728a" />
+                </linearGradient>
+              </defs>
+              {diagram.paths.map((path) => {
+                const active = activeItem && (path.source === activeItem.id || path.target === activeItem.id)
+                return <path className={active ? 'is-active' : ''} d={path.d} key={path.id} />
+              })}
+            </svg>
+          )}
 
-        <div className="linear-grid">
-          <section className="linear-layer" aria-label="Input layer: code and engineering tools">
-            <header><span>01</span>Input layer</header>
-            <div className="layer-stack">
-              {inputLayer.map((item) => (
-                <LayerNode key={item.id} item={item} activeId={activeItem.id} onActivate={setActiveItem} />
-              ))}
-            </div>
-          </section>
+          <div className="linear-grid">
+            <section className="linear-layer" aria-label="Input layer: code and engineering tools">
+              <header><span>01</span>Input layer</header>
+              <div className="layer-stack">
+                {inputLayer.map((item) => (
+                  <LayerNode
+                    key={item.id}
+                    item={item}
+                    activeId={activeItem?.loopKey ?? activeItem?.id}
+                    onEnter={setActiveItem}
+                    onLeave={() => setActiveItem(null)}
+                    nodeRef={registerNode(item.id)}
+                  />
+                ))}
+              </div>
+            </section>
 
-          <section className="linear-layer" aria-label="Foundation layer">
-            <header><span>02</span>Foundations</header>
-            <div className="layer-stack">
-              {foundationLayer.map((item) => (
-                <LayerNode key={item.id} item={item} activeId={activeItem.id} onActivate={setActiveItem} />
-              ))}
-            </div>
-          </section>
+            <section className="linear-layer" aria-label="Foundation layer">
+              <header><span>02</span>Foundations</header>
+              <div className="layer-stack">
+                {foundationLayer.map((item) => (
+                  <LayerNode
+                    key={item.id}
+                    item={item}
+                    activeId={activeItem?.id}
+                    onEnter={setActiveItem}
+                    onLeave={() => setActiveItem(null)}
+                    nodeRef={registerNode(item.id)}
+                  />
+                ))}
+              </div>
+            </section>
 
-          <section className="linear-layer linear-layer-activation" aria-label="Activation layer: ways of working">
-            <header><span>03</span>Activation</header>
-            <div className="layer-stack">
-              {activationLayer.map((item) => (
-                <LayerNode key={item.id} item={item} activeId={activeItem.id} onActivate={setActiveItem} variant="activation-node" />
-              ))}
-            </div>
-          </section>
+            <section className="linear-activation" aria-label="Working layer">
+              <header><span>03</span>Working layer</header>
+              <button
+                ref={registerNode(activation.id)}
+                type="button"
+                className={activeItem?.id === activation.id ? 'activation-gate is-active' : 'activation-gate'}
+                onMouseEnter={() => setActiveItem(activation)}
+                onMouseLeave={() => setActiveItem(null)}
+                onFocus={() => setActiveItem(activation)}
+                onBlur={() => setActiveItem(null)}
+              >
+                <span className="activation-gate-core"><Sparkles size={25} strokeWidth={1.6} /></span>
+                <strong>Make it work for people</strong>
+                <span className="activation-signals">
+                  {activationSignals.map(({ label, Icon }) => (
+                    <i key={label}><Icon size={14} />{label}</i>
+                  ))}
+                </span>
+              </button>
+            </section>
 
-          <section className="linear-layer linear-layer-output" aria-label="Output layer: selected projects">
-            <header><span>ŷ</span>Project output</header>
-            <div className="layer-stack">
-              {projects.map((project) => (
-                <LayerNode
-                  key={project.id}
-                  item={{ ...project, label: project.title, detail: project.summary, Icon: GitBranch }}
-                  activeId={activeItem.id}
-                  onActivate={setActiveItem}
-                  variant="project-node"
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-
-        <aside className="layer-inspector" aria-live="polite">
-          <div className="layer-inspector-icon"><activeItem.Icon size={21} strokeWidth={1.7} /></div>
-          <div>
-            <span>{projects.some((project) => project.id === activeItem.id) ? 'Project output' : 'Active layer'}</span>
-            <strong>{activeItem.label}</strong>
-            <p>{activeItem.detail}</p>
-            {activeItem.stack && <small>{activeItem.stack.join(' · ')}</small>}
+            <section className="linear-layer linear-layer-output" aria-label="Output layer: selected projects">
+              <header ref={registerNode('project-output')}><span>04</span>Selected projects</header>
+              <div className="project-grid">
+                {projectLayer.map((project) => (
+                  <ProjectCard item={project} key={project.id} />
+                ))}
+              </div>
+            </section>
           </div>
-        </aside>
+        </div>
       </section>
     </>
   )

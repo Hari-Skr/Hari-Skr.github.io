@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 
 const phrases = [
-  'Hello, world —\nfrom Hari.',
-  'class\nHariSankar {}',
-  'def\nhari_sankar():',
-  'func\nHariSankar() {}',
-  '<h1>\nHari Sankar</h1>',
-  '# Hello from\nHari Sankar',
+  'builds production AI.',
+  'designs backend systems.',
+  'turns research into products.',
+  'ships dependable software.',
 ]
 
 export default function TypingHeadline() {
@@ -54,10 +52,16 @@ export default function TypingHeadline() {
   const phrase = phrases[phraseIndex]
 
   return (
-    <div className="typing-headline" aria-label="S Hari Sankar, software and AI engineer">
-      <h1>
-        <span>{phrase.slice(0, characterIndex)}</span>
-        <i aria-hidden="true" />
+    <div
+      className="typing-headline"
+      aria-label="Hari Sankar builds production AI, backend systems, and dependable software."
+    >
+      <h1 aria-hidden="true">
+        <span className="hero-name">Hari Sankar<span>.</span></span>
+        <span className="typing-line">
+          <span>{phrase.slice(0, characterIndex)}</span>
+          <i />
+        </span>
       </h1>
     </div>
   )

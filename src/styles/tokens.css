@@ -12,8 +12,8 @@
   --red: #bd6259;
   --violet: #756c91;
   --shadow-pencil: 0 14px 38px rgba(31, 45, 48, 0.08), 0 2px 5px rgba(31, 45, 48, 0.05);
-  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Open Sans", "Helvetica Neue", Arial, sans-serif;
   --font-serif: Georgia, "Times New Roman", serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --shell: 1280px;
+  --shell: 1720px;
 }

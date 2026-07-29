@@ -166,30 +166,3 @@ export const certifications = [
     href: 'https://www.codechef.com/certificates/public/50d47f7',
   },
 ]
-
-export const softwareLayers = [
-  {
-    id: 'intelligence',
-    label: 'Intelligence',
-    title: 'Models and retrieval',
-    tools: 'PyTorch · Transformers · RAG · TRL',
-  },
-  {
-    id: 'data',
-    label: 'Data',
-    title: 'Storage and context',
-    tools: 'PostgreSQL · Cassandra · MongoDB · MinIO',
-  },
-  {
-    id: 'services',
-    label: 'Services',
-    title: 'APIs and execution',
-    tools: 'FastAPI · Django · Elysia · Docker',
-  },
-  {
-    id: 'interface',
-    label: 'Interface',
-    title: 'Product surface',
-    tools: 'React · TypeScript · Tailwind · REST',
-  },
-]

@@ -1,11 +1,7 @@
-export default function Stage({ number, label, id, children }) {
+export default function Stage({ id, children }) {
   return (
     <section className={`stage stage-${id}`} id={id}>
       <div className="stage-inner">
-        <header className="stage-marker" data-reveal>
-          <span>{number}</span>
-          <strong>{label}</strong>
-        </header>
         <div className="stage-content">{children}</div>
       </div>
     </section>
