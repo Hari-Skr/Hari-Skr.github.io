@@ -153,6 +153,10 @@ function ProjectCard({ item }) {
         <span>{item.type}</span>
         <h3>{item.label}</h3>
         <p>{item.detail}</p>
+        <div className="project-card-contribution">
+          <small>My contribution</small>
+          <p>{item.contribution}</p>
+        </div>
       </div>
       <footer>
         {item.stack.map((technology) => <span key={technology}>{technology}</span>)}
@@ -243,7 +247,7 @@ export default function LinearLayerStage() {
   return (
     <>
       <StageHeading
-        kicker="Skills and projects"
+        kicker="Work / Neural stack"
         title="What I work with—and"
         accent="what I have built."
         description="The software, data, and AI foundations I use across professional and personal projects."
@@ -251,8 +255,8 @@ export default function LinearLayerStage() {
 
       <section className="linear-system" data-reveal aria-label="Engineering skills connected through a working layer to selected projects">
         <div className="linear-system-caption">
-          <span>My toolkit</span>
-          <strong>Software, data, and AI foundations connected to selected work.</strong>
+          <span>Interactive system map</span>
+          <strong>Inputs become foundations. Foundations become products.</strong>
         </div>
 
         <div className="linear-map" ref={mapRef}>

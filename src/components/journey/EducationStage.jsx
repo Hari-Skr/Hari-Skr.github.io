@@ -6,7 +6,7 @@ export default function EducationStage() {
   return (
     <>
       <StageHeading
-        kicker="Education"
+        kicker="Education / Foundation"
         title="Education and"
         accent="recognition."
         description="A computer-science degree, an AI and machine-learning specialization, and a Silver Medal for Academic Excellence."

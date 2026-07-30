@@ -4,14 +4,18 @@ import { ArrowUpRight, Menu, X } from 'lucide-react'
 const links = [
   { label: 'About', href: '#about' },
   { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Work', href: '#projects' },
   { label: 'Résumé', href: '/hari-sankar-resume.md' },
 ]
 
 export function Logo() {
   return (
     <a className="logo" href="#top" aria-label="S Hari Sankar, home">
-      H<span />S
+      <span className="logo-mark">HS</span>
+      <span className="logo-copy">
+        <strong>Hari Sankar</strong>
+        <small>Software × AI</small>
+      </span>
     </a>
   )
 }
@@ -52,19 +56,21 @@ export default function Header() {
       <div className="shell nav">
         <Logo />
         <nav className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Primary navigation">
-          {links.map((link) => (
+          {links.map((link, index) => (
             <a
               className={link.href === `#${activeSection}` ? 'is-active' : ''}
               key={link.label}
               href={link.href}
               onClick={() => setOpen(false)}
             >
+              <span>0{index + 1}</span>
               {link.label}
             </a>
           ))}
         </nav>
         <a className="nav-contact" href="#contact">
-          Let&apos;s talk <ArrowUpRight size={16} />
+          <i aria-hidden="true" />
+          Let&apos;s build <ArrowUpRight size={16} />
         </a>
         <button
           className="nav-toggle"

@@ -93,9 +93,9 @@ export const projects = [
     type: 'Backend & Infrastructure',
     period: '2026 — Present',
     summary:
-      'A milestone-driven social network where developers publish technical stories and collaborate on open projects.',
+      'A milestone-driven social network that gives developers a structured way to publish technical stories and collaborate on open projects.',
     contribution:
-      'Designed the relational database, secure REST routes, authentication, and Docker-based infrastructure.',
+      'I designed the relational data model, secure REST API, authentication flow, and Docker-based development infrastructure.',
     stack: ['TypeScript', 'PostgreSQL', 'REST', 'Docker'],
   },
   {
@@ -104,9 +104,9 @@ export const projects = [
     type: 'Full-stack Product',
     period: '2024 — 2025',
     summary:
-      'A productivity application that converts task input into structured workflows and planned weekly routines.',
+      'A productivity application that turns unstructured tasks into actionable workflows and realistic weekly routines.',
     contribution:
-      'Built the full-stack application and its AI-assisted task creation and scheduling logic.',
+      'I built the full-stack product and the AI-assisted task creation and scheduling logic behind it.',
     stack: ['Python', 'Django', 'JavaScript', 'Tailwind'],
   },
   {
@@ -115,9 +115,9 @@ export const projects = [
     type: 'Developer Tool',
     period: '2024',
     summary:
-      'A web application that turns code or written logic into a visual knowledge graph.',
+      'A developer tool that turns code or written logic into a visual knowledge graph for easier exploration and explanation.',
     contribution:
-      'Connected an LLM transformation pipeline to a Django backend and web interface.',
+      'I connected an LLM transformation pipeline to a Django backend and a web interface for graph generation.',
     stack: ['Django', 'LLM API', 'Knowledge Graphs', 'Web'],
   },
   {
@@ -126,9 +126,9 @@ export const projects = [
     type: 'Applied AI',
     period: '2024',
     summary:
-      'A retrieval-augmented customer support agent using semantic similarity search.',
+      'A retrieval-augmented customer support agent that grounds answers in relevant knowledge through semantic search.',
     contribution:
-      'Fine-tuned a language model for customer support and built the retrieval workflow.',
+      'I fine-tuned a language model for customer support and built the retrieval workflow around it.',
     stack: ['RAG', 'Transformers', 'NLP', 'Python'],
   },
   {
@@ -137,9 +137,9 @@ export const projects = [
     type: 'Edge AI',
     period: '2023',
     summary:
-      'A Raspberry Pi-powered exploratory robot with real-time object detection.',
+      'A Raspberry Pi-powered exploratory robot that combines live perception with physical movement and control.',
     contribution:
-      'Integrated YOLOv3 with the Raspberry Pi for live perception and hardware control.',
+      'I integrated YOLOv3 with the Raspberry Pi for real-time object detection and hardware control.',
     stack: ['Computer Vision', 'Raspberry Pi', 'YOLOv3', 'Python'],
   },
 ]

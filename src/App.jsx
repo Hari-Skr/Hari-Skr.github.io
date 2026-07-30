@@ -31,6 +31,7 @@ export default function App() {
 
   return (
     <>
+      <a className="skip-link" href="#portfolio">Skip to selected work</a>
       <PageMotion />
       <Header />
       <Hero />

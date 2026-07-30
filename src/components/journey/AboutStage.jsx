@@ -24,14 +24,14 @@ export default function AboutStage() {
   return (
     <>
       <StageHeading
-        kicker="About me"
+        kicker="About / Operating model"
         title="A little about"
         accent="how I work."
       />
 
       <section className="about-profile" data-reveal aria-label="About Hari Sankar">
         <div className="about-profile-lead">
-          <span>What I work across</span>
+          <span>Core operating range</span>
           <h3>Backend engineering.<br />Data systems.<br /><em>Applied AI.</em></h3>
           <p>{profile.role} · {profile.location}</p>
         </div>

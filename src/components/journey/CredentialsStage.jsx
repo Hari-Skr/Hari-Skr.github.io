@@ -6,7 +6,7 @@ export default function CredentialsStage() {
   return (
     <>
       <StageHeading
-        kicker="Learning and mentoring"
+        kicker="Learning / Continuous update"
         title="Coursework and"
         accent="mentoring."
         description="Professional coursework and student mentoring alongside engineering work."

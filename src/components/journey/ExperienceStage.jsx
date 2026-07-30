@@ -8,7 +8,7 @@ export default function ExperienceStage() {
   return (
     <>
       <StageHeading
-        kicker="Experience"
+        kicker="Experience / Sequence"
         title="Where I have"
         accent="worked."
         description="Roles in data engineering, AI research, and production AI at Metro Global Solutions and Doctreen."

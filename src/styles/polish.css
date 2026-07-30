@@ -610,7 +610,38 @@ body {
   line-height: 1.62;
 }
 
+.project-card-contribution {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(57, 114, 138, 0.16);
+}
+
+.project-card-contribution small {
+  color: var(--blue);
+  font: 9px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-card .project-card-contribution p {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 .project-card:nth-child(1) p {
+  color: rgba(252, 253, 249, 0.7);
+}
+
+.project-card:nth-child(1) .project-card-contribution {
+  border-color: rgba(252, 253, 249, 0.16);
+}
+
+.project-card:nth-child(1) .project-card-contribution small {
+  color: #9ed0da;
+}
+
+.project-card:nth-child(1) .project-card-contribution p {
   color: rgba(252, 253, 249, 0.7);
 }
 

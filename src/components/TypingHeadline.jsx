@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 const phrases = [
   'builds production AI.',
   'designs backend systems.',
+  'ships scalable pipelines.',
   'turns research into products.',
-  'ships dependable software.',
 ]
 
 export default function TypingHeadline() {
@@ -54,7 +54,7 @@ export default function TypingHeadline() {
   return (
     <div
       className="typing-headline"
-      aria-label="Hari Sankar builds production AI, backend systems, and dependable software."
+      aria-label="Hari Sankar builds production AI, backend systems, scalable pipelines, and dependable software."
     >
       <h1 aria-hidden="true">
         <span className="hero-name">Hari Sankar<span>.</span></span>

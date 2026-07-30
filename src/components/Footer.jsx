@@ -25,9 +25,9 @@ export default function Footer() {
       <div className="shell" data-reveal>
         <p className="eyebrow">Contact</p>
         <h2>
-          Interested in working
+          Have a system
           <br />
-          <em>together?</em>
+          <em>worth shipping?</em>
         </h2>
         <p className="footer-intro">
           For software engineering, backend systems, data, or applied AI work, feel free to reach out.
