@@ -1,5 +1,5 @@
 import { BrainCircuit, Code2, Network } from 'lucide-react'
-import { about, profile } from '../../data/portfolio'
+import { about } from '../../data/portfolio'
 import { StageHeading } from './Stage'
 
 const profileNotes = [
@@ -33,7 +33,6 @@ export default function AboutStage() {
         <div className="about-profile-lead">
           <span>Core operating range</span>
           <h3>Backend engineering.<br />Data systems.<br /><em>Applied AI.</em></h3>
-          <p>{profile.role} · {profile.location}</p>
         </div>
 
         <div className="about-profile-notes">

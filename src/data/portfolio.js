@@ -1,6 +1,6 @@
 export const profile = {
   name: 'S Hari Sankar',
-  role: 'AI Engineer',
+  role: 'Backend × AI Engineer',
   location: 'Trivandrum, India',
   email: 'harisankar1603@gmail.com',
   phone: '+91 8714509489',
@@ -52,6 +52,8 @@ export const experience = [
     period: 'May — Jul 2024',
     company: 'Metro Global Solutions',
     role: 'Data Engineer Intern',
+    logoMark: 'MGS',
+    website: 'https://www.metro-gsc.in/',
     summary:
       'Built automated data validation, ETL, OCR extraction, and preprocessing workflows for downstream analysis.',
     highlights: [
@@ -64,6 +66,8 @@ export const experience = [
     period: 'Jan — Jun 2025',
     company: 'Doctreen',
     role: 'AI R&D Intern',
+    logoMark: 'DT',
+    website: 'https://www.doctreen.com/',
     summary:
       'Worked on agent-based context enrichment and a full-stack real-time decision-tree editor.',
     highlights: [
@@ -76,6 +80,8 @@ export const experience = [
     period: 'Jun 2025 — Present',
     company: 'Doctreen',
     role: 'AI Engineer',
+    logoMark: 'DT',
+    website: 'https://www.doctreen.com/',
     summary:
       'Works across production AI endpoints, synthetic-data pipelines, model training, inference, and backend integration.',
     highlights: [

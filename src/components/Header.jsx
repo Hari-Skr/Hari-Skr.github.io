@@ -1,16 +1,23 @@
 import { useEffect, useState } from 'react'
-import { ArrowUpRight, Menu, X } from 'lucide-react'
+import { BriefcaseBusiness, FolderKanban, GraduationCap, Handshake, Menu, Send, X } from 'lucide-react'
 
 const links = [
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Work', href: '#projects' },
-  { label: 'Résumé', href: '/hari-sankar-resume.md' },
+  { label: 'Profession', href: '#experience', icon: BriefcaseBusiness },
+  { label: 'Projects', href: '#projects', icon: FolderKanban },
+  { label: 'Education', href: '#education', icon: GraduationCap },
+  { label: 'Collaboration', href: '#credentials', icon: Handshake },
+  { label: 'Reach me', href: '#contact', icon: Send },
 ]
 
-export function Logo() {
+const getAnchorOffset = () => {
+  const isMobileNav = window.matchMedia('(max-width: 720px)').matches
+  if (!isMobileNav) return 28
+  return (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
+}
+
+export function Logo({ href = '#top', onClick, active = false, ariaLabel = 'S Hari Sankar, home' }) {
   return (
-    <a className="logo" href="#top" aria-label="S Hari Sankar, home">
+    <a className={`logo ${active ? 'is-active' : ''}`} href={href} aria-label={ariaLabel} onClick={onClick}>
       <span className="logo-mark">HS</span>
       <span className="logo-copy">
         <strong>Hari Sankar</strong>
@@ -32,8 +39,24 @@ export default function Header() {
     return () => window.removeEventListener('scroll', updateHeader)
   }, [])
 
+  const scrollToSection = (event, href) => {
+    if (!href.startsWith('#')) {
+      setOpen(false)
+      return
+    }
+    const section = document.querySelector(href)
+    const heading = section?.querySelector('.stage-heading') ?? section
+    if (!heading) return
+
+    event.preventDefault()
+    const top = window.scrollY + heading.getBoundingClientRect().top - getAnchorOffset()
+    window.history.pushState(null, '', href)
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+    setOpen(false)
+  }
+
   useEffect(() => {
-    const sections = ['top', 'about', 'education', 'projects', 'experience', 'credentials']
+    const sections = ['top', 'about', 'experience', 'projects', 'education', 'credentials', 'contact']
       .map((id) => document.getElementById(id))
       .filter(Boolean)
 
@@ -54,24 +77,29 @@ export default function Header() {
   return (
     <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="shell nav">
-        <Logo />
+        <Logo
+          href="#top"
+          onClick={(event) => scrollToSection(event, '#top')}
+          active={activeSection === 'top'}
+          ariaLabel="Back to top"
+        />
         <nav className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Primary navigation">
-          {links.map((link, index) => (
-            <a
-              className={link.href === `#${activeSection}` ? 'is-active' : ''}
-              key={link.label}
-              href={link.href}
-              onClick={() => setOpen(false)}
-            >
-              <span>0{index + 1}</span>
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) => {
+            const Icon = link.icon
+            return (
+              <a
+                className={link.href === `#${activeSection}` ? 'is-active' : ''}
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+                onClick={(event) => scrollToSection(event, link.href)}
+              >
+                <Icon className="nav-icon" size={17} strokeWidth={1.7} aria-hidden="true" />
+                <span className="nav-label">{link.label}</span>
+              </a>
+            )
+          })}
         </nav>
-        <a className="nav-contact" href="#contact">
-          <i aria-hidden="true" />
-          Let&apos;s build <ArrowUpRight size={16} />
-        </a>
         <button
           className="nav-toggle"
           type="button"

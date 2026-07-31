@@ -3,11 +3,17 @@ import {
   Blocks,
   BrainCircuit,
   Code2,
+  Container,
+  Cpu,
   Database,
+  Eye,
   GitBranch,
   Handshake,
   MessageCircleMore,
   Network,
+  ScanEye,
+  SearchCode,
+  ServerCog,
   Sparkles,
 } from 'lucide-react'
 import { projects } from '../../data/portfolio'
@@ -59,7 +65,7 @@ const activation = {
   id: 'activation',
   label: 'Ways of working',
   detail: 'Clear communication, early feedback, and shared ownership turn technical foundations into work people can use.',
-  Icon: Sparkles,
+  Icon: Handshake,
 }
 
 const activationSignals = [
@@ -75,11 +81,26 @@ const projectLayer = projects.map((project) => ({
   Icon: GitBranch,
 }))
 
-const connectEveryNode = (sources, targets) =>
-  sources.flatMap((source) => targets.map((target) => [source.id, target.id]))
+const technologyIcons = {
+  PostgreSQL: Database,
+  REST: ServerCog,
+  Docker: Container,
+  Python: Code2,
+  Django: ServerCog,
+  Tailwind: Sparkles,
+  'LLM API': BrainCircuit,
+  'Knowledge Graphs': Network,
+  Web: Network,
+  RAG: SearchCode,
+  Transformers: BrainCircuit,
+  NLP: MessageCircleMore,
+  'Computer Vision': Eye,
+  'Raspberry Pi': Cpu,
+  YOLOv3: ScanEye,
+}
 
 const layerConnections = [
-  ...connectEveryNode(inputLayer, foundationLayer),
+  ...inputLayer.flatMap((input) => foundationLayer.map((foundation) => [input.id, foundation.id])),
   ...foundationLayer.map((item) => [item.id, activation.id]),
   [activation.id, 'project-output'],
 ]
@@ -158,7 +179,21 @@ function ProjectCard({ item }) {
         </div>
       </div>
       <footer>
-        {item.stack.map((technology) => <span key={technology}>{technology}</span>)}
+        {item.stack.map((technology) => {
+          const TechnologyIcon = technologyIcons[technology] ?? Code2
+          const languageMark = { TypeScript: 'TS', Python: 'Py', JavaScript: 'JS' }[technology]
+          return (
+            <span
+              className={`tech-badge ${languageMark ? 'tech-badge-language' : ''}`}
+              data-technology={technology}
+              aria-label={technology}
+              title={technology}
+              key={technology}
+            >
+              {languageMark ? <b aria-hidden="true">{languageMark}</b> : <TechnologyIcon aria-hidden="true" size={15} strokeWidth={1.75} />}
+            </span>
+          )
+        })}
       </footer>
     </article>
   )
@@ -208,13 +243,21 @@ export default function LinearLayerStage() {
 
       const paths = layerConnections.flatMap(([source, target]) => {
         const vertical = source === activation.id && target === 'project-output'
-        const start = pointFor(source, vertical ? 'bottom' : 'right')
-        const end = pointFor(target, vertical ? 'top' : 'left')
+        let start = pointFor(source, vertical ? 'bottom' : 'right')
+        let end = pointFor(target, vertical ? 'top' : 'left')
         if (!start || !end) return []
+        if (vertical) {
+          start = { ...start, y: start.y + 28 }
+          end = { ...end, y: end.y - 28 }
+        }
+        const sourceIndex = inputLayer.findIndex((item) => item.id === source)
+        const targetIndex = foundationLayer.findIndex((item) => item.id === target)
+        const direct = sourceIndex >= 0 && sourceIndex === targetIndex
         return [{
           id: `${source}-${target}`,
           source,
           target,
+          direct,
           d: vertical ? curveDown(start, end) : curveBetween(start, end),
           start,
           end,
@@ -281,7 +324,7 @@ export default function LinearLayerStage() {
               {diagram.paths.map((path) => {
                 const active = activeItem && (path.source === activeItem.id || path.target === activeItem.id)
                 return (
-                  <g className={active ? 'is-active' : ''} key={path.id}>
+                  <g className={`${active ? 'is-active ' : ''}${path.direct ? 'is-direct' : ''}`} key={path.id}>
                     <path d={path.d} vectorEffect="non-scaling-stroke" />
                     <circle cx={path.start.x} cy={path.start.y} r="3.2" />
                     <circle cx={path.end.x} cy={path.end.y} r="3.2" />
@@ -335,7 +378,7 @@ export default function LinearLayerStage() {
                 onFocus={() => setActiveItem(activation)}
                 onBlur={() => setActiveItem(null)}
               >
-                <span className="activation-gate-core"><Sparkles size={25} strokeWidth={1.6} /></span>
+                <span className="activation-gate-core"><Handshake size={25} strokeWidth={1.6} /></span>
                 <strong>Build with people, not around them</strong>
                 <span className="activation-signals">
                   {activationSignals.map(({ label, Icon }) => (
@@ -345,8 +388,8 @@ export default function LinearLayerStage() {
               </button>
             </section>
 
-            <section className="linear-layer linear-layer-output" aria-label="Output layer: selected projects">
-              <header ref={registerNode('project-output')}><span>04</span>Selected projects</header>
+            <section className="linear-layer linear-layer-output" aria-label="Output layer: software I ship">
+              <header ref={registerNode('project-output')}>Software I ship</header>
               <div className="project-grid">
                 {projectLayer.map((project) => (
                   <ProjectCard item={project} key={project.id} />

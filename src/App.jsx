@@ -15,12 +15,18 @@ export default function App() {
 
     const frame = window.requestAnimationFrame(() => {
       const target = document.getElementById(id)
-      if (!target) return
+      const scrollTarget = target?.querySelector('.stage-heading') ?? target
+      if (!scrollTarget) return
 
       const root = document.documentElement
       const previousBehavior = root.style.scrollBehavior
       root.style.scrollBehavior = 'auto'
-      target.scrollIntoView()
+      const isMobileNav = window.matchMedia('(max-width: 720px)').matches
+      const anchorOffset = isMobileNav
+        ? (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
+        : 28
+      const top = window.scrollY + scrollTarget.getBoundingClientRect().top - anchorOffset
+      window.scrollTo({ top: Math.max(0, top), behavior: 'auto' })
       window.requestAnimationFrame(() => {
         root.style.scrollBehavior = previousBehavior
       })

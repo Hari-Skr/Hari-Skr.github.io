@@ -20,7 +20,7 @@ const checkpoints = [
     detail: 'Start with the user, the constraint, and the actual problem.',
     x: 150,
     y: 118,
-    tone: '#f48672',
+    tone: '#f26430',
     Icon: Search,
   },
   {
@@ -28,7 +28,7 @@ const checkpoints = [
     detail: 'Choose boundaries and trade-offs before choosing tools.',
     x: 339,
     y: 92,
-    tone: '#dc7588',
+    tone: '#d96d5b',
     Icon: Workflow,
   },
   {
@@ -36,7 +36,7 @@ const checkpoints = [
     detail: 'Turn the design into a small, dependable working slice.',
     x: 520,
     y: 190,
-    tone: '#a17eae',
+    tone: '#a17c83',
     Icon: Code2,
   },
   {
@@ -44,7 +44,7 @@ const checkpoints = [
     detail: 'Check behaviour, edge cases, and the assumptions underneath.',
     x: 490,
     y: 250,
-    tone: '#598cad',
+    tone: '#4e91ae',
     Icon: TestTube2,
   },
   {
@@ -52,7 +52,7 @@ const checkpoints = [
     detail: 'Ship carefully, observe the result, and carry the learning forward.',
     x: 400,
     y: 270,
-    tone: '#238fa2',
+    tone: '#009ddc',
     Icon: PackageCheck,
   },
 ]
@@ -68,13 +68,8 @@ export default function HeroLossLandscape() {
 
   return (
     <aside className="hero-landscape" data-reveal aria-label="An optimization path converging toward a useful result">
-      <div className="landscape-toolbar" aria-hidden="true">
-        <span><i /> Engineering loop</span>
-        <small>PASS / 05</small>
-      </div>
-
       <div className="landscape-heading">
-        <span>HOW I BUILD</span>
+        <span>DECISION PATH</span>
         <strong>Clear decisions move useful software forward.</strong>
         <p>Each pass removes uncertainty, turning an open problem into something useful and observable.</p>
       </div>
@@ -82,32 +77,14 @@ export default function HeroLossLandscape() {
       <div className="loss-visual">
         <svg viewBox="0 0 640 420" role="img" aria-label="An organic topographic uncertainty field with five engineering decisions descending toward a shipped result">
           <defs>
-            <linearGradient id="terrain-contour-gradient" x1="64" y1="54" x2="566" y2="385" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#f08a77" />
-              <stop offset=".46" stopColor="#9b82b1" />
-              <stop offset="1" stopColor="#2b95a8" />
-            </linearGradient>
-            <linearGradient id="descent-signal-gradient" x1="150" y1="118" x2="400" y2="270" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#626bab" />
-              <stop offset=".42" stopColor="#447caa" />
-              <stop offset=".76" stopColor="#218ea3" />
-              <stop offset="1" stopColor="#117d8d" />
-            </linearGradient>
             <radialGradient id="terrain-basin-fill" cx="0" cy="0" r="1" gradientTransform="translate(418 275) rotate(-155) scale(400 265)" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#35a5b5" stopOpacity=".32" />
-              <stop offset=".42" stopColor="#7588b4" stopOpacity=".13" />
-              <stop offset=".82" stopColor="#ee8875" stopOpacity=".045" />
+              <stop stopColor="#009ddc" stopOpacity=".28" />
+              <stop offset=".42" stopColor="#4e91ae" stopOpacity=".12" />
+              <stop offset=".82" stopColor="#f26430" stopOpacity=".04" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </radialGradient>
             <filter id="terrain-shadow" x="-30%" y="-30%" width="160%" height="170%">
               <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#263d42" floodOpacity=".09" />
-            </filter>
-            <filter id="terrain-runner-glow" x="-300%" y="-300%" width="700%" height="700%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
             </filter>
           </defs>
 
@@ -134,7 +111,6 @@ export default function HeroLossLandscape() {
             <text x="486" y="298">0.08</text>
           </g>
 
-          <path className="descent-path-rail" d={descentPath} pathLength="1" aria-hidden="true" />
           <path className="descent-path" d={descentPath} pathLength="1" />
 
           {checkpoints.slice(0, -1).map((checkpoint, index) => (
@@ -151,24 +127,19 @@ export default function HeroLossLandscape() {
             </g>
           ))}
 
-          <circle className="terrain-runner" r="3.5" filter="url(#terrain-runner-glow)">
-            <animateMotion dur="6.2s" repeatCount="indefinite" path={descentPath} />
-          </circle>
-
           <g
             className={`terrain-target ${activeIndex === checkpoints.length - 1 ? 'is-active' : ''}`}
             transform={`translate(${targetCheckpoint.x} ${targetCheckpoint.y})`}
             style={{ '--target-tone': targetCheckpoint.tone }}
           >
             <path d="M-34 0 H34 M0 -34 V34" />
-            <circle className="target-halo" r="27" />
             <circle className="target-ring" r="15" />
             <circle className="target-core" r="5" />
             <text x="0" y="-38">05</text>
           </g>
 
           <g className="terrain-target-label" aria-hidden="true">
-            <text x={targetCheckpoint.x + 31} y={targetCheckpoint.y + 4}>MINIMUM</text>
+            <text x={targetCheckpoint.x + 30} y={targetCheckpoint.y - 18}>OPTIMUM</text>
           </g>
         </svg>
 

@@ -6,6 +6,21 @@ import TypingHeadline from './TypingHeadline'
 const focusAreas = ['Production AI', 'Backend systems', 'Data pipelines']
 
 export default function Hero() {
+  const scrollToExplore = (event) => {
+    event.preventDefault()
+    const heading = document.querySelector('#about .stage-heading')
+    if (!heading) return
+
+    const isMobileNav = window.matchMedia('(max-width: 720px)').matches
+    const offset = isMobileNav
+      ? (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
+      : 28
+    const top = window.scrollY + heading.getBoundingClientRect().top - offset
+
+    window.history.pushState(null, '', '#about')
+    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
+  }
+
   return (
     <section className="hero" id="top">
       <div className="hero-ambient" aria-hidden="true" />
@@ -14,7 +29,7 @@ export default function Hero() {
         <div className="hero-content" data-reveal>
           <p className="eyebrow">
             <span />
-            <b>AI Engineer</b>
+            <b>{profile.role}</b>
             <i aria-hidden="true">/</i>
             {profile.location}
           </p>
@@ -22,8 +37,8 @@ export default function Hero() {
           <div className="hero-intro">
             <p className="hero-summary">{profile.summary}</p>
             <div className="hero-actions">
-              <a className="button button-dark" href="#portfolio">
-                Explore selected work <ArrowDown size={17} />
+              <a className="button button-dark" href="#about" onClick={scrollToExplore}>
+                Explore Me <ArrowDown size={17} />
               </a>
               <a className="button button-outline" href="/hari-sankar-resume.md" download>
                 Résumé <Download size={16} />
@@ -40,10 +55,10 @@ export default function Hero() {
 
         <HeroLossLandscape />
       </div>
-      <a className="hero-scroll-cue" href="#about" aria-label="Scroll to about section">
+      {/* <a className="hero-scroll-cue" href="#about" aria-label="Scroll to about section">
         <span>Scroll to explore</span>
         <ArrowUpRight size={15} aria-hidden="true" />
-      </a>
+      </a> */}
     </section>
   )
 }

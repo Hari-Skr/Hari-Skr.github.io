@@ -7,9 +7,9 @@ import Stage from './Stage'
 
 const stages = [
   { id: 'about', component: AboutStage },
-  { id: 'education', component: EducationStage },
-  { id: 'projects', component: LinearLayerStage },
   { id: 'experience', component: ExperienceStage },
+  { id: 'projects', component: LinearLayerStage },
+  { id: 'education', component: EducationStage },
   { id: 'credentials', component: CredentialsStage },
 ]
 
