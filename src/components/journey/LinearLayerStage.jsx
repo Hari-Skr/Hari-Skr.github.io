@@ -8,7 +8,6 @@ import {
   Handshake,
   MessageCircleMore,
   Network,
-  Route,
   Sparkles,
 } from 'lucide-react'
 import { projects } from '../../data/portfolio'
@@ -49,24 +48,24 @@ const foundationLayer = [
     Icon: Network,
   },
   {
-    id: 'delivery',
-    label: 'Delivery',
-    detail: 'Docker, model deployment, backend integration, and the practical details around shipping.',
-    Icon: Route,
+    id: 'collaboration',
+    label: 'Collaboration',
+    detail: 'Shared context, clear handoffs, feedback loops, and building across product and engineering.',
+    Icon: Handshake,
   },
 ]
 
 const activation = {
   id: 'activation',
   label: 'Ways of working',
-  detail: 'Collaboration, clear communication, and mentoring turn technical foundations into work people can use.',
+  detail: 'Clear communication, early feedback, and shared ownership turn technical foundations into work people can use.',
   Icon: Sparkles,
 }
 
 const activationSignals = [
-  { label: 'Collaborate', Icon: Handshake },
+  { label: 'Align', Icon: Handshake },
   { label: 'Communicate', Icon: MessageCircleMore },
-  { label: 'Mentor', Icon: Sparkles },
+  { label: 'Iterate', Icon: Sparkles },
 ]
 
 const projectLayer = projects.map((project) => ({
@@ -217,6 +216,8 @@ export default function LinearLayerStage() {
           source,
           target,
           d: vertical ? curveDown(start, end) : curveBetween(start, end),
+          start,
+          end,
         }]
       })
 
@@ -250,13 +251,13 @@ export default function LinearLayerStage() {
         kicker="Work / Neural stack"
         title="What I work with—and"
         accent="what I have built."
-        description="The software, data, and AI foundations I use across professional and personal projects."
+        description="The software, data, AI, and collaborative habits I bring to professional and personal projects."
       />
 
       <section className="linear-system" data-reveal aria-label="Engineering skills connected through a working layer to selected projects">
         <div className="linear-system-caption">
           <span>Interactive system map</span>
-          <strong>Inputs become foundations. Foundations become products.</strong>
+          <strong>Tools become systems. Collaboration makes them useful.</strong>
         </div>
 
         <div className="linear-map" ref={mapRef}>
@@ -268,18 +269,24 @@ export default function LinearLayerStage() {
             >
               <defs>
                 <linearGradient id="layer-link" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#39728a" stopOpacity=".24" />
-                  <stop offset=".55" stopColor="#756c91" stopOpacity=".42" />
-                  <stop offset="1" stopColor="#39728a" stopOpacity=".52" />
+                  <stop offset="0" stopColor="#39728a" stopOpacity=".52" />
+                  <stop offset=".55" stopColor="#756c91" stopOpacity=".68" />
+                  <stop offset="1" stopColor="#39728a" stopOpacity=".78" />
                 </linearGradient>
                 <linearGradient id="layer-link-active" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#756c91" />
+                  <stop offset="0" stopColor="#c65f55" />
                   <stop offset="1" stopColor="#39728a" />
                 </linearGradient>
               </defs>
               {diagram.paths.map((path) => {
                 const active = activeItem && (path.source === activeItem.id || path.target === activeItem.id)
-                return <path className={active ? 'is-active' : ''} d={path.d} key={path.id} />
+                return (
+                  <g className={active ? 'is-active' : ''} key={path.id}>
+                    <path d={path.d} vectorEffect="non-scaling-stroke" />
+                    <circle cx={path.start.x} cy={path.start.y} r="3.2" />
+                    <circle cx={path.end.x} cy={path.end.y} r="3.2" />
+                  </g>
+                )
               })}
             </svg>
           )}
@@ -329,7 +336,7 @@ export default function LinearLayerStage() {
                 onBlur={() => setActiveItem(null)}
               >
                 <span className="activation-gate-core"><Sparkles size={25} strokeWidth={1.6} /></span>
-                <strong>Make it work for people</strong>
+                <strong>Build with people, not around them</strong>
                 <span className="activation-signals">
                   {activationSignals.map(({ label, Icon }) => (
                     <i key={label}><Icon size={14} />{label}</i>

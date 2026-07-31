@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const phrases = [
   'builds production AI.',
   'designs backend systems.',
-  'ships scalable pipelines.',
+  'builds scalable pipelines.',
   'turns research into products.',
 ]
 

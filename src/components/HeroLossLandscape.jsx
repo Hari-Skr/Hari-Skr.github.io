@@ -2,93 +2,107 @@ import { useState } from 'react'
 import { Code2, PackageCheck, Search, TestTube2, Workflow } from 'lucide-react'
 
 const descentPath =
-  'M82 92 C110 121 130 143 154 159 C178 176 188 194 207 211 C227 229 240 242 254 251 C268 260 279 265 290 267'
+  'M150 118 C181.5 113.7 277.3 80 339 92 C400.7 104 494.8 163.7 520 190 C545.2 216.3 510 236.7 490 250 C470 263.3 415 266.7 400 270'
 
-const contours = [
-  'M39 284 C38 151 127 47 267 28 C409 9 501 84 512 219 C523 352 456 461 317 492 C173 523 47 438 39 284 Z',
-  'M72 286 C70 172 145 82 267 64 C389 46 473 111 480 226 C487 340 427 428 313 454 C194 480 79 410 72 286 Z',
-  'M108 286 C106 192 166 115 270 99 C374 84 438 137 445 231 C452 326 402 395 311 417 C215 440 113 387 108 286 Z',
-  'M143 284 C141 210 190 145 274 134 C359 122 407 164 412 237 C417 310 378 365 309 381 C235 399 147 363 143 284 Z',
-  'M180 283 C179 226 213 177 280 169 C346 160 379 190 381 242 C383 295 353 334 306 345 C252 358 182 343 180 283 Z',
-  'M216 282 C215 242 240 207 284 202 C329 197 351 215 350 247 C350 281 330 306 303 313 C268 321 217 320 216 282 Z',
-  'M251 280 C251 257 264 237 288 235 C313 232 327 241 324 257 C322 276 311 287 298 290 C279 295 252 299 251 280 Z',
+const terrainBands = [
+  'M43 272 C32 190 89 110 199 70 C316 27 478 43 565 111 C651 178 631 296 537 366 C449 432 287 443 158 393 C91 367 49 322 43 272 Z',
+  'M84 273 C75 205 125 138 219 103 C318 66 454 73 527 128 C598 182 582 278 504 336 C430 392 302 402 198 362 C137 339 90 306 84 273 Z',
+  'M132 270 C126 218 165 166 239 137 C318 107 426 110 485 153 C543 195 532 264 472 308 C414 351 316 360 237 331 C184 312 137 291 132 270 Z',
+  'M185 271 C180 233 210 195 265 174 C323 151 402 153 445 184 C487 214 480 258 437 290 C395 321 324 326 268 306 C229 292 189 283 185 271 Z',
+  'M244 274 C241 246 263 220 302 205 C344 189 398 191 427 212 C456 233 451 260 422 281 C393 302 345 306 307 293 C280 284 247 283 244 274 Z',
+  'M304 277 C302 259 316 243 342 233 C370 223 405 225 424 238 C442 252 439 268 420 282 C402 295 371 298 347 290 C330 285 306 285 304 277 Z',
+  'M362 279 C361 269 370 260 385 255 C401 249 420 251 430 258 C440 265 438 273 428 281 C418 289 401 290 388 286 C379 283 363 284 362 279 Z',
 ]
 
 const checkpoints = [
   {
     step: 'Understand',
     detail: 'Start with the user, the constraint, and the actual problem.',
-    x: 82,
-    y: 92,
+    x: 150,
+    y: 118,
+    tone: '#f48672',
     Icon: Search,
   },
   {
     step: 'Design',
     detail: 'Choose boundaries and trade-offs before choosing tools.',
-    x: 154,
-    y: 159,
+    x: 339,
+    y: 92,
+    tone: '#dc7588',
     Icon: Workflow,
   },
   {
     step: 'Build',
     detail: 'Turn the design into a small, dependable working slice.',
-    x: 207,
-    y: 211,
+    x: 520,
+    y: 190,
+    tone: '#a17eae',
     Icon: Code2,
   },
   {
     step: 'Test',
     detail: 'Check behaviour, edge cases, and the assumptions underneath.',
-    x: 254,
-    y: 251,
+    x: 490,
+    y: 250,
+    tone: '#598cad',
     Icon: TestTube2,
   },
   {
     step: 'Deliver',
     detail: 'Ship carefully, observe the result, and carry the learning forward.',
-    x: 290,
-    y: 267,
+    x: 400,
+    y: 270,
+    tone: '#238fa2',
     Icon: PackageCheck,
   },
 ]
 
+const targetCheckpoint = checkpoints[checkpoints.length - 1]
+
 export default function HeroLossLandscape() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const activeCheckpoint = checkpoints[activeIndex]
+  const [activeIndex, setActiveIndex] = useState(null)
+  const activeCheckpoint = activeIndex === null ? null : checkpoints[activeIndex]
+  const showCheckpoint = (index) => setActiveIndex(index)
+  const hideCheckpoint = () => setActiveIndex(null)
+  const toggleCheckpoint = (index) => setActiveIndex((current) => (current === index ? null : index))
 
   return (
     <aside className="hero-landscape" data-reveal aria-label="An optimization path converging toward a useful result">
       <div className="landscape-toolbar" aria-hidden="true">
         <span><i /> Engineering loop</span>
-        <small>ITERATION / 05</small>
+        <small>PASS / 05</small>
       </div>
 
       <div className="landscape-heading">
         <span>HOW I BUILD</span>
         <strong>Clear decisions move useful software forward.</strong>
-        <p>From understanding the problem to observing what ships—each pass reduces uncertainty.</p>
+        <p>Each pass removes uncertainty, turning an open problem into something useful and observable.</p>
       </div>
 
       <div className="loss-visual">
-        <svg viewBox="0 0 520 520" role="img" aria-label="A clean optimization path descending through a loss landscape toward an optimum">
+        <svg viewBox="0 0 640 420" role="img" aria-label="An organic topographic uncertainty field with five engineering decisions descending toward a shipped result">
           <defs>
-            <linearGradient id="new-trace-gradient" x1="82" y1="92" x2="290" y2="267" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#ef6b5b" />
-              <stop offset=".48" stopColor="#6c72b8" />
-              <stop offset="1" stopColor="#1f7088" />
+            <linearGradient id="terrain-contour-gradient" x1="64" y1="54" x2="566" y2="385" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor="#f08a77" />
+              <stop offset=".46" stopColor="#9b82b1" />
+              <stop offset="1" stopColor="#2b95a8" />
             </linearGradient>
-            <linearGradient id="new-contour-gradient" x1="40" y1="40" x2="490" y2="470" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stopColor="#58a7b4" />
-              <stop offset=".52" stopColor="#7779a6" />
-              <stop offset="1" stopColor="#de8575" />
+            <linearGradient id="descent-signal-gradient" x1="150" y1="118" x2="400" y2="270" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stopColor="#626bab" />
+              <stop offset=".42" stopColor="#447caa" />
+              <stop offset=".76" stopColor="#218ea3" />
+              <stop offset="1" stopColor="#117d8d" />
             </linearGradient>
-            <radialGradient id="new-basin-glow" cx="0" cy="0" r="1" gradientTransform="translate(305 270) rotate(90) scale(178 206)" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#4e99ac" stopOpacity=".3" />
-              <stop offset=".38" stopColor="#7489b0" stopOpacity=".14" />
-              <stop offset=".72" stopColor="#dd8d7d" stopOpacity=".05" />
+            <radialGradient id="terrain-basin-fill" cx="0" cy="0" r="1" gradientTransform="translate(418 275) rotate(-155) scale(400 265)" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#35a5b5" stopOpacity=".32" />
+              <stop offset=".42" stopColor="#7588b4" stopOpacity=".13" />
+              <stop offset=".82" stopColor="#ee8875" stopOpacity=".045" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </radialGradient>
-            <filter id="new-runner-glow" x="-300%" y="-300%" width="700%" height="700%">
+            <filter id="terrain-shadow" x="-30%" y="-30%" width="160%" height="170%">
+              <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#263d42" floodOpacity=".09" />
+            </filter>
+            <filter id="terrain-runner-glow" x="-300%" y="-300%" width="700%" height="700%">
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
@@ -97,58 +111,104 @@ export default function HeroLossLandscape() {
             </filter>
           </defs>
 
-          <g className="landscape-grid">
-            <path d="M0 130 H520 M0 260 H520 M0 390 H520" />
-            <path d="M130 0 V520 M260 0 V520 M390 0 V520" />
+          <g className="terrain-grid" aria-hidden="true">
+            <path d="M25 78 H616 M25 166 H616 M25 254 H616 M25 342 H616" />
+            <path d="M82 31 V389 M190 31 V389 M298 31 V389 M406 31 V389 M514 31 V389" />
           </g>
 
-          <path className="basin-glow" d={contours[0]} />
-
-          <g className="new-loss-contours">
-            {contours.map((path, index) => <path d={path} key={path} style={{ '--contour-index': index }} />)}
+          <g className="terrain-field" filter="url(#terrain-shadow)" aria-hidden="true">
+            {terrainBands.map((path, index) => (
+              <path
+                className="terrain-band"
+                d={path}
+                key={path}
+                style={{ '--terrain-level': index }}
+              />
+            ))}
           </g>
 
-          <path className="new-trace-shadow" d={descentPath} />
-          <path className="new-optimization-trace" d={descentPath} pathLength="1" />
+          <g className="terrain-readings" aria-hidden="true">
+            <text x="74" y="202">UNCERTAINTY 1.00</text>
+            <text x="178" y="303">0.64</text>
+            <text x="318" y="326">0.31</text>
+            <text x="486" y="298">0.08</text>
+          </g>
+
+          <path className="descent-path-rail" d={descentPath} pathLength="1" aria-hidden="true" />
+          <path className="descent-path" d={descentPath} pathLength="1" />
 
           {checkpoints.slice(0, -1).map((checkpoint, index) => (
             <g
-              className={`svg-checkpoint ${activeIndex === index ? 'is-active' : ''}`}
+              className={`terrain-checkpoint ${activeIndex === index ? 'is-active' : ''}`}
               transform={`translate(${checkpoint.x} ${checkpoint.y})`}
+              style={{ '--checkpoint-tone': checkpoint.tone }}
               key={checkpoint.step}
             >
-              <circle r="14" />
-              <circle r="4" />
-              <text x="0" y="-23">0{index + 1}</text>
+              <circle className="checkpoint-halo" r="17" />
+              <circle className="checkpoint-shell" r="11" />
+              <circle className="checkpoint-core" r="3.5" />
+              <text x="0" y="-24">0{index + 1}</text>
             </g>
           ))}
 
-          <circle className="trace-runner" r="4" filter="url(#new-runner-glow)">
+          <circle className="terrain-runner" r="3.5" filter="url(#terrain-runner-glow)">
             <animateMotion dur="6.2s" repeatCount="indefinite" path={descentPath} />
           </circle>
 
           <g
-            className={`optimum-marker ${activeIndex === checkpoints.length - 1 ? 'is-active' : ''}`}
-            transform="translate(290 267)"
+            className={`terrain-target ${activeIndex === checkpoints.length - 1 ? 'is-active' : ''}`}
+            transform={`translate(${targetCheckpoint.x} ${targetCheckpoint.y})`}
+            style={{ '--target-tone': targetCheckpoint.tone }}
           >
-            <circle r="27" />
-            <circle r="15" />
-            <circle r="5" />
-            <text x="0" y="-34">05</text>
+            <path d="M-34 0 H34 M0 -34 V34" />
+            <circle className="target-halo" r="27" />
+            <circle className="target-ring" r="15" />
+            <circle className="target-core" r="5" />
+            <text x="0" y="-38">05</text>
           </g>
 
-          <text className="axis-label axis-label-y" x="16" y="268">LOSS</text>
-          <text className="axis-label axis-label-x" x="414" y="500">ITERATION →</text>
-          <text className="optimum-label" x="313" y="276">USEFUL RESULT</text>
+          <g className="terrain-target-label" aria-hidden="true">
+            <text x={targetCheckpoint.x + 31} y={targetCheckpoint.y + 4}>MINIMUM</text>
+          </g>
         </svg>
-      </div>
 
-      <div className="landscape-readout" aria-live="polite">
-        <span>0{activeIndex + 1}</span>
-        <div>
-          <strong>{activeCheckpoint.step}</strong>
-          <p>{activeCheckpoint.detail}</p>
-        </div>
+        {checkpoints.map((checkpoint, index) => (
+          <button
+            type="button"
+            className="terrain-node-hit"
+            style={{
+              '--node-x': `${(checkpoint.x / 640) * 100}%`,
+              '--node-y': `${(checkpoint.y / 420) * 100}%`,
+            }}
+            aria-label={`${checkpoint.step}: ${checkpoint.detail}`}
+            aria-expanded={activeIndex === index}
+            onMouseEnter={() => showCheckpoint(index)}
+            onMouseLeave={hideCheckpoint}
+            onFocus={() => showCheckpoint(index)}
+            onBlur={hideCheckpoint}
+            onClick={() => toggleCheckpoint(index)}
+            key={checkpoint.step}
+          />
+        ))}
+
+        {activeCheckpoint && (
+          <div
+            className="terrain-tooltip"
+            data-position={activeIndex}
+            style={{
+              '--tooltip-x': `${(activeCheckpoint.x / 640) * 100}%`,
+              '--tooltip-y': `${(activeCheckpoint.y / 420) * 100}%`,
+            }}
+            role="status"
+            aria-live="polite"
+          >
+            <span>0{activeIndex + 1}</span>
+            <div>
+              <strong>{activeCheckpoint.step}</strong>
+              <p>{activeCheckpoint.detail}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="landscape-steps" aria-label="Engineering process checkpoints">
@@ -157,9 +217,11 @@ export default function HeroLossLandscape() {
             type="button"
             className={activeIndex === index ? 'is-active' : ''}
             aria-pressed={activeIndex === index}
-            onMouseEnter={() => setActiveIndex(index)}
-            onFocus={() => setActiveIndex(index)}
-            onClick={() => setActiveIndex(index)}
+            onMouseEnter={() => showCheckpoint(index)}
+            onMouseLeave={hideCheckpoint}
+            onFocus={() => showCheckpoint(index)}
+            onBlur={hideCheckpoint}
+            onClick={() => toggleCheckpoint(index)}
             key={step}
           >
             <Icon size={15} strokeWidth={1.7} aria-hidden="true" />

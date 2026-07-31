@@ -1,5 +1,5 @@
-import { BookOpen, Code2, Network } from 'lucide-react'
-import { about, certifications, profile } from '../../data/portfolio'
+import { BrainCircuit, Code2, Network } from 'lucide-react'
+import { about, profile } from '../../data/portfolio'
 import { StageHeading } from './Stage'
 
 const profileNotes = [
@@ -14,9 +14,9 @@ const profileNotes = [
     Icon: Network,
   },
   {
-    label: 'What I keep learning',
-    detail: certifications.map((certification) => certification.title).join(' · '),
-    Icon: BookOpen,
+    label: 'What I am exploring now',
+    detail: 'Agentic systems, model evaluation, reinforcement learning, efficient inference, and the production patterns that make emerging models dependable.',
+    Icon: BrainCircuit,
   },
 ]
 

@@ -18,7 +18,7 @@ export const about = {
   approach:
     'I enjoy understanding a system end to end, working across teams, and turning research or early prototypes into reliable software.',
   outsideDelivery:
-    'Mentoring through ACM has also been an important part of how I learn, collaborate, and explain technical ideas.',
+    'Mentoring through ACM during college shaped how I learn, collaborate, and explain technical ideas.',
 }
 
 export const education = {
@@ -148,21 +148,25 @@ export const certifications = [
   {
     title: 'Professional Data Scientist Track',
     issuer: 'DataCamp',
+    focus: 'Data science',
     href: 'https://www.datacamp.com/completed/statement-of-accomplishment/track/8407de2707862419bba9f60ecb22049d5c065279',
   },
   {
     title: 'Machine Learning for Business',
     issuer: 'DataCamp',
+    focus: 'Applied ML',
     href: 'https://www.datacamp.com/completed/statement-of-accomplishment/course/050dd511c5e73d06dc9a88cc4ec2c9b94e681085',
   },
   {
     title: 'Data Analysis with Python',
     issuer: 'freeCodeCamp',
+    focus: 'Python / analytics',
     href: 'https://www.freecodecamp.org/certification/fcc7fdaa634-6dbd-4eec-9131-422e5ba58f28/data-analysis-with-python-v7',
   },
   {
     title: 'C++ Problem Solving — Silver',
     issuer: 'CodeChef',
+    focus: 'Algorithms',
     href: 'https://www.codechef.com/certificates/public/50d47f7',
   },
 ]

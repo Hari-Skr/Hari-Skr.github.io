@@ -25,12 +25,12 @@ export default function Footer() {
       <div className="shell" data-reveal>
         <p className="eyebrow">Contact</p>
         <h2>
-          Have a system
+          Have something
           <br />
-          <em>worth shipping?</em>
+          <em>worth building together?</em>
         </h2>
         <p className="footer-intro">
-          For software engineering, backend systems, data, or applied AI work, feel free to reach out.
+          I am open to collaborating on thoughtful software, backend systems, data products, and applied AI work.
         </p>
         <div className="footer-actions">
           <a className="button button-dark" href={`mailto:${profile.email}`}>
