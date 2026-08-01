@@ -2,20 +2,21 @@ import { ArrowDown, ArrowUpRight, Download } from 'lucide-react'
 import { profile } from '../data/portfolio'
 import HeroLossLandscape from './HeroLossLandscape'
 import TypingHeadline from './TypingHeadline'
+import AboutStage from './journey/AboutStage'
 
 const focusAreas = ['Production AI', 'Backend systems', 'Data pipelines']
 
 export default function Hero() {
   const scrollToExplore = (event) => {
     event.preventDefault()
-    const heading = document.querySelector('#about .stage-heading')
-    if (!heading) return
+    const aboutSection = document.getElementById('about')
+    if (!aboutSection) return
 
     const isMobileNav = window.matchMedia('(max-width: 720px)').matches
     const offset = isMobileNav
       ? (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
       : 28
-    const top = window.scrollY + heading.getBoundingClientRect().top - offset
+    const top = window.scrollY + aboutSection.getBoundingClientRect().top - offset
 
     window.history.pushState(null, '', '#about')
     window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' })
@@ -54,6 +55,9 @@ export default function Hero() {
         </div>
 
         <HeroLossLandscape />
+      </div>
+      <div className="shell hero-about-shell" id="about">
+        <AboutStage />
       </div>
       {/* <a className="hero-scroll-cue" href="#about" aria-label="Scroll to about section">
         <span>Scroll to explore</span>

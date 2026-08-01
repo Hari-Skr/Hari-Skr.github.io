@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import { Code2, PackageCheck, Search, TestTube2, Workflow } from 'lucide-react'
 
-const descentPath =
-  'M150 118 C181.5 113.7 277.3 80 339 92 C400.7 104 494.8 163.7 520 190 C545.2 216.3 510 236.7 490 250 C470 263.3 415 266.7 400 270'
+const descentSegments = [
+  'M150 118 C181.5 113.7 277.3 80 339 92',
+  'M339 92 C400.7 104 494.8 163.7 520 190',
+  'M520 190 C545.2 216.3 510 236.7 490 250',
+  'M490 250 C470 263.3 415 266.7 400 270',
+]
+
+const descentPath = descentSegments.join(' ')
 
 const terrainBands = [
   'M43 272 C32 190 89 110 199 70 C316 27 478 43 565 111 C651 178 631 296 537 366 C449 432 287 443 158 393 C91 367 49 322 43 272 Z',
@@ -86,6 +92,13 @@ export default function HeroLossLandscape() {
             <filter id="terrain-shadow" x="-30%" y="-30%" width="160%" height="170%">
               <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#263d42" floodOpacity=".09" />
             </filter>
+            <mask id="descent-checkpoint-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="420">
+              <rect width="640" height="420" fill="white" />
+              {checkpoints.slice(0, -1).map((checkpoint) => (
+                <circle cx={checkpoint.x} cy={checkpoint.y} r="14" fill="black" key={checkpoint.step} />
+              ))}
+              <circle cx={targetCheckpoint.x} cy={targetCheckpoint.y} r="18" fill="black" />
+            </mask>
           </defs>
 
           <g className="terrain-grid" aria-hidden="true">
@@ -111,7 +124,37 @@ export default function HeroLossLandscape() {
             <text x="486" y="298">0.08</text>
           </g>
 
-          <path className="descent-path" d={descentPath} pathLength="1" />
+          <g className="descent-path" mask="url(#descent-checkpoint-gaps)" aria-hidden="true">
+            {descentSegments.map((segment, index) => (
+              <path
+                className="descent-segment"
+                d={segment}
+                pathLength="1"
+                style={{ '--segment-index': index }}
+                key={segment}
+              />
+            ))}
+          </g>
+
+          <circle className="terrain-runner" r="5" aria-hidden="true">
+            <animateMotion
+              path={descentPath}
+              begin="600ms"
+              dur="12s"
+              repeatCount="indefinite"
+              calcMode="linear"
+              keyPoints="0;0.328;0.328;0.692;0.692;0.842;0.842;1;1"
+              keyTimes="0;0.18;0.21;0.41;0.44;0.53;0.56;0.90;1"
+            />
+            <animate
+              attributeName="fill"
+              values="#f26430;#d96d5b;#a17c83;#4e91ae;#009ddc;#009ddc"
+              keyTimes="0;0.21;0.44;0.56;0.90;1"
+              dur="12s"
+              begin="600ms"
+              repeatCount="indefinite"
+            />
+          </circle>
 
           {checkpoints.slice(0, -1).map((checkpoint, index) => (
             <g

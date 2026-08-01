@@ -148,6 +148,9 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .nav-active-indicator {
+    transition: none !important;
+  }
   html {
     scroll-behavior: auto;
   }

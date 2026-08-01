@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { BriefcaseBusiness, FolderKanban, GraduationCap, Handshake, Menu, Send, X } from 'lucide-react'
 
 const links = [
@@ -15,9 +15,9 @@ const getAnchorOffset = () => {
   return (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
 }
 
-export function Logo({ href = '#top', onClick, active = false, ariaLabel = 'S Hari Sankar, home' }) {
+export function Logo({ href = '#top', onClick, active = false, ariaLabel = 'S Hari Sankar, home', anchorRef }) {
   return (
-    <a className={`logo ${active ? 'is-active' : ''}`} href={href} aria-label={ariaLabel} onClick={onClick}>
+    <a ref={anchorRef} className={`logo ${active ? 'is-active' : ''}`} href={href} aria-label={ariaLabel} onClick={onClick}>
       <span className="logo-mark">HS</span>
       <span className="logo-copy">
         <strong>Hari Sankar</strong>
@@ -31,6 +31,10 @@ export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('top')
+  const [indicator, setIndicator] = useState({ x: 0, y: 0, width: 0, height: 0, visible: false })
+  const navRef = useRef(null)
+  const itemRefs = useRef(new Map())
+  const activeNavItem = activeSection === 'top' || activeSection === 'about' ? 'identity' : activeSection
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24)
@@ -60,28 +64,82 @@ export default function Header() {
       .map((id) => document.getElementById(id))
       .filter(Boolean)
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) setActiveSection(visible.target.id)
-      },
-      { rootMargin: '-20% 0px -58%', threshold: [0.05, 0.2, 0.45] },
-    )
+    let frame = 0
+    const updateActiveSection = () => {
+      frame = 0
+      const marker = window.innerHeight * 0.32
+      const atPageEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+      let nextSection = sections[0]?.id ?? 'top'
 
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= marker) nextSection = section.id
+        else break
+      }
+
+      if (atPageEnd) nextSection = sections.at(-1)?.id ?? nextSection
+      setActiveSection((current) => (current === nextSection ? current : nextSection))
+    }
+
+    const requestUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveSection)
+    }
+
+    updateActiveSection()
+    window.addEventListener('scroll', requestUpdate, { passive: true })
+    window.addEventListener('resize', requestUpdate)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', requestUpdate)
+      window.removeEventListener('resize', requestUpdate)
+    }
   }, [])
+
+  useLayoutEffect(() => {
+    const updateIndicator = () => {
+      if (window.matchMedia('(max-width: 720px)').matches) {
+        setIndicator((current) => ({ ...current, visible: false }))
+        return
+      }
+
+      const nav = navRef.current
+      const activeItem = itemRefs.current.get(activeNavItem)
+      if (!nav || !activeItem) return
+
+      const navBounds = nav.getBoundingClientRect()
+      const itemBounds = activeItem.getBoundingClientRect()
+      setIndicator({
+        x: itemBounds.left - navBounds.left,
+        y: itemBounds.top - navBounds.top,
+        width: itemBounds.width,
+        height: itemBounds.height,
+        visible: true,
+      })
+    }
+
+    updateIndicator()
+    window.addEventListener('resize', updateIndicator)
+    return () => window.removeEventListener('resize', updateIndicator)
+  }, [activeNavItem, scrolled])
 
   return (
     <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
-      <div className="shell nav">
+      <div className="shell nav" ref={navRef}>
+        <span
+          className={`nav-active-indicator ${indicator.visible ? 'is-visible' : ''}`}
+          style={{
+            '--indicator-x': `${indicator.x}px`,
+            '--indicator-y': `${indicator.y}px`,
+            '--indicator-width': `${indicator.width}px`,
+            '--indicator-height': `${indicator.height}px`,
+          }}
+          aria-hidden="true"
+        />
         <Logo
           href="#top"
           onClick={(event) => scrollToSection(event, '#top')}
-          active={activeSection === 'top'}
-          ariaLabel="Back to top"
+          active={activeNavItem === 'identity'}
+          anchorRef={(node) => itemRefs.current.set('identity', node)}
+          ariaLabel="Introduction and about me"
         />
         <nav className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Primary navigation">
           {links.map((link) => {
@@ -89,6 +147,7 @@ export default function Header() {
             return (
               <a
                 className={link.href === `#${activeSection}` ? 'is-active' : ''}
+                ref={(node) => itemRefs.current.set(link.href.slice(1), node)}
                 key={link.label}
                 href={link.href}
                 aria-label={link.label}
