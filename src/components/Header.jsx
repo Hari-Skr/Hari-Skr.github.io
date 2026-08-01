@@ -10,9 +10,7 @@ const links = [
 ]
 
 const getAnchorOffset = () => {
-  const isMobileNav = window.matchMedia('(max-width: 720px)').matches
-  if (!isMobileNav) return 28
-  return (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
+  return (document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 70) + 28
 }
 
 export function Logo({ href = '#top', onClick, active = false, ariaLabel = 'S Hari Sankar, home', anchorRef }) {
