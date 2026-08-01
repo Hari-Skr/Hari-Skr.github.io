@@ -1,7 +1,20 @@
 import { BrainCircuit, Network } from 'lucide-react'
 import { about } from '../../data/portfolio'
 
-const operatingRange = ['Backend engineering', 'Data systems', 'Applied AI']
+const operatingRange = [
+  {
+    title: 'Backend engineering',
+    detail: 'APIs · systems · reliability',
+  },
+  {
+    title: 'Data systems',
+    detail: 'Pipelines · storage · observability',
+  },
+  {
+    title: 'Applied AI',
+    detail: 'Models · evaluation · integration',
+  },
+]
 
 const profileNotes = [
   {
@@ -24,11 +37,14 @@ export default function AboutStage() {
         <h2 id="about-heading">Where I do my best work.</h2>
         <p>Production-minded engineering across the layers that connect software and AI.</p>
         <div className="about-range-list" aria-label="Core operating range">
-          {operatingRange.map((item, index) => (
-            <div key={item}>
+          {operatingRange.map(({ title, detail }, index) => (
+            <article key={title}>
               <span>0{index + 1}</span>
-              <strong>{item}</strong>
-            </div>
+              <div>
+                <strong>{title}</strong>
+                <small>{detail}</small>
+              </div>
+            </article>
           ))}
         </div>
       </div>

@@ -517,7 +517,7 @@
   position: relative;
   z-index: 2;
   align-self: center;
-  padding: clamp(30px, 3.5vw, 52px) 0 clamp(72px, 8vw, 118px);
+  padding: clamp(24px, 3vw, 40px) 0 clamp(32px, 4.5vw, 62px);
 }
 
 .hero-about-shell .about-profile {
@@ -526,8 +526,8 @@
 
 .about-profile {
   min-height: 0;
-  grid-template-columns: minmax(340px, 0.78fr) minmax(0, 1.22fr);
-  gap: clamp(54px, 7vw, 112px);
+  grid-template-columns: minmax(440px, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(42px, 4.5vw, 76px);
   align-items: stretch;
   padding: 0;
   background: transparent;
@@ -543,13 +543,15 @@
 
 .about-profile::before {
   inset-block: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .about-profile-lead {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-block: 30px;
+  padding-block: 26px;
   border-block: 1px solid var(--line);
 }
 
@@ -561,10 +563,10 @@
 }
 
 .about-profile-lead h2 {
-  max-width: 590px;
-  margin: 24px 0 0;
+  max-width: 650px;
+  margin: 20px 0 0;
   color: var(--ink);
-  font-size: clamp(43px, 4.1vw, 66px);
+  font-size: clamp(43px, 3.7vw, 61px);
   font-weight: 650;
   line-height: 0.98;
   letter-spacing: -0.065em;
@@ -572,23 +574,61 @@
 
 .about-profile-lead > p {
   max-width: 530px;
-  margin: 22px 0 0;
+  margin: 18px 0 0;
   color: var(--ink-soft);
   font: 15px/1.65 var(--font-sans);
 }
 
 .about-range-list {
   display: grid;
-  margin-top: 34px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 28px;
 }
 
-.about-range-list > div {
-  min-height: 54px;
+.about-range-list article {
+  position: relative;
+  min-height: 132px;
   display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 14px;
-  align-items: center;
-  border-top: 1px solid var(--line);
+  grid-template-rows: auto 1fr;
+  gap: 16px;
+  padding: 15px 16px;
+  overflow: hidden;
+  background: rgba(252, 253, 249, 0.5);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 20px rgba(31, 45, 48, 0.025);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 260ms ease;
+}
+
+.about-range-list article::before {
+  position: absolute;
+  top: 0;
+  right: 14px;
+  left: 14px;
+  height: 2px;
+  content: "";
+  background: var(--blue);
+  transform: scaleX(0.36);
+  transform-origin: left;
+  transition: transform 280ms var(--ease-out-expo);
+}
+
+.about-range-list article:nth-child(2)::before {
+  background: var(--violet);
+}
+
+.about-range-list article:nth-child(3)::before {
+  background: var(--red);
+}
+
+.about-range-list article:hover {
+  border-color: color-mix(in srgb, var(--blue) 38%, var(--line));
+  background: rgba(252, 253, 249, 0.84);
+  box-shadow: 0 18px 30px rgba(31, 45, 48, 0.09);
+}
+
+.about-range-list article:hover::before {
+  transform: scaleX(1);
 }
 
 .about-range-list span {
@@ -596,22 +636,36 @@
   font: 9px/1 var(--font-mono);
 }
 
+.about-range-list article > div {
+  align-self: end;
+}
+
 .about-range-list strong {
+  display: block;
   color: var(--ink);
-  font-size: 16px;
-  font-weight: 560;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.22;
+}
+
+.about-range-list small {
+  display: block;
+  margin-top: 7px;
+  color: var(--ink-faint);
+  font: 8px/1.45 var(--font-mono);
+  letter-spacing: 0.025em;
 }
 
 .about-profile-note {
-  grid-template-columns: 38px 58px 1fr;
-  gap: 20px;
-  padding-block: 30px;
+  grid-template-columns: 36px 52px 1fr;
+  gap: 18px;
+  padding-block: 24px;
 }
 
 .about-profile-note > svg {
-  width: 52px;
-  height: 52px;
-  padding: 12px;
+  width: 48px;
+  height: 48px;
+  padding: 11px;
   border-radius: 16px;
 }
 
@@ -621,14 +675,14 @@
 }
 
 .about-profile-note h3 {
-  font-size: 23px;
+  font-size: 21px;
 }
 
 .about-profile-note p {
   max-width: 760px;
-  margin-top: 10px;
-  font-size: 17px;
-  line-height: 1.65;
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 /* Credentials: learning is represented as a signal that moves into mentorship. */
@@ -1385,6 +1439,10 @@
 }
 
 @media (max-width: 720px) {
+  .hero-about-shell {
+    padding-block: 24px 32px;
+  }
+
   .hero-landscape {
     right: auto;
     bottom: auto;
@@ -1601,6 +1659,30 @@
   .about-profile-lead {
     padding-bottom: 8px;
     border-bottom: 0;
+  }
+
+  .about-range-list {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 720px) {
+  .about-range-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .about-range-list article,
+  .about-range-list article:nth-child(2),
+  .about-range-list article:nth-child(3) {
+    min-height: 92px;
+    transform: none;
+  }
+}
+
+@media (min-width: 721px) {
+  .hero-about-shell {
+    padding-left: 84px;
   }
 }
 

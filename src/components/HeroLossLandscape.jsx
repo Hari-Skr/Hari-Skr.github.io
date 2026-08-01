@@ -64,6 +64,14 @@ const checkpoints = [
 ]
 
 const targetCheckpoint = checkpoints[checkpoints.length - 1]
+// Seconds between each checkpoint: Understand→Design, Design→Build,
+// Build→Test, Test→Deliver. Lower values make that specific segment faster.
+const PATH_SEGMENT_DURATION_SECONDS = [1.5, 1.1, 0.7, 0.5]
+const PATH_CHECKPOINT_PROGRESS = [0, 0.328, 0.692, 0.842, 1]
+const PATH_TRAVEL_DURATION_SECONDS = PATH_SEGMENT_DURATION_SECONDS.reduce((total, duration) => total + duration, 0)
+const PATH_KEY_TIMES = PATH_SEGMENT_DURATION_SECONDS
+  .reduce((times, duration) => [...times, times[times.length - 1] + duration / PATH_TRAVEL_DURATION_SECONDS], [0])
+  .join(';')
 
 export default function HeroLossLandscape() {
   const [activeIndex, setActiveIndex] = useState(null)
@@ -140,17 +148,17 @@ export default function HeroLossLandscape() {
             <animateMotion
               path={descentPath}
               begin="600ms"
-              dur="12s"
+              dur={`${PATH_TRAVEL_DURATION_SECONDS}s`}
               repeatCount="indefinite"
               calcMode="linear"
-              keyPoints="0;0.328;0.328;0.692;0.692;0.842;0.842;1;1"
-              keyTimes="0;0.18;0.21;0.41;0.44;0.53;0.56;0.90;1"
+              keyPoints={PATH_CHECKPOINT_PROGRESS.join(';')}
+              keyTimes={PATH_KEY_TIMES}
             />
             <animate
               attributeName="fill"
-              values="#f26430;#d96d5b;#a17c83;#4e91ae;#009ddc;#009ddc"
-              keyTimes="0;0.21;0.44;0.56;0.90;1"
-              dur="12s"
+              values="#f26430;#d96d5b;#a17c83;#4e91ae;#009ddc"
+              keyTimes={PATH_KEY_TIMES}
+              dur={`${PATH_TRAVEL_DURATION_SECONDS}s`}
               begin="600ms"
               repeatCount="indefinite"
             />
