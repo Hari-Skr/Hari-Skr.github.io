@@ -8,8 +8,8 @@ export default function ExperienceStage() {
     <>
       <StageHeading
         kicker="Experience / Sequence"
-        title="Work that keeps"
-        accent="moving."
+        title="Professional"
+        accent="Progression"
         description="Roles in data engineering, AI research, and production AI at Metro Global Solutions and Doctreen."
       />
 
@@ -25,7 +25,15 @@ export default function ExperienceStage() {
                   rel="noreferrer"
                   aria-label={`Visit ${item.company} website`}
                 >
-                  <span className="career-node company-logo" aria-hidden="true">{item.logoMark}</span>
+                  <span
+                    className="career-node company-logo"
+                    style={{
+                      '--logo-width': `${item.logo.width}px`,
+                      '--logo-height': `${item.logo.height}px`,
+                    }}
+                  >
+                    <img src={item.logo.src} alt="" />
+                  </span>
                   <span className="career-period">{item.period}</span>
                   <h3>{item.role}</h3>
                   <strong>{item.company}</strong>

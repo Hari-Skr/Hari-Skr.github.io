@@ -694,8 +694,8 @@ body {
   transition: transform 420ms var(--ease-spring), box-shadow 260ms ease;
 }
 
-.career-role:hover .career-node,
-.career-role:focus-visible .career-node {
+.career-role:hover .career-node:not(.company-logo),
+.career-role:focus-visible .career-node:not(.company-logo) {
   box-shadow: 0 0 0 8px var(--blue-light), 0 12px 26px rgba(31, 64, 71, 0.16);
   transform: rotate(-8deg) scale(1.08);
 }

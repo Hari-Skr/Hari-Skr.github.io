@@ -25,9 +25,9 @@ export default function Footer() {
       <div className="shell" data-reveal>
         <p className="eyebrow">Contact</p>
         <h2>
-          Have something
+          Want to build
           <br />
-          <em>worth building together?</em>
+          <em>something together?</em>
         </h2>
         <p className="footer-intro">
           I am open to collaborating on thoughtful software, backend systems, data products, and applied AI work.

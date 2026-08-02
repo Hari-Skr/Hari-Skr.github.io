@@ -52,7 +52,11 @@ export const experience = [
     period: 'May — Jul 2024',
     company: 'Metro Global Solutions',
     role: 'Data Engineer Intern',
-    logoMark: 'MGS',
+    logo: {
+      src: '/Metro%20global.jpeg',
+      width: 58,
+      height: 58,
+    },
     website: 'https://www.metro-gsc.in/',
     summary:
       'Built automated data validation, ETL, OCR extraction, and preprocessing workflows for downstream analysis.',
@@ -66,7 +70,11 @@ export const experience = [
     period: 'Jan — Jun 2025',
     company: 'Doctreen',
     role: 'AI R&D Intern',
-    logoMark: 'DT',
+    logo: {
+      src: '/Doctreen.jpeg',
+      width: 108,
+      height: 34,
+    },
     website: 'https://www.doctreen.com/',
     summary:
       'Worked on agent-based context enrichment and a full-stack real-time decision-tree editor.',
@@ -80,7 +88,11 @@ export const experience = [
     period: 'Jun 2025 — Present',
     company: 'Doctreen',
     role: 'AI Engineer',
-    logoMark: 'DT',
+    logo: {
+      src: '/Doctreen.jpeg',
+      width: 108,
+      height: 34,
+    },
     website: 'https://www.doctreen.com/',
     summary:
       'Works across production AI endpoints, synthetic-data pipelines, model training, inference, and backend integration.',
