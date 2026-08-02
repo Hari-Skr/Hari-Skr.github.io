@@ -3,4 +3,4 @@ dist/
 .DS_Store
 *.log
 .agents
-
+package-lock.json
