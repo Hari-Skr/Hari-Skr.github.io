@@ -33,8 +33,7 @@ export default function AboutStage() {
   return (
     <section className="about-profile" data-reveal aria-labelledby="about-heading">
       <div className="about-profile-lead">
-        <span>About / Working range</span>
-        <h2 id="about-heading">Where I do my best work.</h2>
+        <h2 id="about-heading">About <span>/</span> Working range</h2>
         <p>Production-minded engineering across the layers that connect software and AI.</p>
         <div className="about-range-list" aria-label="Core operating range">
           {operatingRange.map(({ title, detail }, index) => (
@@ -51,7 +50,7 @@ export default function AboutStage() {
 
       <div className="about-profile-notes">
         {profileNotes.map(({ label, detail, Icon }, index) => (
-          <article className="about-profile-note" tabIndex="0" key={label}>
+          <article className="about-profile-note" key={label}>
             <span>0{index + 1}</span>
             <Icon aria-hidden="true" size={24} strokeWidth={1.6} />
             <div>

@@ -6,8 +6,11 @@ export const profile = {
   phone: '+91 8714509489',
   github: 'https://github.com/HariSkr11',
   linkedin: 'https://linkedin.com/in/hari1111',
-  summary:
-    'I am a software and AI engineer based in Trivandrum. At Doctreen, I work on production endpoints, model deployment, data pipelines, and backend integration.',
+  summaryPoints: [
+    'Ship production-ready AI systems.',
+    'Design dependable backends and data pipelines.',
+    'Turn early ideas into useful products.',
+  ],
 }
 
 export const about = {

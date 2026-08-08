@@ -4,8 +4,6 @@ import HeroLossLandscape from './HeroLossLandscape'
 import TypingHeadline from './TypingHeadline'
 import AboutStage from './journey/AboutStage'
 
-const focusAreas = ['Production AI', 'Backend systems', 'Data pipelines']
-
 export default function Hero() {
   const scrollToExplore = (event) => {
     event.preventDefault()
@@ -36,7 +34,9 @@ export default function Hero() {
           </p>
           <TypingHeadline />
           <div className="hero-intro">
-            <p className="hero-summary">{profile.summary}</p>
+            <ul className="hero-summary" aria-label="What I do">
+              {profile.summaryPoints.map((point) => <li key={point}>{point}</li>)}
+            </ul>
             <div className="hero-actions">
               <a className="button button-dark" href="#about" onClick={scrollToExplore}>
                 Explore Me <ArrowDown size={17} />
@@ -44,12 +44,6 @@ export default function Hero() {
               <a className="button button-outline" href="/hari-sankar-resume.md" download>
                 Résumé <Download size={16} />
               </a>
-            </div>
-          </div>
-          <div className="hero-focus" aria-label="Primary engineering focus">
-            <span>Working across</span>
-            <div>
-              {focusAreas.map((area) => <strong key={area}>{area}</strong>)}
             </div>
           </div>
         </div>

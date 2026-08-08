@@ -19,23 +19,29 @@ import {
 import { projects } from '../../data/portfolio'
 import { StageHeading } from './Stage'
 
-const inputLayer = [
+const toolsLayer = [
   {
     id: 'code',
-    label: 'Code',
-    detail: 'Python, TypeScript, Golang, and C++ for services, tools, and product work.',
+    label: 'Programming',
+    tooltipLabel: 'Toolset',
+    detail: 'Languages chosen around the job: Python for AI and services, TypeScript for products, and Go or C++ where control and throughput matter.',
+    topics: ['Python', 'TypeScript', 'Golang', 'C++'],
     Icon: Code2,
   },
   {
     id: 'interfaces',
-    label: 'Interfaces',
-    detail: 'React, FastAPI, Django, Elysia, and Express for useful, maintainable entry points.',
+    label: 'Application frameworks',
+    tooltipLabel: 'Toolset',
+    detail: 'Frameworks for turning system capabilities into maintainable APIs, internal tools, and product-facing interfaces.',
+    topics: ['React', 'FastAPI', 'Django', 'Elysia', 'Express'],
     Icon: Blocks,
   },
   {
     id: 'data',
-    label: 'Data',
-    detail: 'PostgreSQL, Cassandra, MongoDB, MinIO, ETL, and data modeling.',
+    label: 'Data infrastructure',
+    tooltipLabel: 'Toolset',
+    detail: 'Storage and pipeline tools selected around access patterns, scale, reliability, and the shape of the data.',
+    topics: ['PostgreSQL', 'Cassandra', 'MongoDB', 'MinIO', 'ETL'],
     Icon: Database,
   },
 ]
@@ -43,21 +49,27 @@ const inputLayer = [
 const foundationLayer = [
   {
     id: 'ai-ml',
-    label: 'AI / ML',
-    detail: 'PyTorch, Transformers, TRL, PEFT, RAG, NLP, and computer vision.',
+    label: 'AI / ML principles',
+    tooltipLabel: 'Core foundation',
+    detail: 'Understanding how models learn, generalize, and fail—and how to evaluate their behavior before they reach users.',
+    topics: ['Model behavior', 'Evaluation', 'Optimization'],
     Icon: BrainCircuit,
   },
   {
     id: 'systems',
-    label: 'System design',
-    detail: 'APIs, service boundaries, storage choices, and the path from prototype to production.',
+    label: 'Systems thinking',
+    tooltipLabel: 'Core foundation',
+    detail: 'Reasoning about service boundaries, data flow, failure modes, and the path from a working prototype to dependable software.',
+    topics: ['Architecture', 'Reliability', 'Scalability'],
     Icon: Network,
   },
   {
-    id: 'collaboration',
-    label: 'Collaboration',
-    detail: 'Shared context, clear handoffs, feedback loops, and building across product and engineering.',
-    Icon: Handshake,
+    id: 'computer-science',
+    label: 'Computer science',
+    tooltipLabel: 'Core foundation',
+    detail: 'The fundamentals beneath implementation choices: algorithms, data structures, concurrency, networking, and operating systems.',
+    topics: ['Algorithms', 'Concurrency', 'Networks'],
+    Icon: Cpu,
   },
 ]
 
@@ -99,21 +111,16 @@ const technologyIcons = {
   YOLOv3: ScanEye,
 }
 
-const layerConnections = [
-  ...inputLayer.flatMap((input) => foundationLayer.map((foundation) => [input.id, foundation.id])),
-  ...foundationLayer.map((item) => [item.id, activation.id]),
-  [activation.id, 'project-output'],
-]
-
-function curveBetween(start, end) {
-  const distance = Math.max(36, end.x - start.x)
-  const control = Math.max(34, distance * 0.46)
-  return `M ${start.x} ${start.y} C ${start.x + control} ${start.y}, ${end.x - control} ${end.y}, ${end.x} ${end.y}`
+function curveToOutput(start, end) {
+  const verticalDistance = Math.max(0, end.y - start.y)
+  const control = Math.min(110, Math.max(54, verticalDistance * 0.42))
+  return `M ${start.x} ${start.y} C ${start.x} ${start.y + control}, ${end.x} ${end.y - control}, ${end.x} ${end.y}`
 }
 
-function curveDown(start, end) {
-  const control = Math.max(45, (end.y - start.y) * 0.5)
-  return `M ${start.x} ${start.y} C ${start.x} ${start.y + control}, ${end.x} ${end.y - control}, ${end.x} ${end.y}`
+function curveThrough(start, end) {
+  const direction = end.x >= start.x ? 1 : -1
+  const control = Math.max(28, Math.abs(end.x - start.x) * 0.52)
+  return `M ${start.x} ${start.y} C ${start.x + direction * control} ${start.y}, ${end.x - direction * control} ${end.y}, ${end.x} ${end.y}`
 }
 
 function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', isClone = false }) {
@@ -141,9 +148,10 @@ function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', is
       </span>
       {variant !== 'project-node' && isActive && (
         <span className="skill-node-tooltip" role="status">
-          <small>Familiar with</small>
+          <small>{item.tooltipLabel ?? 'Working knowledge'}</small>
           <strong>{item.label}</strong>
           <span>{item.detail}</span>
+          {item.topics && <i>{item.topics.join(' · ')}</i>}
         </span>
       )}
       {variant === 'project-node' && isActive && (
@@ -219,7 +227,7 @@ export default function LinearLayerStage() {
 
       const scaleX = mapBounds.width / mapWidth
       const scaleY = mapBounds.height / mapHeight
-      const pointFor = (id, edge) => {
+      const pointFor = (id, edge, offsetY = 0) => {
         const node = nodeRefs.current[id]
         if (!node) return null
         const bounds = node.getBoundingClientRect()
@@ -237,32 +245,53 @@ export default function LinearLayerStage() {
               : edge === 'bottom'
                 ? bounds.bottom - mapBounds.top
                 : bounds.top - mapBounds.top + bounds.height / 2
-          ) / scaleY,
+          ) / scaleY + offsetY,
         }
       }
 
-      const paths = layerConnections.flatMap(([source, target]) => {
-        const vertical = source === activation.id && target === 'project-output'
-        let start = pointFor(source, vertical ? 'bottom' : 'right')
-        let end = pointFor(target, vertical ? 'top' : 'left')
-        if (!start || !end) return []
-        if (vertical) {
-          start = { ...start, y: start.y + 28 }
-          end = { ...end, y: end.y - 28 }
-        }
-        const sourceIndex = inputLayer.findIndex((item) => item.id === source)
-        const targetIndex = foundationLayer.findIndex((item) => item.id === target)
-        const direct = sourceIndex >= 0 && sourceIndex === targetIndex
-        return [{
-          id: `${source}-${target}`,
-          source,
-          target,
-          direct,
-          d: vertical ? curveDown(start, end) : curveBetween(start, end),
-          start,
-          end,
-        }]
-      })
+      const paths = []
+      const foundationOutputs = foundationLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
+      const toolInputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'left') }))
+      const toolOutputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
+      const activationInput = pointFor(activation.id, 'left')
+
+      if (foundationOutputs.every(({ point }) => point) && toolInputs.every(({ point }) => point)) {
+        foundationOutputs.forEach(({ id: sourceId, point: start }) => {
+          toolInputs.forEach(({ id: targetId, point: end }) => paths.push({
+            id: `${sourceId}-${targetId}`,
+            source: sourceId,
+            target: targetId,
+            related: [sourceId, targetId],
+            kind: 'rail',
+            d: curveThrough(start, end),
+          }))
+        })
+      }
+
+      if (toolOutputs.every(({ point }) => point) && activationInput) {
+        toolOutputs.forEach(({ id, point }) => paths.push({
+          id: `${id}-activation`,
+          source: id,
+          target: activation.id,
+          related: [id, activation.id],
+          kind: 'rail',
+          d: curveThrough(point, activationInput),
+        }))
+      }
+
+      const outputStart = pointFor(activation.id, 'bottom')
+      const outputEnd = pointFor('project-output', 'top')
+      if (outputStart && outputEnd) {
+        paths.push({
+          id: 'activation-project-output',
+          source: activation.id,
+          target: 'project-output',
+          related: [activation.id],
+          outputConnection: true,
+          kind: 'output',
+          d: curveToOutput(outputStart, outputEnd),
+        })
+      }
 
       setDiagram({ width: mapWidth, height: mapHeight, paths })
     }
@@ -298,11 +327,6 @@ export default function LinearLayerStage() {
       />
 
       <section className="linear-system" data-reveal aria-label="Engineering skills connected through a working layer to selected projects">
-        <div className="linear-system-caption">
-          <span>Interactive system map</span>
-          <strong>Tools become systems. Collaboration makes them useful.</strong>
-        </div>
-
         <div className="linear-map" ref={mapRef}>
           {diagram.width > 0 && (
             <svg
@@ -312,9 +336,9 @@ export default function LinearLayerStage() {
             >
               <defs>
                 <linearGradient id="layer-link" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#39728a" stopOpacity=".52" />
-                  <stop offset=".55" stopColor="#756c91" stopOpacity=".68" />
-                  <stop offset="1" stopColor="#39728a" stopOpacity=".78" />
+                  <stop offset="0" stopColor="#39728a" stopOpacity=".76" />
+                  <stop offset=".55" stopColor="#756c91" stopOpacity=".8" />
+                  <stop offset="1" stopColor="#39728a" stopOpacity=".86" />
                 </linearGradient>
                 <linearGradient id="layer-link-active" x1="0" y1="0" x2="1" y2="0">
                   <stop offset="0" stopColor="#c65f55" />
@@ -322,12 +346,10 @@ export default function LinearLayerStage() {
                 </linearGradient>
               </defs>
               {diagram.paths.map((path) => {
-                const active = activeItem && (path.source === activeItem.id || path.target === activeItem.id)
+                const active = activeItem && path.related?.includes(activeItem.id)
                 return (
-                  <g className={`${active ? 'is-active ' : ''}${path.direct ? 'is-direct' : ''}`} key={path.id}>
+                  <g className={`${active ? 'is-active ' : ''}is-${path.kind}`} key={path.id}>
                     <path d={path.d} vectorEffect="non-scaling-stroke" />
-                    <circle cx={path.start.x} cy={path.start.y} r="3.2" />
-                    <circle cx={path.end.x} cy={path.end.y} r="3.2" />
                   </g>
                 )
               })}
@@ -335,10 +357,10 @@ export default function LinearLayerStage() {
           )}
 
           <div className="linear-grid">
-            <section className="linear-layer" aria-label="Input layer: code and engineering tools">
-              <header><span>01</span>Input layer</header>
+            <section className="linear-layer" aria-label="Foundations">
+              <header><span>01</span>Foundations</header>
               <div className="layer-stack">
-                {inputLayer.map((item) => (
+                {foundationLayer.map((item) => (
                   <LayerNode
                     key={item.id}
                     item={item}
@@ -351,10 +373,10 @@ export default function LinearLayerStage() {
               </div>
             </section>
 
-            <section className="linear-layer" aria-label="Foundation layer">
-              <header><span>02</span>Foundations</header>
+            <section className="linear-layer" aria-label="Tools: code and engineering tools">
+              <header><span>02</span>Tools</header>
               <div className="layer-stack">
-                {foundationLayer.map((item) => (
+                {toolsLayer.map((item) => (
                   <LayerNode
                     key={item.id}
                     item={item}
@@ -367,8 +389,8 @@ export default function LinearLayerStage() {
               </div>
             </section>
 
-            <section className="linear-activation" aria-label="Working layer">
-              <header><span>03</span>Working layer</header>
+            <section className="linear-activation" aria-label="Collaboration">
+              <header><span>03</span>Collaboration</header>
               <button
                 ref={registerNode(activation.id)}
                 type="button"
@@ -378,6 +400,7 @@ export default function LinearLayerStage() {
                 onFocus={() => setActiveItem(activation)}
                 onBlur={() => setActiveItem(null)}
               >
+                <span className="activation-port" aria-hidden="true" />
                 <span className="activation-gate-core"><Handshake size={25} strokeWidth={1.6} /></span>
                 <strong>Build with people, not around them</strong>
                 <span className="activation-signals">
@@ -389,7 +412,7 @@ export default function LinearLayerStage() {
             </section>
 
             <section className="linear-layer linear-layer-output" aria-label="Output layer: software I ship">
-              <header ref={registerNode('project-output')}>Software I ship</header>
+              <header ref={registerNode('project-output')}><span>04</span>Projects</header>
               <div className="project-grid">
                 {projectLayer.map((project) => (
                   <ProjectCard item={project} key={project.id} />

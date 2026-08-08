@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
 const phrases = [
-  'builds production AI.',
-  'designs backend systems.',
-  'builds scalable pipelines.',
-  'turns research into products.',
+  'builds AI that actually ships.',
+  'engineers intelligent backends.',
+  'architects scalable pipelines.',
+  'turns probability into products.'
 ]
 
 export default function TypingHeadline() {

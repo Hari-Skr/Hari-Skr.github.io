@@ -84,8 +84,8 @@ export default function HeroLossLandscape() {
     <aside className="hero-landscape" data-reveal aria-label="An optimization path converging toward a useful result">
       <div className="landscape-heading">
         <span>DECISION PATH</span>
-        <strong>Clear decisions move useful software forward.</strong>
-        <p>Each pass removes uncertainty, turning an open problem into something useful and observable.</p>
+        <strong>Clarity drives innovation.</strong>
+        <p>Every iteration cuts through the uncertainty, transforming complex engineering problems into scalable, observable software.</p>
       </div>
 
       <div className="loss-visual">
