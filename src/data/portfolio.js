@@ -19,7 +19,7 @@ export const about = {
   interests:
     'I like working on backend architecture, data pipelines, developer tools, and AI features that solve a clear product problem.',
   approach:
-    'I enjoy understanding a system end to end, working across teams, and turning research or early prototypes into reliable software.',
+    'I focus on turning complex, open-ended problems into functional software, bridging the gap between researching systems and engineering the resilient software model required to successfully deploy them.',
   outsideDelivery:
     'Mentoring through ACM during college shaped how I learn, collaborate, and explain technical ideas.',
 }

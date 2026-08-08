@@ -4,15 +4,15 @@ import { about } from '../../data/portfolio'
 const operatingRange = [
   {
     title: 'Backend engineering',
-    detail: 'APIs · systems · reliability',
+    detail: 'APIs · Scalability · Reliability',
   },
   {
     title: 'Data systems',
-    detail: 'Pipelines · storage · observability',
+    detail: 'ETL pipelines · Automation · Observability',
   },
   {
     title: 'Applied AI',
-    detail: 'Models · evaluation · integration',
+    detail: 'Models · Evaluation · Integration',
   },
 ]
 
@@ -24,7 +24,7 @@ const profileNotes = [
   },
   {
     label: 'What I am exploring now',
-    detail: 'Agentic systems, model evaluation, reinforcement learning, efficient inference, and the production patterns that make emerging models dependable.',
+    detail: 'Agentic systems, System evaluation, Fine tuning, Reinforcement learning, and the production patterns that make emerging models dependable.',
     Icon: BrainCircuit,
   },
 ]
@@ -34,7 +34,7 @@ export default function AboutStage() {
     <section className="about-profile" data-reveal aria-labelledby="about-heading">
       <div className="about-profile-lead">
         <h2 id="about-heading">About <span>/</span> Working range</h2>
-        <p>Production-minded engineering across the layers that connect software and AI.</p>
+        <p>End-to-end engineering across the layers that bridge intelligence and infrastructure.</p>
         <div className="about-range-list" aria-label="Core operating range">
           {operatingRange.map(({ title, detail }, index) => (
             <article key={title}>

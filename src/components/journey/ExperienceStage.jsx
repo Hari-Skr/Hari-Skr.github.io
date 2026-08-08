@@ -10,7 +10,7 @@ export default function ExperienceStage() {
         kicker="Experience / Sequence"
         title="Professional"
         accent="Progression"
-        description="Roles in data engineering, AI research, and production AI at Metro Global Solutions and Doctreen."
+        description="My professional Journeys and adventures"
       />
 
       <section className="career-timeline" data-reveal aria-label="Professional experience">
