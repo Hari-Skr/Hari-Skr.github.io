@@ -1,15 +1,16 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { BriefcaseBusiness, FolderKanban, GraduationCap, Handshake, Menu, Send, X } from 'lucide-react'
+import { BriefcaseBusiness, Code2, GraduationCap, Mail, Menu, UsersRound, X } from 'lucide-react'
 
 const links = [
   { label: 'Profession', href: '#experience', icon: BriefcaseBusiness },
-  { label: 'Projects', href: '#projects', icon: FolderKanban },
+  { label: 'Projects', href: '#projects', icon: Code2 },
   { label: 'Education', href: '#education', icon: GraduationCap },
-  { label: 'Collaboration', href: '#credentials', icon: Handshake },
-  { label: 'Reach me', href: '#contact', icon: Send },
+  { label: 'Collaboration', href: '#credentials', icon: UsersRound },
+  { label: 'Reach me', href: '#contact', icon: Mail },
 ]
 
 const getAnchorOffset = () => {
+  if (window.matchMedia('(min-width: 1441px) and (min-height: 700px)').matches) return 28
   return (document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 70) + 28
 }
 

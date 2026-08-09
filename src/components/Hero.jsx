@@ -10,9 +10,9 @@ export default function Hero() {
     const aboutSection = document.getElementById('about')
     if (!aboutSection) return
 
-    const isMobileNav = window.matchMedia('(max-width: 720px)').matches
-    const offset = isMobileNav
-      ? (document.querySelector('.nav')?.getBoundingClientRect().height ?? 70) + 28
+    const usesTopNav = !window.matchMedia('(min-width: 1441px) and (min-height: 700px)').matches
+    const offset = usesTopNav
+      ? (document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 70) + 28
       : 28
     const top = window.scrollY + aboutSection.getBoundingClientRect().top - offset
 

@@ -7,7 +7,26 @@
       name="description"
       content="Portfolio of S Hari Sankar — software engineer building dependable systems, intelligent products, and production-ready AI."
     />
-    <meta name="theme-color" content="#070a10" />
+    <meta name="theme-color" content="#F6F4F4" />
+    <script>
+      (() => {
+        try {
+          const savedTheme = localStorage.getItem('portfolio-theme')
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const theme = savedTheme === 'dark' || savedTheme === 'light'
+            ? savedTheme
+            : prefersDark ? 'dark' : 'light'
+          document.documentElement.dataset.theme = theme
+          document.documentElement.style.colorScheme = theme
+          document.querySelector('meta[name="theme-color"]')?.setAttribute(
+            'content',
+            theme === 'dark' ? '#171414' : '#F6F4F4',
+          )
+        } catch {
+          document.documentElement.dataset.theme = 'light'
+        }
+      })()
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

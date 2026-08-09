@@ -26,7 +26,7 @@ const checkpoints = [
     detail: 'Start with the user, the constraint, and the actual problem.',
     x: 150,
     y: 118,
-    tone: '#f26430',
+    tone: '#FF7517',
     Icon: Search,
   },
   {
@@ -34,7 +34,7 @@ const checkpoints = [
     detail: 'Choose boundaries and trade-offs before choosing tools.',
     x: 339,
     y: 92,
-    tone: '#d96d5b',
+    tone: '#b98268',
     Icon: Workflow,
   },
   {
@@ -42,7 +42,7 @@ const checkpoints = [
     detail: 'Turn the design into a small, dependable working slice.',
     x: 520,
     y: 190,
-    tone: '#a17c83',
+    tone: '#948995',
     Icon: Code2,
   },
   {
@@ -50,7 +50,7 @@ const checkpoints = [
     detail: 'Check behaviour, edge cases, and the assumptions underneath.',
     x: 490,
     y: 250,
-    tone: '#4e91ae',
+    tone: '#87947d',
     Icon: TestTube2,
   },
   {
@@ -58,7 +58,7 @@ const checkpoints = [
     detail: 'Ship carefully, observe the result, and carry the learning forward.',
     x: 400,
     y: 270,
-    tone: '#009ddc',
+    tone: '#d0a951',
     Icon: PackageCheck,
   },
 ]
@@ -92,9 +92,9 @@ export default function HeroLossLandscape() {
         <svg viewBox="0 0 640 420" role="img" aria-label="An organic topographic uncertainty field with five engineering decisions descending toward a shipped result">
           <defs>
             <radialGradient id="terrain-basin-fill" cx="0" cy="0" r="1" gradientTransform="translate(418 275) rotate(-155) scale(400 265)" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#009ddc" stopOpacity=".28" />
-              <stop offset=".42" stopColor="#4e91ae" stopOpacity=".12" />
-              <stop offset=".82" stopColor="#f26430" stopOpacity=".04" />
+              <stop stopColor="#d0a951" stopOpacity=".22" />
+              <stop offset=".42" stopColor="#87947d" stopOpacity=".1" />
+              <stop offset=".82" stopColor="#FF7517" stopOpacity=".035" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </radialGradient>
             <filter id="terrain-shadow" x="-30%" y="-30%" width="160%" height="170%">
@@ -156,7 +156,7 @@ export default function HeroLossLandscape() {
             />
             <animate
               attributeName="fill"
-              values="#f26430;#d96d5b;#a17c83;#4e91ae;#009ddc"
+              values="#FF7517;#b98268;#948995;#87947d;#d0a951"
               keyTimes={PATH_KEY_TIMES}
               dur={`${PATH_TRAVEL_DURATION_SECONDS}s`}
               begin="600ms"

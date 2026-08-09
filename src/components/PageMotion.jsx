@@ -52,8 +52,8 @@ export default function PageMotion() {
 
   return (
     <>
-      <div className="page-progress" aria-hidden="true">
-        <span ref={progressRef} />
+      <div className="page-progress" ref={progressRef} aria-hidden="true">
+        <span />
       </div>
       <div className="pointer-aura" ref={auraRef} aria-hidden="true" />
     </>
