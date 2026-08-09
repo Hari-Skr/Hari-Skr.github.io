@@ -280,13 +280,26 @@ html[data-theme="dark"] .site-header.is-scrolled {
 }
 
 html[data-theme="dark"] .nav-active-indicator {
-  background: linear-gradient(145deg, #f1efe9, #c7c3ba);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3), inset 0 1px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(145deg, #3E3939, #2C2727);
+  box-shadow:
+    0 9px 24px rgba(0, 0, 0, 0.34),
+    inset 2px 0 #FF7517,
+    inset 0 1px rgba(255, 255, 255, 0.07);
 }
 
 html[data-theme="dark"] .logo.is-active .logo-mark,
 html[data-theme="dark"] .nav-links a.is-active {
-  color: #171715;
+  color: #F6F4F4;
+}
+
+html[data-theme="dark"] .about-profile-note:hover > svg,
+html[data-theme="dark"] .about-profile-note:focus-visible > svg {
+  color: #F6F4F4;
+  background: #3E3939;
+  border: 1px solid rgba(246, 244, 244, 0.18);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.07),
+    0 0 18px rgba(246, 244, 244, 0.08);
 }
 
 html[data-theme="dark"] .nav-links a:hover,

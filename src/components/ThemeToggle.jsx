@@ -19,6 +19,9 @@ export default function ThemeToggle() {
 
     const themeColor = document.querySelector('meta[name="theme-color"]')
     themeColor?.setAttribute('content', isDark ? '#171414' : '#F6F4F4')
+
+    const favicon = document.querySelector('link[rel="icon"]')
+    favicon?.setAttribute('href', isDark ? '/favicon-dark.svg' : '/favicon.svg')
   }, [theme, isDark])
 
   const toggleTheme = () => {
