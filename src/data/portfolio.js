@@ -4,7 +4,7 @@ export const profile = {
   location: 'Trivandrum, India',
   email: 'harisankar1603@gmail.com',
   phone: '+91 8714509489',
-  github: 'https://github.com/HariSkr11',
+  github: 'https://github.com/Hari-Skr',
   linkedin: 'https://linkedin.com/in/hari1111',
   summaryPoints: [
     'Ship production-ready AI systems.',
@@ -62,12 +62,7 @@ export const experience = [
     },
     website: 'https://www.metro-gsc.in/',
     summary:
-      'Built automated data validation, ETL, OCR extraction, and preprocessing workflows for downstream analysis.',
-    highlights: [
-      'Automated manual data validation with generative AI.',
-      'Built document extraction and preprocessing pipelines.',
-      'Maintained data ingestion into the warehouse.',
-    ],
+      'Engineered robust ETL pipelines and leveraged generative AI to automate complex data validation and extraction processes.',
   },
   {
     period: 'Jan — Jun 2025',
@@ -80,12 +75,7 @@ export const experience = [
     },
     website: 'https://www.doctreen.com/',
     summary:
-      'Worked on agent-based context enrichment and a full-stack real-time decision-tree editor.',
-    highlights: [
-      'Architected agent-based context enrichment workflows.',
-      'Built a full-stack decision-tree editor proof of concept.',
-      'Researched model performance and reliability.',
-    ],
+      'Bridged research and software by engineering agent-driven RAG systems and developing a real-time, full-stack decision tree editor.',
   },
   {
     period: 'Jun 2025 — Present',
@@ -98,12 +88,7 @@ export const experience = [
     },
     website: 'https://www.doctreen.com/',
     summary:
-      'Works across production AI endpoints, synthetic-data pipelines, model training, inference, and backend integration.',
-    highlights: [
-      'Built an LLM-tree hybrid synthetic-data pipeline.',
-      'Implemented SFT and reinforcement-learning workflows.',
-      'Designed inference scripts and secure FastAPI endpoints.',
-    ],
+      'Researched and built advanced ML based tuning pipelines , scaled synthetic data ETLs for mass report generation, and seamlessly served fine-tuned models in the cloud.'
   },
 ]
 
