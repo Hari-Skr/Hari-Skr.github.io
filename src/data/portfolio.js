@@ -28,8 +28,8 @@ export const education = {
   degree: 'B.Tech in Computer Science',
   specialization: 'Artificial Intelligence & Machine Learning',
   university: 'Amrita Vishwa Vidyapeetham',
-  period: '2021—2025',
-  award: 'Silver Medal for Academic Excellence',
+  period: '2021 — 2025 · 9.61 CGPA',
+  award: 'Silver Medal for Academic Excellence and 2nd Highest Rank in Program',
 }
 
 export const skillGroups = [
@@ -96,24 +96,24 @@ export const projects = [
   {
     id: '01',
     title: 'StratLog',
-    type: 'Backend & Infrastructure',
+    type: 'Full-Stack & Intelligent Systems',
     period: '2026 — Present',
     summary:
-      'A milestone-driven social network that gives developers a structured way to publish technical stories and collaborate on open projects.',
+      'A milestone-driven social network giving developers a structured way to publish technical stories, powered by algorithmic content discovery for open projects.',
     contribution:
-      'I designed the relational data model, secure REST API, authentication flow, and Docker-based development infrastructure.',
-    stack: ['TypeScript', 'PostgreSQL', 'REST', 'Docker'],
+      'Engineered the platform from the ground up: developing the frontend application, building the backend APIs and Docker infrastructure, and designing the recommendation engine for targeted content delivery.',
+    stack: ['TypeScript', 'React', 'PostgreSQL', 'Docker'], 
   },
   {
     id: '02',
     title: 'Efficiently AI',
-    type: 'Full-stack Product',
+    type: 'Full-Stack & Applied AI',
     period: '2024 — 2025',
     summary:
       'A productivity application that turns unstructured tasks into actionable workflows and realistic weekly routines.',
     contribution:
-      'I built the full-stack product and the AI-assisted task creation and scheduling logic behind it.',
-    stack: ['Python', 'Django', 'JavaScript', 'Tailwind'],
+      'Owned the end-to-end development, engineering both the full-stack application and the underlying AI-driven smart scheduling logic to serve actionable workflows.',
+    stack: ['Python', 'Django', 'JavaScript', 'Tailwind', 'AI/ML'],
   },
   {
     id: '03',
@@ -123,8 +123,8 @@ export const projects = [
     summary:
       'A developer tool that turns code or written logic into a visual knowledge graph for easier exploration and explanation.',
     contribution:
-      'I connected an LLM transformation pipeline to a Django backend and a web interface for graph generation.',
-    stack: ['Django', 'LLM API', 'Knowledge Graphs', 'Web'],
+      'Engineered the complete data flow, integrating an LLM transformation pipeline with a Django backend to process logic and serve structural graphs to the frontend UI.',
+    stack: ['Django', 'Applied AI', 'Knowledge Graphs', 'Web'],
   },
   {
     id: '04',
@@ -132,22 +132,22 @@ export const projects = [
     type: 'Applied AI',
     period: '2024',
     summary:
-      'A retrieval-augmented customer support agent that grounds answers in relevant knowledge through semantic search.',
+      'An automated customer support agent that utilizes Retrieval-Augmented Generation (RAG) and semantic similarity search to deliver highly accurate, context-aware responses.',
     contribution:
-      'I fine-tuned a language model for customer support and built the retrieval workflow around it.',
-    stack: ['RAG', 'Transformers', 'NLP', 'Python'],
+      'Engineered the end-to-end retrieval workflow and fine-tuned a state-of-the-art language model, optimizing the system.',
+    stack: ['RAG', 'Semantic Search', 'NLP', 'Python'],
   },
   {
-    id: '05',
-    title: 'Vision Bot',
-    type: 'Edge AI',
-    period: '2023',
-    summary:
-      'A Raspberry Pi-powered exploratory robot that combines live perception with physical movement and control.',
-    contribution:
-      'I integrated YOLOv3 with the Raspberry Pi for real-time object detection and hardware control.',
-    stack: ['Computer Vision', 'Raspberry Pi', 'YOLOv3', 'Python'],
-  },
+  id: '05',
+  title: 'Lunar Lander Automation',
+  type: 'Deep Reinforcement Learning',
+  period: '2024',
+  summary:
+    'An autonomous simulation agent engineered to navigate and solve complex physics environments through reward-based learning.',
+  contribution:
+    'Architected and automated a deep reinforcement learning agent using OpenAI Gym, successfully optimizing the model to achieve convergence within 300 simulation episodes.',
+  stack: ['Reinforcement Learning', 'OpenAI Gym', 'Python', 'Optimization'],
+},
 ]
 
 export const certifications = [
