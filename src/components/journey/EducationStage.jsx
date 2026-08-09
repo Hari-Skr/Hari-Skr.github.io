@@ -32,11 +32,28 @@ export default function EducationStage() {
 
         <ArrowRight className="education-divider" aria-hidden="true" size={28} strokeWidth={1.4} />
 
-        <article className="education-card education-card-award">
-          <span><Medal size={29} strokeWidth={1.6} /></span>
-          <small>Academic recognition</small>
-          <h3>Silver Medal</h3>
-          <p>Academic Excellence</p>
+        <article
+          className="education-card education-card-award"
+          tabIndex="0"
+          aria-label="Silver Medal for Academic Excellence"
+        >
+          <div className="award-copy">
+            <span className="award-icon"><Medal size={29} strokeWidth={1.6} /></span>
+            <small>Academic recognition</small>
+            <h3>Silver Medal</h3>
+            <p>Academic Excellence</p>
+          </div>
+
+          <div className="award-medal" aria-hidden="true">
+            <span className="award-ribbon award-ribbon-left" />
+            <span className="award-ribbon award-ribbon-right" />
+            <span className="award-medal-ring">
+              <span className="award-medal-face">
+                <Medal size={34} strokeWidth={1.35} />
+                <b>EXCELLENCE</b>
+              </span>
+            </span>
+          </div>
         </article>
       </section>
     </>

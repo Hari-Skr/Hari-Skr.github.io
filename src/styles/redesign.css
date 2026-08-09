@@ -1848,3 +1848,220 @@
     flex-direction: column;
   }
 }
+
+/* The academic award resolves from a quiet watermark into a physical medal. */
+.education-card-award {
+  isolation: isolate;
+  cursor: default;
+  outline: none;
+}
+
+.education-card-award::after {
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 78% 60%, rgba(207, 239, 241, 0.14), transparent 32%),
+    linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.06) 50%, transparent 65%);
+  opacity: 0.55;
+  animation: none;
+  transition: opacity 420ms ease;
+}
+
+.education-card-award:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--paper-light),
+    0 0 0 6px rgba(39, 111, 137, 0.55),
+    0 28px 55px rgba(24, 57, 67, 0.2);
+}
+
+.award-copy {
+  position: relative;
+  z-index: 2;
+  transition: transform 480ms var(--ease-spring);
+}
+
+.award-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 34px;
+  color: #c7eff0;
+  background: rgba(184, 226, 232, 0.09);
+  border: 1px solid rgba(199, 239, 240, 0.16);
+  border-radius: 11px;
+  transition: opacity 260ms ease, transform 420ms var(--ease-spring);
+}
+
+.award-medal {
+  position: absolute;
+  top: -16px;
+  right: clamp(22px, 2.5vw, 40px);
+  z-index: 1;
+  width: 132px;
+  height: 222px;
+  opacity: 0.08;
+  filter: drop-shadow(0 18px 18px rgba(7, 31, 40, 0.28));
+  transform: translate3d(0, -158px, 0) rotate(3deg) scale(0.84);
+  transform-origin: 50% 0;
+  transition:
+    opacity 320ms ease,
+    filter 480ms ease,
+    transform 620ms var(--ease-spring);
+}
+
+.award-ribbon {
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 142px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 25% 70%, rgba(0, 0, 0, 0.12)),
+    linear-gradient(90deg, #123d50, #34869d 52%, #173f50);
+  border: 1px solid rgba(208, 242, 243, 0.18);
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 50% 78%, 12% 100%);
+  transform-origin: 50% 100%;
+  transition: transform 620ms var(--ease-spring);
+}
+
+.award-ribbon::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(90deg, transparent 42%, rgba(255, 255, 255, 0.12) 50%, transparent 58%);
+}
+
+.award-ribbon-left {
+  left: 23px;
+  transform: rotate(4deg) translateX(3px);
+}
+
+.award-ribbon-right {
+  right: 23px;
+  transform: rotate(-4deg) translateX(-3px);
+}
+
+.award-medal-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 124px;
+  height: 124px;
+  display: grid;
+  place-items: center;
+  padding: 7px;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, #f5fbfc 0%, #9eafb5 24%, #eef5f5 46%, #7e929a 70%, #dce7e9 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72),
+    inset 0 0 0 5px rgba(40, 70, 79, 0.14),
+    0 9px 22px rgba(4, 28, 37, 0.32);
+  transform: translateX(-50%);
+}
+
+.award-medal-ring::after {
+  position: absolute;
+  inset: -35%;
+  content: "";
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.85) 49%, transparent 60%);
+  transform: translateX(-75%) rotate(8deg);
+}
+
+.award-medal-face {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: #34525d;
+  border: 1px solid rgba(56, 78, 84, 0.3);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 36% 28%, #f7fbfb, #c5d1d3 48%, #91a3a8 100%);
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 255, 255, 0.32),
+    inset 0 -10px 18px rgba(52, 82, 93, 0.15);
+}
+
+.award-medal-face b {
+  font: 6px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+}
+
+.education-card-award:hover::after,
+.education-card-award:focus-visible::after {
+  opacity: 1;
+}
+
+.education-card-award:hover .award-copy,
+.education-card-award:focus-visible .award-copy {
+  transform: translateX(-4px);
+}
+
+.education-card-award:hover .award-icon,
+.education-card-award:focus-visible .award-icon {
+  opacity: 0.42;
+  transform: translateY(-5px) scale(0.92);
+}
+
+.education-card-award:hover .award-medal,
+.education-card-award:focus-visible .award-medal {
+  opacity: 1;
+  filter: drop-shadow(0 22px 22px rgba(5, 30, 38, 0.38));
+  transform: translate3d(0, 0, 0) rotate(-1.5deg) scale(1);
+}
+
+.education-card-award:hover .award-ribbon-left,
+.education-card-award:focus-visible .award-ribbon-left {
+  transform: rotate(1.5deg) translateX(0);
+}
+
+.education-card-award:hover .award-ribbon-right,
+.education-card-award:focus-visible .award-ribbon-right {
+  transform: rotate(-1.5deg) translateX(0);
+}
+
+.education-card-award:hover .award-medal-ring::after,
+.education-card-award:focus-visible .award-medal-ring::after {
+  animation: medal-glint 900ms 180ms ease-out both;
+}
+
+@keyframes medal-glint {
+  from { transform: translateX(-75%) rotate(8deg); }
+  to { transform: translateX(75%) rotate(8deg); }
+}
+
+@media (max-width: 1180px) and (min-width: 981px) {
+  .award-medal {
+    right: 12px;
+    transform: translate3d(0, -164px, 0) rotate(3deg) scale(0.72);
+  }
+
+  .education-card-award:hover .award-medal,
+  .education-card-award:focus-visible .award-medal {
+    transform: translate3d(0, 0, 0) rotate(-1deg) scale(0.82);
+  }
+}
+
+@media (hover: none), (max-width: 720px) {
+  .award-medal {
+    right: 18px;
+    top: -26px;
+    opacity: 0.78;
+    transform: translate3d(0, 0, 0) rotate(-1deg) scale(0.72);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .award-copy,
+  .award-icon,
+  .award-medal,
+  .award-ribbon,
+  .award-medal-ring::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
