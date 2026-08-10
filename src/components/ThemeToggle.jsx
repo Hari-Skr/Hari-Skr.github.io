@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { flushSync } from 'react-dom'
-import { MoonStar, SunMedium } from 'lucide-react'
+import { Moon, SunMedium } from 'lucide-react'
 
 const getInitialTheme = () => {
   if (typeof document === 'undefined') return 'light'
@@ -50,12 +50,10 @@ export default function ThemeToggle() {
       title={`Switch to ${isDark ? 'light' : 'dark'} theme`}
       onClick={toggleTheme}
     >
-      <span className="theme-toggle-track" aria-hidden="true">
-        <SunMedium className="theme-icon-sun" size={15} strokeWidth={1.8} />
-        <MoonStar className="theme-icon-moon" size={14} strokeWidth={1.8} />
-        <i />
+      <span className="theme-toggle-icon" aria-hidden="true">
+        <SunMedium className="theme-icon-sun" strokeWidth={1.8} />
+        <Moon className="theme-icon-moon" strokeWidth={1.8} />
       </span>
-      <span className="theme-toggle-label" aria-hidden="true">{isDark ? 'Dark' : 'Light'}</span>
     </button>
   )
 }

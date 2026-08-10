@@ -5,15 +5,15 @@
   top: 24px;
   right: 24px;
   z-index: 95;
-  min-height: 42px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 6px 10px 6px 7px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
   color: var(--ink-soft);
   background: rgba(252, 253, 249, 0.78);
   border: 1px solid rgba(25, 28, 30, 0.11);
-  border-radius: 14px;
+  border-radius: 50%;
   box-shadow: 0 12px 34px rgba(31, 45, 48, 0.1);
   backdrop-filter: blur(18px) saturate(150%);
   cursor: pointer;
@@ -27,66 +27,45 @@
   transform: translateY(-2px);
 }
 
-.theme-toggle-track {
+.theme-toggle-icon {
   position: relative;
-  width: 50px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 7px;
-  color: var(--ink-faint);
-  background: rgba(39, 111, 137, 0.09);
-  border: 1px solid rgba(39, 111, 137, 0.12);
-  border-radius: 999px;
-}
-
-.theme-toggle-track svg {
-  position: relative;
-  z-index: 2;
-  transition: color 240ms ease, opacity 240ms ease, transform 360ms var(--ease-spring);
-}
-
-.theme-toggle-track i {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  z-index: 1;
+  display: grid;
   width: 20px;
   height: 20px;
-  background: var(--paper-light);
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(24, 42, 47, 0.18);
-  transition: background 300ms ease, transform 420ms var(--ease-spring);
+  place-items: center;
+}
+
+.theme-toggle-icon svg {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transition: color 240ms ease, opacity 210ms ease, filter 300ms ease, transform 460ms var(--ease-spring);
 }
 
 .theme-icon-sun {
-  color: #b47a32;
+  color: #FF7517;
+  opacity: 1;
+  filter: drop-shadow(0 0 4px rgba(255, 117, 23, 0.24));
+  transform: rotate(0deg) scale(1);
 }
 
 .theme-icon-moon {
-  opacity: 0.52;
-}
-
-.theme-toggle.is-dark .theme-toggle-track i {
-  background: #eeece6;
-  transform: translateX(22px);
+  color: #FF7517;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px rgba(255, 117, 23, 0));
+  transform: rotate(-70deg) scale(0.35);
 }
 
 .theme-toggle.is-dark .theme-icon-sun {
-  opacity: 0.42;
+  opacity: 0;
+  transform: rotate(80deg) scale(0.35);
 }
 
 .theme-toggle.is-dark .theme-icon-moon {
-  color: #24231f;
+  color: #FF7517;
   opacity: 1;
-}
-
-.theme-toggle-label {
-  min-width: 29px;
-  font: 8px/1 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  filter: drop-shadow(0 0 6px rgba(255, 117, 23, 0.7));
+  transform: rotate(0deg) scale(1);
 }
 
 /* Identity hierarchy: the name is the page's unmistakable primary mark. */
@@ -148,20 +127,12 @@
   .theme-toggle {
     top: 16px;
     right: 76px;
-    min-height: 42px;
-    padding: 6px;
-    border-radius: 13px;
-  }
-
-  .theme-toggle-label {
-    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .theme-toggle,
-  .theme-toggle-track i,
-  .theme-toggle-track svg {
+  .theme-toggle-icon svg {
     transition-duration: 0.01ms !important;
   }
 
@@ -314,11 +285,6 @@ html[data-theme="dark"] .nav-links .nav-label {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
 }
 
-html[data-theme="dark"] .theme-toggle-track {
-  background: rgba(115, 196, 210, 0.1);
-  border-color: rgba(151, 211, 218, 0.16);
-}
-
 html[data-theme="dark"] .hero {
   background:
     radial-gradient(circle at 72% 36%, rgba(208, 169, 81, 0.09), transparent 30rem),
@@ -349,6 +315,31 @@ html[data-theme="dark"] .hero-landscape {
   --decision-path: #d8d4cd;
 }
 
+/* Keep the decision points grounded in the terrain palette rather than white UI chrome. */
+html[data-theme="dark"] .terrain-checkpoint .checkpoint-halo {
+  fill: color-mix(in srgb, var(--checkpoint-tone) 16%, transparent);
+  stroke: color-mix(in srgb, var(--checkpoint-tone) 72%, transparent);
+}
+
+html[data-theme="dark"] .terrain-checkpoint .checkpoint-shell {
+  fill: color-mix(in srgb, var(--checkpoint-tone) 24%, #211d1d);
+  stroke: var(--checkpoint-tone);
+  filter: drop-shadow(0 4px 7px color-mix(in srgb, var(--checkpoint-tone) 28%, transparent));
+}
+
+html[data-theme="dark"] .terrain-checkpoint .checkpoint-core {
+  fill: var(--checkpoint-tone);
+}
+
+html[data-theme="dark"] .terrain-checkpoint.is-active .checkpoint-shell {
+  fill: color-mix(in srgb, var(--checkpoint-tone) 38%, #211d1d);
+  stroke: var(--checkpoint-tone);
+}
+
+html[data-theme="dark"] .terrain-checkpoint.is-active .checkpoint-core {
+  fill: #FF7517;
+}
+
 html[data-theme="dark"] .descent-path,
 html[data-theme="dark"] .descent-segment {
   stroke-width: 3.45;
@@ -364,7 +355,29 @@ html[data-theme="dark"] .terrain-grid {
 }
 
 html[data-theme="dark"] .terrain-target > path {
-  stroke: rgba(242, 241, 237, 0.22);
+  stroke: rgba(223, 189, 106, 0.38);
+}
+
+html[data-theme="dark"] .terrain-target .target-ring {
+  fill: #49371f;
+  stroke: #dfbd6a;
+  filter: drop-shadow(0 4px 9px rgba(208, 169, 81, 0.28));
+}
+
+html[data-theme="dark"] .terrain-target .target-core {
+  fill: #FF7517;
+  stroke: #f3c076;
+  filter: drop-shadow(0 0 7px rgba(255, 117, 23, 0.72));
+}
+
+html[data-theme="dark"] .terrain-target.is-active .target-ring {
+  fill: #5a4020;
+  stroke: #f0c16c;
+}
+
+html[data-theme="dark"] .terrain-target.is-active .target-core {
+  fill: #FF7517;
+  filter: drop-shadow(0 0 12px rgba(255, 117, 23, 0.92));
 }
 
 html[data-theme="dark"] .button-dark {
