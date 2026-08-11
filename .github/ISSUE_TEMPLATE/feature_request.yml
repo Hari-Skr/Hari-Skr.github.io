@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest a focused improvement to the portfolio.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Useful feature requests explain the visitor problem they solve, not only the implementation idea.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What would you like visitors or contributors to be able to do more easily?
+      placeholder: Visitors currently ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior or experience you have in mind.
+      placeholder: Add ... so that ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches or workarounds did you consider?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add examples, mockups, links, or screenshots if they help explain the request.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Final checks
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: This request is focused on one problem or improvement.
+          required: true
