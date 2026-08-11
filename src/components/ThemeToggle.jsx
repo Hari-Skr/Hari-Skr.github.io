@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { flushSync } from 'react-dom'
 import { Moon, SunMedium } from 'lucide-react'
 
 const getInitialTheme = () => {
@@ -26,19 +25,19 @@ export default function ThemeToggle() {
 
   const toggleTheme = () => {
     const nextTheme = isDark ? 'light' : 'dark'
-    const applyTheme = () => {
-      document.documentElement.dataset.theme = nextTheme
-      document.documentElement.style.colorScheme = nextTheme
-      flushSync(() => setTheme(nextTheme))
-    }
+    const root = document.documentElement
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduceMotion || !document.startViewTransition) {
-      applyTheme()
-      return
-    }
+    // Theme changes affect most of this highly visual page. Disable transitions
+    // for the two paint frames that apply the new palette, then restore normal
+    // interaction motion without animating the whole document.
+    root.classList.add('theme-switching')
+    root.dataset.theme = nextTheme
+    root.style.colorScheme = nextTheme
+    setTheme(nextTheme)
 
-    document.startViewTransition(applyTheme)
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => root.classList.remove('theme-switching'))
+    })
   }
 
   return (

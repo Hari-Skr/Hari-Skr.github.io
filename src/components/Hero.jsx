@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Download } from 'lucide-react'
+import { ArrowDown, ArrowUpRight, FileUser } from 'lucide-react'
 import { profile } from '../data/portfolio'
 import HeroLossLandscape from './HeroLossLandscape'
 import TypingHeadline from './TypingHeadline'
@@ -41,8 +41,17 @@ export default function Hero() {
               <a className="button button-dark" href="#about" onClick={scrollToExplore}>
                 Explore Me <ArrowDown size={17} />
               </a>
-              <a className="button button-outline" href="/hari-sankar-resume.md" download>
-                Résumé <Download size={16} />
+              <a
+                className="button button-outline button-resume"
+                href="https://rxresu.me/hari-sankar/github-public"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="button-resume-icon" aria-hidden="true">
+                  <FileUser size={16} strokeWidth={1.9} />
+                </span>
+                View résumé
+                <ArrowUpRight className="button-external-icon" size={15} aria-hidden="true" />
               </a>
             </div>
           </div>

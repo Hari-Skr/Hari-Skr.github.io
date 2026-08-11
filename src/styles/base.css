@@ -65,6 +65,16 @@ button {
   font: inherit;
 }
 
+/* A theme swap touches a large number of painted elements. Make that one
+   operation atomic; regular hover, scroll, and entrance motion stays intact. */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
 ::selection {
   color: var(--paper-light);
   background: var(--blue);
@@ -110,6 +120,31 @@ button {
 .button-outline:hover {
   color: var(--blue);
   border-color: var(--blue);
+}
+
+.button-resume {
+  gap: 8px;
+  padding-inline: 14px 16px;
+}
+
+.button-resume-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  background: var(--blue-light);
+  border-radius: 50%;
+}
+
+.button-external-icon {
+  margin-left: 1px;
+  transition: transform 180ms ease;
+}
+
+.button-resume:hover .button-external-icon,
+.button-resume:focus-visible .button-external-icon {
+  transform: translate(2px, -2px);
 }
 
 .eyebrow {
