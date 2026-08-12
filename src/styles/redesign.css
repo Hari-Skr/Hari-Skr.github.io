@@ -44,11 +44,27 @@
     height: var(--indicator-height);
     pointer-events: none;
     opacity: 0;
-    background: var(--blue);
+    background: linear-gradient(145deg, #3e3a3b, #2d2a2b);
     border-radius: 14px;
-    box-shadow: 0 7px 16px rgba(39, 111, 137, 0.18);
+    box-shadow:
+      0 10px 22px rgba(37, 31, 31, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      inset 0 1px rgba(255, 255, 255, 0.1);
     transform: translate3d(var(--indicator-x), var(--indicator-y), 0);
     transition: width 360ms var(--ease-out-expo), height 360ms var(--ease-out-expo), opacity 160ms ease, transform 440ms var(--ease-spring);
+  }
+
+  .nav-active-indicator::before {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 14px;
+    height: 2px;
+    content: "";
+    background: #ff7517;
+    border-radius: 999px;
+    box-shadow: 0 1px 7px rgba(255, 117, 23, 0.32);
+    transform: translateX(-50%);
   }
 
   .nav-active-indicator.is-visible {
@@ -87,7 +103,7 @@
   }
 
   .logo.is-active .logo-mark {
-    color: var(--paper-light);
+    color: #f7f5f4;
   }
 
   .nav-links {
@@ -126,7 +142,7 @@
   }
 
   .nav-links a.is-active {
-    color: var(--paper-light);
+    color: #f7f5f4;
     background: transparent;
   }
 
