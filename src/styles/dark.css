@@ -251,16 +251,21 @@ html[data-theme="dark"] .site-header.is-scrolled {
 }
 
 html[data-theme="dark"] .nav-active-indicator {
-  background: linear-gradient(145deg, #3E3939, #2C2727);
+  background: linear-gradient(145deg, #faf9f7, #e9e6e3);
   box-shadow:
-    0 9px 24px rgba(0, 0, 0, 0.34),
-    inset 2px 0 #FF7517,
-    inset 0 1px rgba(255, 255, 255, 0.07);
+    0 10px 26px rgba(0, 0, 0, 0.38),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.82),
+    inset 0 -1px rgba(32, 39, 42, 0.08);
+}
+
+html[data-theme="dark"] .nav-active-indicator::before {
+  background: #e9651e;
+  box-shadow: 0 1px 7px rgba(233, 101, 30, 0.28);
 }
 
 html[data-theme="dark"] .logo.is-active .logo-mark,
 html[data-theme="dark"] .nav-links a.is-active {
-  color: #F6F4F4;
+  color: #20272a;
 }
 
 html[data-theme="dark"] .about-profile-note:hover > svg,
