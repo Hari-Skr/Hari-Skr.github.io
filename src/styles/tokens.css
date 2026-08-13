@@ -12,9 +12,11 @@
   --red: #bd6259;
   --violet: #756c91;
   --shadow-pencil: 0 14px 38px rgba(31, 45, 48, 0.08), 0 2px 5px rgba(31, 45, 48, 0.05);
-  --font-sans: "Open Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-serif: Georgia, "Times New Roman", serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-copy: "Instrument Sans", "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Bricolage Grotesque", "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-display);
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --shell: 1720px;
   --motion-instant: 120ms;
   --motion-fast: 160ms;

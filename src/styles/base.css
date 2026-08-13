@@ -41,7 +41,16 @@ body {
     var(--paper);
   background-size: 40px 40px, 40px 40px, auto, auto;
   font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+.hero-name,
+.stage-heading h2,
+.footer-headline {
+  font-family: var(--font-display);
 }
 
 body::after {

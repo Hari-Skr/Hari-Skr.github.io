@@ -1,0 +1,106 @@
+/* Sans-only grotesk type system. Kept last in the cascade so legacy
+   editorial styles cannot reintroduce a serif or synthetic italic face. */
+
+body {
+  font-family: var(--font-sans);
+  font-kerning: normal;
+  letter-spacing: -0.008em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-synthesis: none;
+}
+
+p,
+.hero-summary,
+.landscape-heading p,
+.loss-checkpoint-detail p,
+.stage-heading > div,
+.about-profile-lead > p,
+.about-profile-note p,
+.layer-node-copy > span,
+.project-card-copy p,
+.career-role > p,
+.career-details li,
+.education-card p,
+.course-copy > span,
+.mentor-terminal-copy > p,
+.footer-intro {
+  font-family: var(--font-copy);
+  font-kerning: normal;
+  letter-spacing: -0.018em;
+}
+
+.hero-summary,
+.landscape-heading p,
+.loss-checkpoint-detail p,
+.stage-heading > div,
+.about-profile-lead > p,
+.about-profile-note p,
+.project-card-copy p,
+.career-role > p,
+.mentor-terminal-copy > p,
+.footer-intro {
+  font-weight: 430;
+}
+
+.logo-copy strong,
+.hero-name,
+.stage-heading h2,
+.footer-headline {
+  font-family: var(--font-display);
+  font-synthesis: none;
+}
+
+.hero-name {
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.078em;
+}
+
+.typing-line {
+  font-family: var(--font-copy);
+  font-style: italic;
+  font-weight: 560;
+  font-synthesis: none;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.stage-heading h2 {
+  font-weight: 720;
+  letter-spacing: -0.052em;
+}
+
+.stage-heading h2 em,
+.footer-headline em {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.typing-headline .typing-line > i {
+  width: 0.09em;
+  height: 0.78em;
+  margin-left: 0.12em;
+  border-radius: 0;
+  vertical-align: -0.015em;
+}
+
+@media (max-width: 720px) {
+  .hero-name {
+    line-height: 0.87;
+    letter-spacing: -0.068em;
+  }
+
+  .typing-line {
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+  }
+}
