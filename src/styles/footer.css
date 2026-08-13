@@ -1,0 +1,518 @@
+/* ==========================================================================
+   Modern, Professional & Creative Footer Design
+   ========================================================================== */
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(90px, 11vw, 150px) 0 35px;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(57, 114, 138, 0.05), transparent 70%),
+    linear-gradient(180deg, var(--paper-deep) 0%, var(--paper) 100%);
+  border-top: 1px solid var(--line);
+  transition: background-color 360ms ease, border-color 360ms ease;
+}
+
+/* Remove all background circle overlays */
+.footer::before,
+.footer::after {
+  display: none !important;
+  content: none !important;
+}
+
+.footer-shell {
+  position: relative;
+  z-index: 2;
+}
+
+.footer-lead {
+  max-width: 900px;
+  margin-bottom: clamp(70px, 9vw, 115px);
+}
+
+/* Professional Eyebrow */
+
+.footer-eyebrow {
+  margin: 0 0 20px;
+  font: 600 12px/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+}
+
+/* Headline */
+
+.footer-headline {
+  margin: 0 0 24px;
+  color: var(--ink);
+  font-size: clamp(52px, 7.5vw, 92px);
+  font-weight: 560;
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+}
+
+.footer-headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.footer-intro {
+  max-width: 660px;
+  margin: 0 0 40px;
+  color: var(--ink-soft);
+  font-size: 17.5px;
+  line-height: 1.72;
+}
+
+/* Actions Row */
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* 1. Catchy & Creative Magnetic Contact Button */
+
+.catchy-contact-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 2px;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow:
+    0 10px 26px rgba(25, 28, 30, 0.14),
+    0 2px 6px rgba(25, 28, 30, 0.06);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease;
+}
+
+.catchy-contact-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 18px 36px rgba(25, 28, 30, 0.2),
+    0 4px 18px rgba(255, 117, 23, 0.32);
+}
+
+.catchy-contact-btn:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* Continuous Conic Border Flame Beam */
+.btn-beam {
+  position: absolute;
+  inset: -200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    #B94F0A 40deg,
+    #FF7517 90deg,
+    #FFAA70 140deg,
+    #FFE8B8 165deg,
+    #FF7517 195deg,
+    #B94F0A 245deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  animation: spin-beam 3.6s linear infinite;
+  opacity: 0.92;
+}
+
+.catchy-contact-btn:hover .btn-beam {
+  animation-duration: 1.8s;
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 117, 23, 0.6));
+}
+
+@keyframes spin-beam {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Inner Surface */
+.btn-surface {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 24px;
+  background: var(--ink);
+  color: var(--paper-light);
+  border-radius: 999px;
+  font: 600 14px/1 var(--font-sans);
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  transition: background-color 200ms ease;
+}
+
+/* Cursor spotlight follower */
+.btn-glow-follower {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 90px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.18), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.catchy-contact-btn:hover .btn-glow-follower {
+  opacity: 1;
+}
+
+/* Dynamic Icon Swap */
+.btn-icon-wrap {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon-mail {
+  position: absolute;
+  transition: transform 220ms var(--ease-emphasized), opacity 180ms ease;
+}
+
+.btn-icon-send {
+  position: absolute;
+  transform: translate(-10px, 10px) scale(0.5);
+  opacity: 0;
+  transition: transform 220ms var(--ease-emphasized), opacity 180ms ease;
+}
+
+.catchy-contact-btn:hover .btn-icon-mail {
+  transform: translate(10px, -10px) scale(0.5);
+  opacity: 0;
+}
+
+.catchy-contact-btn:hover .btn-icon-send {
+  transform: translate(0, 0) scale(1);
+  opacity: 1;
+}
+
+.btn-label {
+  font-weight: 650;
+}
+
+.btn-arrow-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin: 0;
+  transition: background-color 200ms ease;
+}
+
+.btn-arrow-badge svg {
+  display: block;
+  transition: transform 220ms var(--ease-emphasized);
+}
+
+.catchy-contact-btn:hover .btn-arrow-badge {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.catchy-contact-btn:hover .btn-arrow-badge svg {
+  transform: translate(1.5px, -1.5px);
+}
+
+/* 2. Tactile Creative Copy Email Pill */
+
+.creative-copy-pill {
+  position: relative;
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font: 500 13px/1 var(--font-mono);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.creative-copy-pill:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(57, 114, 138, 0.35);
+  color: var(--blue);
+  box-shadow: 0 8px 18px rgba(31, 45, 48, 0.06);
+}
+
+.creative-copy-pill.is-copied {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #059669;
+  transform: translateY(-1px);
+}
+
+.copy-pill-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 180ms ease;
+}
+
+.creative-copy-pill:hover .copy-pill-indicator {
+  transform: scale(1.1);
+}
+
+.copy-pill-indicator .check-icon {
+  animation: check-bounce 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes check-bounce {
+  0% {
+    transform: scale(0.4) rotate(-20deg);
+  }
+  60% {
+    transform: scale(1.2) rotate(6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.copy-pill-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.25), transparent 70%);
+  animation: pill-ripple-fade 700ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes pill-ripple-fade {
+  0% {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* Modern Bottom Navigation Strip */
+
+.footer-bottom {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: center;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.footer-link-item,
+.footer-location-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.footer-link-item:hover {
+  color: var(--blue);
+  transform: translateY(-1px);
+}
+
+.footer-link-item .link-ext {
+  opacity: 0.55;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.footer-link-item:hover .link-ext {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
+.footer-bottom-end {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.footer-back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font: 600 11.5px/1 var(--font-mono);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.footer-back-to-top:hover {
+  background: rgba(25, 28, 30, 0.05);
+  border-color: var(--blue);
+  color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.footer-bottom-end small {
+  font: 450 10.5px/1 var(--font-mono);
+  color: var(--ink-faint);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Dark Theme Adaptations
+   ========================================================================== */
+
+html[data-theme="dark"] .footer {
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 30%, rgba(115, 196, 210, 0.05), transparent 70%),
+    linear-gradient(180deg, #181515 0%, #0d0c0c 100%);
+  border-top-color: var(--line);
+}
+
+html[data-theme="dark"] .catchy-contact-btn {
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .catchy-contact-btn:hover {
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.48),
+    0 4px 22px rgba(255, 117, 23, 0.45);
+}
+
+html[data-theme="dark"] .btn-surface {
+  background: var(--paper-light);
+  color: #171414;
+}
+
+html[data-theme="dark"] .btn-glow-follower {
+  background: radial-gradient(circle 90px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 0, 0, 0.15), transparent 70%);
+}
+
+html[data-theme="dark"] .btn-arrow-badge {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme="dark"] .catchy-contact-btn:hover .btn-arrow-badge {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+html[data-theme="dark"] .creative-copy-pill {
+  background: rgba(28, 25, 25, 0.75);
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .creative-copy-pill:hover {
+  background: rgba(36, 32, 32, 0.95);
+  border-color: rgba(115, 196, 210, 0.35);
+  color: var(--blue);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .creative-copy-pill.is-copied {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+html[data-theme="dark"] .footer-back-to-top {
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .footer-back-to-top:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+@media (max-width: 980px) {
+  .footer-bottom {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-bottom-end {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 720px) {
+  .footer {
+    padding-top: 75px;
+  }
+
+  .footer-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .catchy-contact-btn,
+  .creative-copy-pill {
+    width: 100%;
+  }
+
+  .btn-surface {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .creative-copy-pill {
+    justify-content: center;
+  }
+}
