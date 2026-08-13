@@ -18,9 +18,11 @@
   --violet: #948995;
   --mint: #87947d;
   --shadow-pencil: 0 20px 55px rgba(32, 51, 56, 0.09), 0 2px 7px rgba(32, 51, 56, 0.05);
-  --font-sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
+  --font-sans: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-copy: "Instrument Sans", "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Bricolage Grotesque", "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-display);
+  --font-mono: "Geist Mono", "SFMono-Regular", Consolas, monospace;
   --shell: 1580px;
 }
 
