@@ -38,8 +38,18 @@ export default function Hero() {
               {profile.summaryPoints.map((point) => <li key={point}>{point}</li>)}
             </ul>
             <div className="hero-actions">
-              <a className="button button-dark" href="#about" onClick={scrollToExplore}>
-                Explore Me <ArrowDown size={17} />
+              <a
+                className="catchy-contact-btn hero-explore-btn"
+                href="#about"
+                onClick={scrollToExplore}
+              >
+                <span className="btn-beam" aria-hidden="true" />
+                <span className="btn-surface">
+                  <span>Explore Me</span>
+                  <span className="btn-arrow-badge">
+                    <ArrowDown size={15} />
+                  </span>
+                </span>
               </a>
               <a
                 className="button button-outline button-resume"
