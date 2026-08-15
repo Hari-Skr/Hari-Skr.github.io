@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   Blocks,
   BrainCircuit,
@@ -44,7 +44,7 @@ const toolsLayer = [
     label: 'Data infrastructure',
     tooltipLabel: 'Toolset',
     detail: 'A model is only as good as its data. I engineer pipelines and storage architectures focused on high availability, massive scale, and data integrity.',
-    topics: ['PostgreSQL', 'Cassandra', 'MongoDB', 'MinIO', 'ETL'], //[cite: 1, 2, 3]
+    topics: ['PostgreSQL', 'Cassandra', 'MongoDB', 'MinIO', 'ETL'],
     Icon: Database,
   },
 ]
@@ -55,7 +55,7 @@ const foundationLayer = [
     label: 'AI / ML principles',
     tooltipLabel: 'Core foundation',
     detail: 'I explore how models reason and fail. From dynamic context enrichment to custom inference scripts, I focus on making intelligence predictable and useful.',
-    topics: ['Context Enrichment', 'Evaluation', 'Optimization'], //[cite: 1, 2, 3]
+    topics: ['Context Enrichment', 'Evaluation', 'Optimization'],
     Icon: BrainCircuit,
   },
   {
@@ -134,12 +134,20 @@ function curveToOutput(start, end) {
 }
 
 function curveThrough(start, end) {
+  const isSameRow = Math.abs(start.y - end.y) < 6
+  const targetY = isSameRow ? start.y : end.y
   const direction = end.x >= start.x ? 1 : -1
   const control = Math.max(28, Math.abs(end.x - start.x) * 0.52)
-  return `M ${start.x} ${start.y} C ${start.x + direction * control} ${start.y}, ${end.x - direction * control} ${end.y}, ${end.x} ${end.y}`
+  return `M ${start.x} ${start.y} C ${start.x + direction * control} ${start.y}, ${end.x - direction * control} ${targetY}, ${end.x} ${targetY}`
 }
 
-function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', isClone = false }) {
+function curveVertical(start, end) {
+  const dy = Math.max(10, end.y - start.y)
+  const control = Math.min(65, Math.max(18, dy * 0.46))
+  return `M ${start.x} ${start.y} C ${start.x} ${start.y + control}, ${end.x} ${end.y - control}, ${end.x} ${end.y}`
+}
+
+function LayerNode({ item, activeId, onEnter, onLeave, onToggle, nodeRef, variant = '', isClone = false }) {
   const Icon = item.Icon
   const isActive = activeId === (item.loopKey ?? item.id)
 
@@ -154,6 +162,10 @@ function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', is
       onMouseLeave={onLeave}
       onFocus={() => onEnter(item)}
       onBlur={onLeave}
+      onClick={(e) => {
+        e.stopPropagation()
+        onToggle?.(item)
+      }}
     >
       <span className="layer-node-icon">
         <Icon aria-hidden="true" size={variant === 'project-node' ? 22 : 18} strokeWidth={1.7} />
@@ -163,19 +175,39 @@ function LayerNode({ item, activeId, onEnter, onLeave, nodeRef, variant = '', is
         {variant === 'project-node' && <small>{item.type}</small>}
       </span>
       {variant !== 'project-node' && isActive && (
-        <span className="skill-node-tooltip" role="status">
+        <span
+          className="skill-node-tooltip"
+          role="status"
+          onClick={(e) => e.stopPropagation()}
+        >
           <small>{item.tooltipLabel ?? 'Working knowledge'}</small>
           <strong>{item.label}</strong>
           <span>{item.detail}</span>
-          {item.topics && <i>{item.topics.join(' · ')}</i>}
+          {item.topics && (
+            <span className="skill-topics-row">
+              {item.topics.map((topic) => (
+                <span className="skill-topic-chip" key={topic}>{topic}</span>
+              ))}
+            </span>
+          )}
         </span>
       )}
       {variant === 'project-node' && isActive && (
-        <span className="project-node-popover" role="status">
+        <span
+          className="project-node-popover"
+          role="status"
+          onClick={(e) => e.stopPropagation()}
+        >
           <small>{item.type}</small>
           <strong>{item.label}</strong>
           <span>{item.detail}</span>
-          {item.stack && <i>{item.stack.join(' · ')}</i>}
+          {item.stack && (
+            <span className="skill-topics-row">
+              {item.stack.map((tech) => (
+                <span className="skill-topic-chip" key={tech}>{tech}</span>
+              ))}
+            </span>
+          )}
         </span>
       )}
     </button>
@@ -229,6 +261,18 @@ export default function LinearLayerStage() {
   const mapRef = useRef(null)
   const nodeRefs = useRef({})
 
+  const handleToggle = (item) => {
+    setActiveItem((current) => (current?.id === item.id ? null : item))
+  }
+
+  useEffect(() => {
+    const handleDocumentClick = () => {
+      setActiveItem(null)
+    }
+    document.addEventListener('click', handleDocumentClick)
+    return () => document.removeEventListener('click', handleDocumentClick)
+  }, [])
+
   useLayoutEffect(() => {
     const map = mapRef.current
     if (!map) return undefined
@@ -243,70 +287,122 @@ export default function LinearLayerStage() {
 
       const scaleX = mapBounds.width / mapWidth
       const scaleY = mapBounds.height / mapHeight
-      const pointFor = (id, edge, offsetY = 0) => {
+
+      const pointFor = (id, edge = 'center', offsetY = 0) => {
         const node = nodeRefs.current[id]
         if (!node) return null
         const bounds = node.getBoundingClientRect()
+        let x = bounds.left - mapBounds.left + bounds.width / 2
+        let y = bounds.top - mapBounds.top + bounds.height / 2
+
+        if (edge === 'left') x = bounds.left - mapBounds.left
+        else if (edge === 'right') x = bounds.right - mapBounds.left
+        else if (edge === 'top') y = bounds.top - mapBounds.top
+        else if (edge === 'bottom') y = bounds.bottom - mapBounds.top
+
         return {
-          x: (
-            edge === 'left'
-              ? bounds.left - mapBounds.left
-              : edge === 'right'
-                ? bounds.right - mapBounds.left
-                : bounds.left - mapBounds.left + bounds.width / 2
-          ) / scaleX,
-          y: (
-            edge === 'top'
-              ? bounds.top - mapBounds.top
-              : edge === 'bottom'
-                ? bounds.bottom - mapBounds.top
-                : bounds.top - mapBounds.top + bounds.height / 2
-          ) / scaleY + offsetY,
+          x: x / scaleX,
+          y: y / scaleY + offsetY,
         }
       }
 
+      const isMobile = window.innerWidth <= 980
       const paths = []
-      const foundationOutputs = foundationLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
-      const toolInputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'left') }))
-      const toolOutputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
-      const activationInput = pointFor(activation.id, 'left')
 
-      if (foundationOutputs.every(({ point }) => point) && toolInputs.every(({ point }) => point)) {
-        foundationOutputs.forEach(({ id: sourceId, point: start }) => {
-          toolInputs.forEach(({ id: targetId, point: end }) => paths.push({
-            id: `${sourceId}-${targetId}`,
-            source: sourceId,
-            target: targetId,
-            related: [sourceId, targetId],
+      if (isMobile) {
+        // Mobile & Tab vertical neural layout
+        const foundationOutputs = foundationLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'bottom') }))
+        const toolInputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'top') }))
+        const toolOutputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'bottom') }))
+        const activationInput = pointFor(activation.id, 'top')
+
+        if (foundationOutputs.every(({ point }) => point) && toolInputs.every(({ point }) => point)) {
+          foundationOutputs.forEach(({ id: sourceId, point: start }) => {
+            toolInputs.forEach(({ id: targetId, point: end }) => paths.push({
+              id: `${sourceId}-${targetId}`,
+              source: sourceId,
+              target: targetId,
+              related: [sourceId, targetId],
+              kind: 'rail',
+              isVertical: true,
+              d: curveVertical(start, end),
+            }))
+          })
+        }
+
+        if (toolOutputs.every(({ point }) => point) && activationInput) {
+          toolOutputs.forEach(({ id, point }) => paths.push({
+            id: `${id}-activation`,
+            source: id,
+            target: activation.id,
+            related: [id, activation.id],
             kind: 'rail',
-            d: curveThrough(start, end),
+            isVertical: true,
+            d: curveVertical(point, activationInput),
           }))
-        })
-      }
+        }
 
-      if (toolOutputs.every(({ point }) => point) && activationInput) {
-        toolOutputs.forEach(({ id, point }) => paths.push({
-          id: `${id}-activation`,
-          source: id,
-          target: activation.id,
-          related: [id, activation.id],
-          kind: 'rail',
-          d: curveThrough(point, activationInput),
-        }))
-      }
+        const outputStart = pointFor(activation.id, 'bottom')
+        const outputEnd = pointFor('project-output', 'top')
+        if (outputStart && outputEnd) {
+          paths.push({
+            id: 'activation-project-output',
+            source: activation.id,
+            target: 'project-output',
+            related: [activation.id],
+            outputConnection: true,
+            kind: 'output',
+            isVertical: true,
+            d: curveToOutput(outputStart, outputEnd),
+          })
+        }
+      } else {
+        // Desktop horizontal neural network layout (exact original calculation)
+        const foundationOutputs = foundationLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
+        const toolInputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'left') }))
+        const toolOutputs = toolsLayer.map((item) => ({ id: item.id, point: pointFor(item.id, 'right') }))
+        const activationInput = pointFor(activation.id, 'left')
 
-      const outputStart = pointFor(activation.id, 'bottom')
-      const outputEnd = pointFor('project-output', 'top')
-      if (outputStart && outputEnd) {
-        paths.push({
-          id: 'activation-project-output',
-          source: activation.id,
-          target: 'project-output',
-          related: [activation.id],
-          outputConnection: true,
-          kind: 'output',
-          d: curveToOutput(outputStart, outputEnd),
-        })
+        if (foundationOutputs.every(({ point }) => point) && toolInputs.every(({ point }) => point)) {
+          foundationOutputs.forEach(({ id: sourceId, point: start }) => {
+            toolInputs.forEach(({ id: targetId, point: end }) => paths.push({
+              id: `${sourceId}-${targetId}`,
+              source: sourceId,
+              target: targetId,
+              related: [sourceId, targetId],
+              kind: 'rail',
+              isVertical: false,
+              d: curveThrough(start, end),
+            }))
+          })
+        }
+
+        if (toolOutputs.every(({ point }) => point) && activationInput) {
+          toolOutputs.forEach(({ id, point }) => paths.push({
+            id: `${id}-activation`,
+            source: id,
+            target: activation.id,
+            related: [id, activation.id],
+            kind: 'rail',
+            isVertical: false,
+            d: curveThrough(point, activationInput),
+          }))
+        }
+
+        const outputStart = pointFor(activation.id, 'bottom')
+        const outputEnd = pointFor('project-output', 'top')
+        if (outputStart && outputEnd) {
+          paths.push({
+            id: 'activation-project-output',
+            source: activation.id,
+            target: 'project-output',
+            related: [activation.id],
+            outputConnection: true,
+            kind: 'output',
+            isVertical: false,
+            d: curveToOutput(outputStart, outputEnd),
+          })
+        }
       }
 
       setDiagram({ width: mapWidth, height: mapHeight, paths })
@@ -352,20 +448,39 @@ export default function LinearLayerStage() {
             >
               <defs>
                 <linearGradient id="layer-link" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#39728a" stopOpacity=".76" />
-                  <stop offset=".55" stopColor="#756c91" stopOpacity=".8" />
-                  <stop offset="1" stopColor="#39728a" stopOpacity=".86" />
+                  <stop offset="0" stopColor="#39728a" stopOpacity=".7" />
+                  <stop offset=".5" stopColor="#756c91" stopOpacity=".75" />
+                  <stop offset="1" stopColor="#39728a" stopOpacity=".8" />
                 </linearGradient>
-                <linearGradient id="layer-link-active" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#c65f55" />
+                <linearGradient id="layer-link-vertical" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stopColor="#39728a" stopOpacity=".7" />
+                  <stop offset=".5" stopColor="#756c91" stopOpacity=".75" />
+                  <stop offset="1" stopColor="#39728a" stopOpacity=".8" />
+                </linearGradient>
+                <linearGradient id="layer-link-active" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#FF7517" />
+                  <stop offset=".5" stopColor="#c65f55" />
                   <stop offset="1" stopColor="#39728a" />
                 </linearGradient>
+                <filter id="neural-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#39728a" floodOpacity="0.4" />
+                </filter>
+                <filter id="neural-glow-active" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#FF7517" floodOpacity="0.6" />
+                </filter>
               </defs>
               {diagram.paths.map((path) => {
                 const active = activeItem && path.related?.includes(activeItem.id)
                 return (
-                  <g className={`${active ? 'is-active ' : ''}is-${path.kind}`} key={path.id}>
-                    <path d={path.d} vectorEffect="non-scaling-stroke" />
+                  <g
+                    className={`${active ? 'is-active ' : ''}is-${path.kind} ${path.isVertical ? 'is-vertical' : 'is-horizontal'}`}
+                    key={path.id}
+                  >
+                    <path
+                      d={path.d}
+                      vectorEffect="non-scaling-stroke"
+                      filter={active ? 'url(#neural-glow-active)' : undefined}
+                    />
                   </g>
                 )
               })}
@@ -383,6 +498,7 @@ export default function LinearLayerStage() {
                     activeId={activeItem?.loopKey ?? activeItem?.id}
                     onEnter={setActiveItem}
                     onLeave={() => setActiveItem(null)}
+                    onToggle={handleToggle}
                     nodeRef={registerNode(item.id)}
                   />
                 ))}
@@ -399,6 +515,7 @@ export default function LinearLayerStage() {
                     activeId={activeItem?.id}
                     onEnter={setActiveItem}
                     onLeave={() => setActiveItem(null)}
+                    onToggle={handleToggle}
                     nodeRef={registerNode(item.id)}
                   />
                 ))}
@@ -415,6 +532,10 @@ export default function LinearLayerStage() {
                 onMouseLeave={() => setActiveItem(null)}
                 onFocus={() => setActiveItem(activation)}
                 onBlur={() => setActiveItem(null)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleToggle(activation)
+                }}
               >
                 <span className="activation-port" aria-hidden="true" />
                 <span className="activation-gate-core"><Handshake size={25} strokeWidth={1.6} /></span>
