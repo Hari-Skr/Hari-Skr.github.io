@@ -32,8 +32,56 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('top')
   const [indicator, setIndicator] = useState({ x: 0, y: 0, width: 0, height: 0, visible: false })
   const navRef = useRef(null)
+  const menuRef = useRef(null)
+  const toggleRef = useRef(null)
   const itemRefs = useRef(new Map())
   const activeNavItem = activeSection === 'top' || activeSection === 'about' ? 'identity' : activeSection
+
+  useEffect(() => {
+    if (!open) return undefined
+
+    const menu = menuRef.current
+    const focusableItems = [...(menu?.querySelectorAll('a[href]') ?? [])]
+
+    focusableItems[0]?.focus({ preventScroll: true })
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus({ preventScroll: true })
+        return
+      }
+
+      if (event.key !== 'Tab' || focusableItems.length === 0) return
+      const firstItem = focusableItems[0]
+      const lastItem = focusableItems.at(-1)
+
+      if (event.shiftKey && document.activeElement === firstItem) {
+        event.preventDefault()
+        lastItem.focus()
+      } else if (!event.shiftKey && document.activeElement === lastItem) {
+        event.preventDefault()
+        firstItem.focus()
+      }
+    }
+
+    const closeAtDesktop = (event) => {
+      if (event.matches) setOpen(false)
+    }
+
+    const desktopQuery = window.matchMedia('(min-width: 721px)')
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+    desktopQuery.addEventListener('change', closeAtDesktop)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+      desktopQuery.removeEventListener('change', closeAtDesktop)
+    }
+  }, [open])
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24)
@@ -121,7 +169,7 @@ export default function Header() {
   }, [activeNavItem, scrolled])
 
   return (
-    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}>
       <div className="shell nav" ref={navRef}>
         <span
           className={`nav-active-indicator ${indicator.visible ? 'is-visible' : ''}`}
@@ -140,8 +188,17 @@ export default function Header() {
           anchorRef={(node) => itemRefs.current.set('identity', node)}
           ariaLabel="Introduction and about me"
         />
-        <nav className={open ? 'nav-links is-open' : 'nav-links'} aria-label="Primary navigation">
-          {links.map((link) => {
+        <nav
+          ref={menuRef}
+          id="primary-navigation"
+          className={open ? 'nav-links is-open' : 'nav-links'}
+          aria-label="Primary navigation"
+        >
+          <div className="nav-sheet-heading" aria-hidden="true">
+            <span>Portfolio index</span>
+            <small>Jump to a signal</small>
+          </div>
+          {links.map((link, index) => {
             const Icon = link.icon
             return (
               <a
@@ -154,15 +211,27 @@ export default function Header() {
               >
                 <Icon className="nav-icon" size={17} strokeWidth={1.7} aria-hidden="true" />
                 <span className="nav-label">{link.label}</span>
+                <small className="nav-index" aria-hidden="true">0{index + 1}</small>
               </a>
             )
           })}
+          <p className="nav-sheet-status"><i /> Available for thoughtful engineering work</p>
         </nav>
+        {open && (
+          <button
+            className="nav-scrim"
+            type="button"
+            aria-label="Close navigation"
+            onClick={() => setOpen(false)}
+          />
+        )}
         <button
+          ref={toggleRef}
           className="nav-toggle"
           type="button"
           aria-label={open ? 'Close navigation' : 'Open navigation'}
           aria-expanded={open}
+          aria-controls="primary-navigation"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X /> : <Menu />}
