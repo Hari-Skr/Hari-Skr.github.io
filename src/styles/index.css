@@ -2,7 +2,6 @@
 @import "./tokens.css";
 @import "./base.css";
 @import "./components.css";
-@import "./responsive.css";
 @import "./polish.css";
 @import "./light.css";
 @import "./redesign.css";
@@ -10,3 +9,4 @@
 @import "./footer.css";
 @import "./flame-effects.css";
 @import "./typography.css";
+@import "./responsive.css";

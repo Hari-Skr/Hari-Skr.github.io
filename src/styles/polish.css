@@ -842,15 +842,14 @@ body {
   }
 
   .hero-landscape {
-    right: -125px;
-    bottom: -35px;
-    width: 590px;
-    opacity: 0.22;
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    max-width: 680px;
+    margin: 24px auto 0;
+    opacity: 1;
     transform: none;
-  }
-
-  .hero-landscape .landscape-heading {
-    display: none;
   }
 
   .stage-heading {

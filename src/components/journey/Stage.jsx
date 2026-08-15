@@ -8,13 +8,14 @@ export default function Stage({ id, children }) {
   )
 }
 
-export function StageHeading({ title, accent, description }) {
+export function StageHeading({ kicker, title, accent, description }) {
   return (
     <div className="stage-heading" data-reveal>
+      {kicker && <p className="stage-kicker">{kicker}</p>}
       <h2>
         {title} {accent && <em>{accent}</em>}
       </h2>
-      {description && <div>{description}</div>}
+      {description && <div className="stage-description">{description}</div>}
     </div>
   )
 }

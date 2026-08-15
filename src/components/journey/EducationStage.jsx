@@ -21,7 +21,12 @@ export default function EducationStage() {
           <i>{education.period}</i>
         </article>
 
-        <ArrowRight className="education-divider" aria-hidden="true" size={28} strokeWidth={1.4} />
+        <div className="education-divider" aria-hidden="true">
+          <span className="education-divider-track" />
+          <span className="education-divider-node">
+            <ArrowRight className="education-divider-icon" size={20} strokeWidth={1.8} />
+          </span>
+        </div>
 
         <article className="education-card">
           <span><BrainCircuit size={27} strokeWidth={1.6} /></span>
@@ -30,7 +35,12 @@ export default function EducationStage() {
           <p>Computer Science</p>
         </article>
 
-        <ArrowRight className="education-divider" aria-hidden="true" size={28} strokeWidth={1.4} />
+        <div className="education-divider" aria-hidden="true">
+          <span className="education-divider-track" />
+          <span className="education-divider-node">
+            <ArrowRight className="education-divider-icon" size={20} strokeWidth={1.8} />
+          </span>
+        </div>
 
         <article
           className="education-card education-card-award"

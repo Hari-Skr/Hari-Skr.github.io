@@ -1311,70 +1311,9 @@
   letter-spacing: -0.02em;
 }
 
-/* Experience: each role is a handoff, with the timeline continuing ahead. */
-.career-track {
-  overflow: visible;
-}
 
-.career-track::before {
-  position: absolute;
-  top: 50%;
-  right: -10px;
-  width: 0;
-  height: 0;
-  content: "";
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 10px solid var(--red);
-  transform: translateY(-50%);
-}
 
-.career-role:not(:last-of-type)::after {
-  position: absolute;
-  top: calc(50% - 6px);
-  right: clamp(-30px, -2vw, -18px);
-  z-index: 5;
-  width: 0;
-  height: 0;
-  content: "";
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 9px solid var(--blue);
-}
-
-.career-role:not(:last-of-type)::before {
-  position: absolute;
-  top: 50%;
-  right: clamp(-30px, -2vw, -18px);
-  z-index: 4;
-  width: clamp(18px, 2vw, 30px);
-  height: 1.5px;
-  content: "";
-  background: linear-gradient(90deg, var(--blue), var(--violet));
-  box-shadow: 0 0 7px rgba(39, 111, 137, 0.2);
-  transform: translateY(-50%);
-}
-
-@media (max-width: 1120px) {
-  .career-role:not(:last-of-type)::before,
-  .career-role:not(:last-of-type)::after {
-    display: none;
-  }
-
-  .career-track::before {
-    top: auto;
-    right: auto;
-    bottom: -10px;
-    left: 50%;
-    border-top: 10px solid var(--red);
-    border-right: 6px solid transparent;
-    border-bottom: 0;
-    border-left: 6px solid transparent;
-    transform: translateX(-50%);
-  }
-}
-
-@media (max-width: 720px) {
+@media (max-width: 1200px) {
   .linear-system {
     width: 100%;
     margin-inline: 0;
