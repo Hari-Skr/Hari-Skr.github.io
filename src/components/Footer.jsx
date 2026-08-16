@@ -50,61 +50,103 @@ export default function Footer() {
   return (
     <footer className="footer" id="contact">
       <div className="shell footer-shell" data-reveal>
-        <div className="footer-lead">
-          <p className="footer-eyebrow">Contact</p>
+        <div className="footer-contact-grid">
+          <div className="footer-lead">
+            <p className="footer-eyebrow">Contact</p>
 
-          <h2 className="footer-headline">
-            Want to build
-            <br />
-            <em>something together?</em>
-          </h2>
+            <h2 className="footer-headline">
+              Want to <span>build</span>
+              <br />
+              <em>something together?</em>
+            </h2>
 
-          <p className="footer-intro">
-            I am open to collaborating on thoughtful software, backend systems, data products, and applied AI work.
-          </p>
+            <p className="footer-intro">
+              I am open to collaborating on thoughtful software, backend systems, data products, and applied AI work.
+            </p>
 
-          <div className="footer-actions">
-            {/* Catchy & Creative Magnetic Contact Button */}
-            <a
-              ref={buttonRef}
-              className="catchy-contact-btn"
-              href={`mailto:${profile.email}`}
-              onMouseMove={handleMouseMove}
-              style={{
-                '--mouse-x': `${mousePos.x}px`,
-                '--mouse-y': `${mousePos.y}px`,
-              }}
-            >
-              <span className="btn-beam" aria-hidden="true" />
-              <span className="btn-surface">
-                <span className="btn-glow-follower" aria-hidden="true" />
-                <span className="btn-icon-wrap">
-                  <Mail className="btn-icon-mail" size={18} />
-                  <Send className="btn-icon-send" size={16} />
+            <div className="footer-actions">
+              <a
+                ref={buttonRef}
+                className="catchy-contact-btn"
+                href={`mailto:${profile.email}`}
+                onMouseMove={handleMouseMove}
+                style={{
+                  '--mouse-x': `${mousePos.x}px`,
+                  '--mouse-y': `${mousePos.y}px`,
+                }}
+              >
+                <span className="btn-beam" aria-hidden="true" />
+                <span className="btn-surface">
+                  <span className="btn-glow-follower" aria-hidden="true" />
+                  <span className="btn-icon-wrap">
+                    <Mail className="btn-icon-mail" size={18} />
+                    <Send className="btn-icon-send" size={16} />
+                  </span>
+                  <span className="btn-label">Send an email</span>
+                  <span className="btn-arrow-badge">
+                    <ArrowUpRight size={15} />
+                  </span>
                 </span>
-                <span className="btn-label">Send an email</span>
-                <span className="btn-arrow-badge">
-                  <ArrowUpRight size={15} />
-                </span>
-              </span>
-            </a>
+              </a>
 
-            {/* Tactile Creative Copy Email Pill */}
-            <button
-              className={`creative-copy-pill ${copied ? 'is-copied' : ''}`}
-              type="button"
-              onClick={copyEmail}
-              aria-label="Copy email address"
-            >
-              <span className="copy-pill-indicator">
-                {copied ? <Check size={16} className="check-icon" /> : <Copy size={16} />}
-              </span>
-              <span className="copy-pill-text">
-                {copied ? 'Email copied!' : profile.email}
-              </span>
-              {copied && <span className="copy-pill-ripple" aria-hidden="true" />}
-            </button>
+              <button
+                className={`creative-copy-pill ${copied ? 'is-copied' : ''}`}
+                type="button"
+                onClick={copyEmail}
+                aria-label="Copy email address"
+              >
+                <span className="copy-pill-indicator">
+                  {copied ? <Check size={16} className="check-icon" /> : <Copy size={16} />}
+                </span>
+                <span className="copy-pill-text">
+                  {copied ? 'Email copied!' : profile.email}
+                </span>
+                {copied && <span className="copy-pill-ripple" aria-hidden="true" />}
+              </button>
+            </div>
           </div>
+
+          <aside className="contact-signal" aria-label="A playful network handshake inviting the visitor to start a conversation">
+            <span className="contact-signal-status"><i aria-hidden="true" /> Channel open</span>
+
+            <div className="network-handshake" aria-hidden="true">
+              <div className="handshake-endpoint handshake-you">
+                <span className="handshake-avatar">You</span>
+                <small>Your side of the wire</small>
+                <strong>
+                  Got a spark? <span className="endpoint-emoji">💡</span>
+                </strong>
+                <p>An idea · a challenge · a wild maybe</p>
+              </div>
+
+              <div className="handshake-channel">
+                <div className="handshake-packet packet-outbound">
+                  <span>SYN</span>
+                  <strong>Hey Hari—got a thought <span className="packet-emoji">💡</span></strong>
+                  <i aria-hidden="true">→</i>
+                </div>
+                <div className="handshake-packet packet-inbound">
+                  <i aria-hidden="true">←</i>
+                  <span>SYN–ACK</span>
+                  <strong>I’m all ears <span className="packet-emoji">👀</span></strong>
+                </div>
+                <div className="handshake-packet packet-outbound packet-final">
+                  <span>ACK</span>
+                  <strong>So here it goes ..... <span className="packet-emoji">🚀</span></strong>
+                  <i aria-hidden="true">→</i>
+                </div>
+              </div>
+
+              <div className="handshake-endpoint handshake-hari">
+                <span className="handshake-avatar">HS</span>
+                <small>On the other end</small>
+                <strong>Let’s make it<br />click. <span className="endpoint-emoji">✨</span></strong>
+                <p>Listen · explore · build</p>
+              </div>
+            </div>
+
+            <p className="contact-signal-note"><span aria-hidden="true">↳</span> No perfect brief needed—just send the first packet.</p>
+          </aside>
         </div>
 
         {/* Clean Modern Bottom Bar */}
