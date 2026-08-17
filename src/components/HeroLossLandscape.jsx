@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import anime from 'animejs'
+import { useEffect, useRef, useState } from 'react'
 import { Code2, PackageCheck, Search, TestTube2, Workflow } from 'lucide-react'
 
 const descentSegments = [
@@ -7,8 +8,6 @@ const descentSegments = [
   'M520 190 C545.2 216.3 510 236.7 490 250',
   'M490 250 C470 263.3 415 266.7 400 270',
 ]
-
-const descentPath = descentSegments.join(' ')
 
 const terrainBands = [
   'M43 272 C32 190 89 110 199 70 C316 27 478 43 565 111 C651 178 631 296 537 366 C449 432 287 443 158 393 C91 367 49 322 43 272 Z',
@@ -64,21 +63,176 @@ const checkpoints = [
 ]
 
 const targetCheckpoint = checkpoints[checkpoints.length - 1]
-// Seconds between each checkpoint: Understand→Design, Design→Build,
-// Build→Test, Test→Deliver. Lower values make that specific segment faster.
-const PATH_SEGMENT_DURATION_SECONDS = [1.5, 1.1, 0.7, 0.5]
-const PATH_CHECKPOINT_PROGRESS = [0, 0.328, 0.692, 0.842, 1]
-const PATH_TRAVEL_DURATION_SECONDS = PATH_SEGMENT_DURATION_SECONDS.reduce((total, duration) => total + duration, 0)
-const PATH_KEY_TIMES = PATH_SEGMENT_DURATION_SECONDS
-  .reduce((times, duration) => [...times, times[times.length - 1] + duration / PATH_TRAVEL_DURATION_SECONDS], [0])
-  .join(';')
 
 export default function HeroLossLandscape() {
-  const [activeIndex, setActiveIndex] = useState(null)
+  const [autoIndex, setAutoIndex] = useState(null)
+  const [userIndex, setUserIndex] = useState(null)
+  const activeIndex = userIndex !== null ? userIndex : autoIndex
   const activeCheckpoint = activeIndex === null ? null : checkpoints[activeIndex]
-  const showCheckpoint = (index) => setActiveIndex(index)
-  const hideCheckpoint = () => setActiveIndex(null)
-  const toggleCheckpoint = (index) => setActiveIndex((current) => (current === index ? null : index))
+
+  const svgRef = useRef(null)
+  const runnerRef = useRef(null)
+  const tlRef = useRef(null)
+
+  const showCheckpoint = (index) => {
+    setUserIndex(index)
+    tlRef.current?.pause()
+  }
+
+  const hideCheckpoint = () => {
+    setUserIndex(null)
+    tlRef.current?.play()
+  }
+
+  const toggleCheckpoint = (index) => {
+    setUserIndex((current) => {
+      const next = current === index ? null : index
+      if (next === null) {
+        tlRef.current?.play()
+      } else {
+        tlRef.current?.pause()
+      }
+      return next
+    })
+  }
+
+  useEffect(() => {
+    const runner = runnerRef.current
+    const svgEl = svgRef.current
+    if (!runner || !svgEl) return
+
+    const seg0 = svgEl.querySelector('#descent-seg-0')
+    const seg1 = svgEl.querySelector('#descent-seg-1')
+    const seg2 = svgEl.querySelector('#descent-seg-2')
+    const seg3 = svgEl.querySelector('#descent-seg-3')
+    if (!seg0 || !seg1 || !seg2 || !seg3) return
+
+    const p0 = anime.path(seg0)
+    const p1 = anime.path(seg1)
+    const p2 = anime.path(seg2)
+    const p3 = anime.path(seg3)
+
+    const getIndexForTime = (t) => {
+      if (t >= 0 && t < 2000) return 0
+      if (t >= 2900 && t < 4900) return 1
+      if (t >= 5750 && t < 7750) return 2
+      if (t >= 8450 && t < 10450) return 3
+      if (t >= 11100 && t < 13300) return 4
+      return null
+    }
+
+    const tl = anime.timeline({
+      loop: true,
+      autoplay: true,
+      update: (anim) => {
+        const nextIdx = getIndexForTime(anim.currentTime)
+        setAutoIndex((prev) => (prev !== nextIdx ? nextIdx : prev))
+      },
+    })
+    tlRef.current = tl
+
+    // Initial position at Checkpoint 0
+    anime.set(runner, {
+      translateX: checkpoints[0].x,
+      translateY: checkpoints[0].y,
+      opacity: 1,
+    })
+
+    // Checkpoint 0 (Understand) - 0 to 2000ms
+    tl.add({
+      targets: runner,
+      translateX: checkpoints[0].x,
+      translateY: checkpoints[0].y,
+      duration: 2000,
+      easing: 'linear',
+    })
+
+    // Travel to Checkpoint 1 (Design) - 2000 to 2900ms (900ms)
+    .add({
+      targets: runner,
+      translateX: p0('x'),
+      translateY: p0('y'),
+      easing: 'easeInOutQuad',
+      duration: 900,
+    })
+
+    // Checkpoint 1 (Design) - 2900 to 4900ms (2000ms)
+    .add({
+      targets: runner,
+      translateX: checkpoints[1].x,
+      translateY: checkpoints[1].y,
+      duration: 2000,
+      easing: 'linear',
+    })
+
+    // Travel to Checkpoint 2 (Build) - 4900 to 5750ms (850ms)
+    .add({
+      targets: runner,
+      translateX: p1('x'),
+      translateY: p1('y'),
+      easing: 'easeInOutQuad',
+      duration: 850,
+    })
+
+    // Checkpoint 2 (Build) - 5750 to 7750ms (2000ms)
+    .add({
+      targets: runner,
+      translateX: checkpoints[2].x,
+      translateY: checkpoints[2].y,
+      duration: 2000,
+      easing: 'linear',
+    })
+
+    // Travel to Checkpoint 3 (Test) - 7750 to 8450ms (700ms)
+    .add({
+      targets: runner,
+      translateX: p2('x'),
+      translateY: p2('y'),
+      easing: 'easeInOutQuad',
+      duration: 700,
+    })
+
+    // Checkpoint 3 (Test) - 8450 to 10450ms (2000ms)
+    .add({
+      targets: runner,
+      translateX: checkpoints[3].x,
+      translateY: checkpoints[3].y,
+      duration: 2000,
+      easing: 'linear',
+    })
+
+    // Travel to Checkpoint 4 (Deliver) - 10450 to 11100ms (650ms)
+    .add({
+      targets: runner,
+      translateX: p3('x'),
+      translateY: p3('y'),
+      easing: 'easeInOutQuad',
+      duration: 650,
+    })
+
+    // Checkpoint 4 (Deliver) - 11100 to 13300ms (2200ms)
+    .add({
+      targets: runner,
+      translateX: checkpoints[4].x,
+      translateY: checkpoints[4].y,
+      duration: 2200,
+      easing: 'linear',
+    })
+
+    // Rewind back to Checkpoint 0 - 13300 to 13700ms (400ms)
+    .add({
+      targets: runner,
+      opacity: [1, 0, 1],
+      translateX: checkpoints[0].x,
+      translateY: checkpoints[0].y,
+      duration: 400,
+      easing: 'easeInOutQuad',
+    })
+
+    return () => {
+      tl.pause()
+    }
+  }, [])
 
   return (
     <aside className="hero-landscape" data-reveal aria-label="An optimization path converging toward a useful result">
@@ -89,7 +243,7 @@ export default function HeroLossLandscape() {
       </div>
 
       <div className="loss-visual">
-        <svg viewBox="0 0 640 420" role="img" aria-label="An organic topographic uncertainty field with five engineering decisions descending toward a shipped result">
+        <svg ref={svgRef} viewBox="0 0 640 420" role="img" aria-label="An organic topographic uncertainty field with five engineering decisions descending toward a shipped result">
           <defs>
             <radialGradient id="terrain-basin-fill" cx="0" cy="0" r="1" gradientTransform="translate(418 275) rotate(-155) scale(400 265)" gradientUnits="userSpaceOnUse">
               <stop stopColor="#d0a951" stopOpacity=".22" />
@@ -97,9 +251,6 @@ export default function HeroLossLandscape() {
               <stop offset=".82" stopColor="#FF7517" stopOpacity=".035" />
               <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
             </radialGradient>
-            <filter id="terrain-shadow" x="-30%" y="-30%" width="160%" height="170%">
-              <feDropShadow dx="0" dy="8" stdDeviation="9" floodColor="#263d42" floodOpacity=".09" />
-            </filter>
             <mask id="descent-checkpoint-gaps" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="420">
               <rect width="640" height="420" fill="white" />
               {checkpoints.slice(0, -1).map((checkpoint) => (
@@ -114,7 +265,7 @@ export default function HeroLossLandscape() {
             <path d="M82 31 V389 M190 31 V389 M298 31 V389 M406 31 V389 M514 31 V389" />
           </g>
 
-          <g className="terrain-field" filter="url(#terrain-shadow)" aria-hidden="true">
+          <g className="terrain-field" aria-hidden="true">
             {terrainBands.map((path, index) => (
               <path
                 className="terrain-band"
@@ -135,6 +286,7 @@ export default function HeroLossLandscape() {
           <g className="descent-path" mask="url(#descent-checkpoint-gaps)" aria-hidden="true">
             {descentSegments.map((segment, index) => (
               <path
+                id={`descent-seg-${index}`}
                 className="descent-segment"
                 d={segment}
                 pathLength="1"
@@ -144,25 +296,7 @@ export default function HeroLossLandscape() {
             ))}
           </g>
 
-          <circle className="terrain-runner" r="5" aria-hidden="true">
-            <animateMotion
-              path={descentPath}
-              begin="600ms"
-              dur={`${PATH_TRAVEL_DURATION_SECONDS}s`}
-              repeatCount="indefinite"
-              calcMode="linear"
-              keyPoints={PATH_CHECKPOINT_PROGRESS.join(';')}
-              keyTimes={PATH_KEY_TIMES}
-            />
-            <animate
-              attributeName="fill"
-              values="#FF7517;#b98268;#948995;#87947d;#d0a951"
-              keyTimes={PATH_KEY_TIMES}
-              dur={`${PATH_TRAVEL_DURATION_SECONDS}s`}
-              begin="600ms"
-              repeatCount="indefinite"
-            />
-          </circle>
+          <circle ref={runnerRef} className="terrain-runner" cx="0" cy="0" r="5.5" aria-hidden="true" />
 
           {checkpoints.slice(0, -1).map((checkpoint, index) => (
             <g
