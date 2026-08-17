@@ -25,7 +25,7 @@ const checkpoints = [
     detail: 'Start with the user, the constraint, and the actual problem.',
     x: 150,
     y: 118,
-    tone: '#FF7517',
+    tone: '#ff7517',
     Icon: Search,
   },
   {
@@ -33,7 +33,7 @@ const checkpoints = [
     detail: 'Choose boundaries and trade-offs before choosing tools.',
     x: 339,
     y: 92,
-    tone: '#b98268',
+    tone: '#f68c26',
     Icon: Workflow,
   },
   {
@@ -41,7 +41,7 @@ const checkpoints = [
     detail: 'Turn the design into a small, dependable working slice.',
     x: 520,
     y: 190,
-    tone: '#948995',
+    tone: '#ed9f3a',
     Icon: Code2,
   },
   {
@@ -49,7 +49,7 @@ const checkpoints = [
     detail: 'Check behaviour, edge cases, and the assumptions underneath.',
     x: 490,
     y: 250,
-    tone: '#87947d',
+    tone: '#e5af51',
     Icon: TestTube2,
   },
   {
@@ -57,7 +57,7 @@ const checkpoints = [
     detail: 'Ship carefully, observe the result, and carry the learning forward.',
     x: 400,
     y: 270,
-    tone: '#d0a951',
+    tone: '#dfbd6a',
     Icon: PackageCheck,
   },
 ]
@@ -67,8 +67,8 @@ const targetCheckpoint = checkpoints[checkpoints.length - 1]
 export default function HeroLossLandscape() {
   const [autoIndex, setAutoIndex] = useState(null)
   const [userIndex, setUserIndex] = useState(null)
-  const activeIndex = userIndex !== null ? userIndex : autoIndex
-  const activeCheckpoint = activeIndex === null ? null : checkpoints[activeIndex]
+  const activeStep = userIndex !== null ? userIndex : autoIndex
+  const activeTooltip = userIndex !== null ? checkpoints[userIndex] : null
 
   const svgRef = useRef(null)
   const runnerRef = useRef(null)
@@ -113,11 +113,11 @@ export default function HeroLossLandscape() {
     const p3 = anime.path(seg3)
 
     const getIndexForTime = (t) => {
-      if (t >= 0 && t < 2000) return 0
-      if (t >= 2900 && t < 4900) return 1
-      if (t >= 5750 && t < 7750) return 2
-      if (t >= 8450 && t < 10450) return 3
-      if (t >= 11100 && t < 13300) return 4
+      if (t >= 0 && t < 700) return 0 // Understand (fade in & start)
+      if (t >= 1700 && t < 2300) return 1 // Design
+      if (t >= 3300 && t < 3900) return 2 // Build
+      if (t >= 4600 && t < 5200) return 3 // Test
+      if (t >= 5800 && t < 6400) return 4 // Deliver (Optimum)
       return null
     }
 
@@ -135,98 +135,107 @@ export default function HeroLossLandscape() {
     anime.set(runner, {
       translateX: checkpoints[0].x,
       translateY: checkpoints[0].y,
-      opacity: 1,
+      opacity: 0,
     })
 
-    // Checkpoint 0 (Understand) - 0 to 2000ms
+    // 1. Natural fade-in directly at Checkpoint 0 (Understand) - 0 to 500ms
     tl.add({
       targets: runner,
-      translateX: checkpoints[0].x,
-      translateY: checkpoints[0].y,
-      duration: 2000,
-      easing: 'linear',
+      translateX: [checkpoints[0].x, checkpoints[0].x],
+      translateY: [checkpoints[0].y, checkpoints[0].y],
+      opacity: [0, 1],
+      duration: 500,
+      easing: 'easeOutQuad',
     })
 
-    // Travel to Checkpoint 1 (Design) - 2000 to 2900ms (900ms)
+    // 2. Glide to Checkpoint 1 (Design) - 500 to 1800ms (1300ms)
     .add({
       targets: runner,
       translateX: p0('x'),
       translateY: p0('y'),
-      easing: 'easeInOutQuad',
-      duration: 900,
+      opacity: [1, 1],
+      easing: 'easeInOutCubic',
+      duration: 1300,
     })
 
-    // Checkpoint 1 (Design) - 2900 to 4900ms (2000ms)
+    // 3. Pass through Checkpoint 1 - 1800 to 2100ms (300ms)
     .add({
       targets: runner,
-      translateX: checkpoints[1].x,
-      translateY: checkpoints[1].y,
-      duration: 2000,
+      translateX: [checkpoints[1].x, checkpoints[1].x],
+      translateY: [checkpoints[1].y, checkpoints[1].y],
+      opacity: [1, 1],
+      duration: 300,
       easing: 'linear',
     })
 
-    // Travel to Checkpoint 2 (Build) - 4900 to 5750ms (850ms)
+    // 4. Glide to Checkpoint 2 (Build) - 2100 to 3300ms (1200ms)
     .add({
       targets: runner,
       translateX: p1('x'),
       translateY: p1('y'),
-      easing: 'easeInOutQuad',
-      duration: 850,
+      opacity: [1, 1],
+      easing: 'easeInOutCubic',
+      duration: 1200,
     })
 
-    // Checkpoint 2 (Build) - 5750 to 7750ms (2000ms)
+    // 5. Pass through Checkpoint 2 - 3300 to 3600ms (300ms)
     .add({
       targets: runner,
-      translateX: checkpoints[2].x,
-      translateY: checkpoints[2].y,
-      duration: 2000,
+      translateX: [checkpoints[2].x, checkpoints[2].x],
+      translateY: [checkpoints[2].y, checkpoints[2].y],
+      opacity: [1, 1],
+      duration: 300,
       easing: 'linear',
     })
 
-    // Travel to Checkpoint 3 (Test) - 7750 to 8450ms (700ms)
+    // 6. Glide to Checkpoint 3 (Test) - 3600 to 4600ms (1000ms)
     .add({
       targets: runner,
       translateX: p2('x'),
       translateY: p2('y'),
-      easing: 'easeInOutQuad',
-      duration: 700,
+      opacity: [1, 1],
+      easing: 'easeInOutCubic',
+      duration: 1000,
     })
 
-    // Checkpoint 3 (Test) - 8450 to 10450ms (2000ms)
+    // 7. Pass through Checkpoint 3 - 4600 to 4900ms (300ms)
     .add({
       targets: runner,
-      translateX: checkpoints[3].x,
-      translateY: checkpoints[3].y,
-      duration: 2000,
+      translateX: [checkpoints[3].x, checkpoints[3].x],
+      translateY: [checkpoints[3].y, checkpoints[3].y],
+      opacity: [1, 1],
+      duration: 300,
       easing: 'linear',
     })
 
-    // Travel to Checkpoint 4 (Deliver) - 10450 to 11100ms (650ms)
+    // 8. Glide to Checkpoint 4 (Deliver / Optimum) - 4900 to 5800ms (900ms)
     .add({
       targets: runner,
       translateX: p3('x'),
       translateY: p3('y'),
-      easing: 'easeInOutQuad',
-      duration: 650,
+      opacity: [1, 1],
+      easing: 'easeInOutCubic',
+      duration: 900,
     })
 
-    // Checkpoint 4 (Deliver) - 11100 to 13300ms (2200ms)
+    // 9. Hold at Optimum - 5800 to 6400ms (600ms)
     .add({
       targets: runner,
-      translateX: checkpoints[4].x,
-      translateY: checkpoints[4].y,
-      duration: 2200,
+      translateX: [checkpoints[4].x, checkpoints[4].x],
+      translateY: [checkpoints[4].y, checkpoints[4].y],
+      opacity: [1, 1],
+      duration: 600,
       easing: 'linear',
     })
 
-    // Rewind back to Checkpoint 0 - 13300 to 13700ms (400ms)
+    // 10. Fade out & downlight in place at Optimum - 6400 to 6900ms (500ms)
     .add({
       targets: runner,
-      opacity: [1, 0, 1],
-      translateX: checkpoints[0].x,
-      translateY: checkpoints[0].y,
-      duration: 400,
-      easing: 'easeInOutQuad',
+      translateX: [checkpoints[4].x, checkpoints[4].x],
+      translateY: [checkpoints[4].y, checkpoints[4].y],
+      opacity: [1, 0],
+      duration: 500,
+      easing: 'easeOutQuad',
     })
 
     return () => {
@@ -300,7 +309,7 @@ export default function HeroLossLandscape() {
 
           {checkpoints.slice(0, -1).map((checkpoint, index) => (
             <g
-              className={`terrain-checkpoint ${activeIndex === index ? 'is-active' : ''}`}
+              className={`terrain-checkpoint ${activeStep === index ? 'is-active' : ''}`}
               transform={`translate(${checkpoint.x} ${checkpoint.y})`}
               style={{ '--checkpoint-tone': checkpoint.tone }}
               key={checkpoint.step}
@@ -313,7 +322,7 @@ export default function HeroLossLandscape() {
           ))}
 
           <g
-            className={`terrain-target ${activeIndex === checkpoints.length - 1 ? 'is-active' : ''}`}
+            className={`terrain-target ${activeStep === checkpoints.length - 1 ? 'is-active' : ''}`}
             transform={`translate(${targetCheckpoint.x} ${targetCheckpoint.y})`}
             style={{ '--target-tone': targetCheckpoint.tone }}
           >
@@ -324,7 +333,7 @@ export default function HeroLossLandscape() {
           </g>
 
           <g className="terrain-target-label" aria-hidden="true">
-            <text x={targetCheckpoint.x + 30} y={targetCheckpoint.y - 18}>OPTIMUM</text>
+            <text x={targetCheckpoint.x} y={targetCheckpoint.y + 36} textAnchor="middle">OPTIMUM</text>
           </g>
         </svg>
 
@@ -337,7 +346,7 @@ export default function HeroLossLandscape() {
               '--node-y': `${(checkpoint.y / 420) * 100}%`,
             }}
             aria-label={`${checkpoint.step}: ${checkpoint.detail}`}
-            aria-expanded={activeIndex === index}
+            aria-expanded={userIndex === index}
             onMouseEnter={() => showCheckpoint(index)}
             onMouseLeave={hideCheckpoint}
             onFocus={() => showCheckpoint(index)}
@@ -347,32 +356,33 @@ export default function HeroLossLandscape() {
           />
         ))}
 
-        {activeCheckpoint && (
+        {activeTooltip && (
           <div
             className="terrain-tooltip"
-            data-position={activeIndex}
+            data-position={userIndex}
             style={{
-              '--tooltip-x': `${(activeCheckpoint.x / 640) * 100}%`,
-              '--tooltip-y': `${(activeCheckpoint.y / 420) * 100}%`,
+              '--tooltip-x': `${(activeTooltip.x / 640) * 100}%`,
+              '--tooltip-y': `${(activeTooltip.y / 420) * 100}%`,
             }}
             role="status"
             aria-live="polite"
           >
-            <span>0{activeIndex + 1}</span>
+            <span>0{userIndex + 1}</span>
             <div>
-              <strong>{activeCheckpoint.step}</strong>
-              <p>{activeCheckpoint.detail}</p>
+              <strong>{activeTooltip.step}</strong>
+              <p>{activeTooltip.detail}</p>
             </div>
           </div>
         )}
       </div>
 
       <div className="landscape-steps" aria-label="Engineering process checkpoints">
-        {checkpoints.map(({ step, Icon }, index) => (
+        {checkpoints.map(({ step, tone, Icon }, index) => (
           <button
             type="button"
-            className={activeIndex === index ? 'is-active' : ''}
-            aria-pressed={activeIndex === index}
+            className={activeStep === index ? 'is-active' : ''}
+            style={{ '--step-tone': tone }}
+            aria-pressed={userIndex === index}
             onMouseEnter={() => showCheckpoint(index)}
             onMouseLeave={hideCheckpoint}
             onFocus={() => showCheckpoint(index)}

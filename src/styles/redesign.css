@@ -268,53 +268,70 @@
 }
 
 .terrain-checkpoint .checkpoint-halo {
-  fill: rgba(252, 253, 249, 0.34);
-  stroke: color-mix(in srgb, var(--checkpoint-tone) 42%, transparent);
-  stroke-width: 1;
+  fill: transparent;
+  stroke: var(--checkpoint-tone);
+  stroke-width: 1.2;
   opacity: 0;
-  transform: scale(0.7);
-  transition: opacity 240ms ease, transform 420ms var(--ease-spring);
+  transition: opacity 280ms ease, stroke-width 280ms ease, fill 280ms ease, filter 280ms ease;
 }
 
 .terrain-checkpoint .checkpoint-shell {
   fill: rgba(252, 253, 249, 0.98);
-  stroke: var(--checkpoint-tone);
+  stroke: color-mix(in srgb, var(--checkpoint-tone) 50%, rgba(25, 28, 30, 0.25));
   stroke-width: 1.6;
-  filter: drop-shadow(0 5px 7px rgba(35, 61, 67, 0.14));
-  transition: fill 240ms ease, stroke 240ms ease, transform 420ms var(--ease-spring);
+  filter: drop-shadow(0 2px 5px rgba(35, 61, 67, 0.12));
+  transition: fill 250ms ease, stroke 250ms ease, stroke-width 250ms ease, filter 250ms ease;
 }
 
 .terrain-checkpoint .checkpoint-core {
   fill: var(--checkpoint-tone);
+  transition: fill 250ms ease, filter 250ms ease;
 }
 
-.terrain-checkpoint text,
-.terrain-target text {
-  fill: var(--ink-faint);
-  font: 9.5px/1 var(--font-mono);
+.terrain-checkpoint text {
+  fill: #3b424a;
+  font: 700 10px/1 var(--font-mono);
   text-anchor: middle;
+  transition: fill 250ms ease, font-weight 250ms ease;
+}
+
+.terrain-target text {
+  fill: #855d14;
+  font: 750 10.5px/1 var(--font-mono);
+  text-anchor: middle;
+  transition: fill 250ms ease, font-weight 250ms ease;
 }
 
 .terrain-checkpoint.is-active .checkpoint-halo {
   opacity: 1;
-  transform: scale(1.15);
+  fill: color-mix(in srgb, var(--checkpoint-tone) 22%, transparent);
+  stroke: var(--checkpoint-tone);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--checkpoint-tone) 80%, transparent));
 }
 
 .terrain-checkpoint.is-active .checkpoint-shell {
-  fill: var(--ink);
-  stroke: var(--ink);
-  transform: scale(1.15);
+  fill: #ffffff;
+  stroke: var(--checkpoint-tone);
+  stroke-width: 2.6;
+  filter: drop-shadow(0 0 10px var(--checkpoint-tone));
 }
 
 .terrain-checkpoint.is-active .checkpoint-core {
-  fill: var(--mint);
+  fill: #FF7517;
+  filter: drop-shadow(0 0 8px #FF7517);
+}
+
+.terrain-checkpoint.is-active text {
+  fill: var(--checkpoint-tone);
+  font-weight: 800;
 }
 
 .terrain-runner {
-  fill: var(--optimal);
-  stroke: var(--paper-light);
+  fill: var(--optimal, #FF7517);
+  stroke: #ffffff;
   stroke-width: 1.8;
-  filter: drop-shadow(0 0 5px rgba(0, 157, 220, 0.68));
+  filter: drop-shadow(0 0 8px rgba(255, 117, 23, 0.9));
 }
 
 .terrain-target > path {
@@ -329,6 +346,7 @@
   stroke: var(--decision-path);
   stroke-width: 1.5;
   filter: drop-shadow(0 5px 8px rgba(17, 24, 26, 0.22));
+  transition: stroke 300ms ease, stroke-width 300ms ease, filter 300ms ease, fill 300ms ease;
 }
 
 .terrain-target .target-core {
@@ -336,23 +354,33 @@
   stroke: rgba(255, 255, 255, 0.72);
   stroke-width: 1;
   filter: drop-shadow(0 0 7px rgba(0, 157, 220, 0.62));
-  transition: filter 240ms ease;
+  transition: filter 240ms ease, stroke 240ms ease;
 }
 
 .terrain-target.is-active .target-ring {
-  fill: var(--decision-path);
-  stroke: var(--decision-path);
+  fill: rgba(208, 169, 81, 0.18);
+  stroke: #d0a951;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 0 14px rgba(208, 169, 81, 0.85));
 }
 
 .terrain-target.is-active .target-core {
-  fill: var(--optimal);
-  filter: drop-shadow(0 0 11px rgba(0, 157, 220, 0.9));
+  fill: #FF7517;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 14px #FF7517);
+}
+
+.terrain-target.is-active text {
+  fill: #FF7517;
+  font-weight: 800;
+  filter: drop-shadow(0 0 4px rgba(255, 117, 23, 0.35));
 }
 
 .terrain-target-label text {
-  fill: var(--optimal);
-  font-weight: 700;
-  letter-spacing: 0.13em;
+  fill: #8f6517;
+  font: 750 10.5px/1 var(--font-mono);
+  letter-spacing: 0.12em;
 }
 
 .terrain-node-hit {
@@ -421,51 +449,88 @@
   line-height: 1.5;
 }
 
+.landscape-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 16px);
+  margin-top: clamp(28px, 4vh, 46px);
+  padding: 0 4px;
+}
+
 .landscape-steps button {
   position: relative;
-  overflow: hidden;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 4px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #71717a;
+  cursor: pointer;
+  transition: color 200ms ease, opacity 200ms ease;
 }
 
 .landscape-steps button::after {
   position: absolute;
-  inset: auto 10px 4px;
-  height: 1px;
+  inset: auto 10% 0;
+  height: 2px;
   content: "";
-  background: var(--blue);
+  background: #FF7517;
+  border-radius: 1px;
   transform: scaleX(0);
-  transition: transform 260ms var(--ease-out-expo);
+  transition: transform 240ms var(--ease-out-expo), background-color 200ms ease;
+}
+
+.landscape-steps button span {
+  font: 700 9.5px/1 var(--font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  transition: color 200ms ease, font-weight 200ms ease;
+}
+
+.hero-landscape .landscape-steps button > svg {
+  width: 14px;
+  height: 14px;
+  color: inherit;
+  opacity: 0.75;
+  transition: transform 200ms ease, opacity 200ms ease, color 200ms ease;
+}
+
+.landscape-steps button:hover,
+.landscape-steps button:focus-visible {
+  color: var(--step-tone, #FF7517);
+}
+
+.landscape-steps button:hover > svg,
+.landscape-steps button:focus-visible > svg {
+  opacity: 1;
+  color: var(--step-tone, #FF7517);
+  transform: scale(1.08);
+}
+
+.landscape-steps button.is-active {
+  color: var(--step-tone, #FF7517);
+}
+
+.landscape-steps button.is-active span {
+  font-weight: 850;
+  color: var(--step-tone, #FF7517);
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.15));
+}
+
+.landscape-steps button.is-active > svg {
+  opacity: 1;
+  color: var(--step-tone, #FF7517);
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px var(--step-tone, #FF7517));
 }
 
 .landscape-steps button.is-active::after {
   transform: scaleX(1);
-}
-
-.landscape-steps button:nth-child(1) { color: var(--loss-high); }
-.landscape-steps button:nth-child(2) { color: #b98268; }
-.landscape-steps button:nth-child(3) { color: #948995; }
-.landscape-steps button:nth-child(4) { color: var(--loss-low); }
-.landscape-steps button:nth-child(5) { color: var(--optimal); }
-
-.landscape-steps button:hover,
-.landscape-steps button:focus-visible,
-.landscape-steps button.is-active {
-  background: color-mix(in srgb, currentColor 9%, transparent);
-  border-color: color-mix(in srgb, currentColor 22%, transparent);
-}
-
-.landscape-steps button:nth-child(1)::after { background: var(--loss-high); }
-.landscape-steps button:nth-child(2)::after { background: #b98268; }
-.landscape-steps button:nth-child(3)::after { background: #948995; }
-.landscape-steps button:nth-child(4)::after { background: var(--loss-low); }
-.landscape-steps button:nth-child(5)::after { background: var(--optimal); }
-
-.landscape-steps button span {
-  font-size: 9px;
-}
-
-.hero-landscape .landscape-steps button > svg {
-  width: 16px;
-  height: 16px;
+  background: var(--step-tone, #FF7517);
 }
 
 /* About: continue the identity section directly below the hero thesis. */

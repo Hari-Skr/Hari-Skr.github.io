@@ -846,49 +846,9 @@ body::after {
 .landscape-steps {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.landscape-steps button {
-  min-width: 0;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 7px;
-  color: var(--ink-faint);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
-}
-
-.landscape-steps button span {
-  overflow: hidden;
-  font: 8px/1 var(--font-mono);
-  text-overflow: ellipsis;
-  text-transform: uppercase;
-}
-
-.hero-landscape .landscape-steps button > svg {
-  position: relative;
-  inset: auto;
-  z-index: auto;
-  width: 15px;
-  height: 15px;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.landscape-steps button:hover,
-.landscape-steps button:focus-visible,
-.landscape-steps button.is-active {
-  color: var(--blue);
-  background: var(--blue-light);
-  border-color: rgba(39, 111, 137, 0.12);
+  gap: clamp(8px, 1.2vw, 16px);
+  margin-top: clamp(28px, 4vh, 46px);
+  padding: 0 4px;
 }
 
 /* Portfolio sections */
