@@ -1221,22 +1221,24 @@
 /* System map: keep every connection legible, including at rest. */
 
 .linear-connections path {
-  stroke-width: 1.6;
-  stroke-dasharray: 4 4;
+  stroke-width: 1.2;
+  stroke-dasharray: none;
   opacity: 0.94;
 }
 
 .linear-connections g.is-rail path {
   stroke: var(--blue);
-  stroke-width: 1.2;
-  stroke-dasharray: 5 5;
-  opacity: 0.6;
+  stroke-width: 1;
+  stroke-dasharray: none;
+  opacity: 0.45;
+  transition: opacity 220ms ease, stroke-width 220ms ease;
 }
 
 .linear-connections g.is-output path {
   stroke: var(--violet);
-  stroke-width: 1.8;
-  opacity: 0.9;
+  stroke-width: 1.4;
+  stroke-dasharray: none;
+  opacity: 0.75;
 }
 
 .linear-connections circle {
@@ -1266,11 +1268,22 @@
 
 .linear-connections g.is-active path {
   stroke: var(--blue);
-  stroke-width: 2.05;
-  stroke-dasharray: 5 6;
+  stroke-width: 1.6;
+  stroke-dasharray: none;
   opacity: 1;
   filter: drop-shadow(0 0 3px rgba(39, 111, 137, 0.22));
-  animation: layer-flow 2.8s linear infinite;
+  animation: none;
+}
+
+/* Traveling data packets along connections */
+.linear-connections g.is-active rect.data-packet {
+  opacity: 1;
+}
+
+.linear-connections rect.data-packet {
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(57, 114, 138, 0.55));
+  transition: opacity 150ms ease;
 }
 
 .linear-connections g.is-active circle {

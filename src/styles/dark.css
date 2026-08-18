@@ -925,10 +925,14 @@ html[data-theme="dark"] .education-card:hover {
 
 .linear-connections g.is-active path {
   stroke: #FF7517;
-  stroke-width: 2.35;
+  stroke-width: 2.05;
   opacity: 1;
   filter: drop-shadow(0 0 4px rgba(255, 117, 23, 0.42));
-  animation-duration: 1.4s;
+}
+
+.linear-connections g.is-active rect.data-packet {
+  fill: #FF7517;
+  filter: drop-shadow(0 0 5px rgba(255, 117, 23, 0.6));
 }
 
 .linear-connections g.is-active circle {

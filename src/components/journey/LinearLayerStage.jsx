@@ -470,7 +470,9 @@ export default function LinearLayerStage() {
                 </filter>
               </defs>
               {diagram.paths.map((path) => {
-                const active = activeItem && path.related?.includes(activeItem.id)
+                const active = activeItem && (
+                  activeItem.id === activation.id || path.related?.includes(activeItem.id)
+                )
                 return (
                   <g
                     className={`${active ? 'is-active ' : ''}is-${path.kind} ${path.isVertical ? 'is-vertical' : 'is-horizontal'}`}
@@ -481,6 +483,34 @@ export default function LinearLayerStage() {
                       vectorEffect="non-scaling-stroke"
                       filter={active ? 'url(#neural-glow-active)' : undefined}
                     />
+                    {active && [0, 1].map((i) => (
+                      <rect
+                        className="data-packet"
+                        key={`packet-${path.id}-${i}`}
+                        width="6"
+                        height="6"
+                        rx="1.5"
+                        fill="var(--blue, #39728a)"
+                        x="-3"
+                        y="-3"
+                      >
+                        <animateMotion
+                          dur="1.6s"
+                          repeatCount="indefinite"
+                          begin={`${i * 0.8}s`}
+                          path={path.d}
+                          rotate="auto"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="0;1;1;1;0"
+                          keyTimes="0;0.05;0.5;0.9;1"
+                          dur="1.6s"
+                          repeatCount="indefinite"
+                          begin={`${i * 0.8}s`}
+                        />
+                      </rect>
+                    ))}
                   </g>
                 )
               })}
