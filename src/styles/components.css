@@ -989,10 +989,8 @@
 .linear-connections path.is-active {
   stroke: url("#layer-link-active");
   stroke-width: 2;
-  stroke-dasharray: 7 7;
   opacity: 1;
   filter: drop-shadow(0 0 4px rgba(57, 114, 138, 0.22));
-  animation: layer-flow 7s linear infinite;
 }
 
 .linear-grid {
