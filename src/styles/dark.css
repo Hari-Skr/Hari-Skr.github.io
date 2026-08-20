@@ -575,13 +575,6 @@ html[data-theme="dark"] .education-card:hover {
   box-shadow: 0 26px 58px rgba(0, 0, 0, 0.34), inset 0 1px rgba(255, 255, 255, 0.04);
 }
 
-html[data-theme="dark"] .career-queue-link svg {
-  color: var(--blue);
-  background: #1b1b19;
-  border-color: rgba(218, 216, 208, 0.2);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
-}
-
 html[data-theme="dark"] .linear-layer-output > header {
   color: var(--ink);
   background: rgba(27, 27, 25, 0.92);
@@ -660,6 +653,12 @@ html[data-theme="dark"] .education-simple {
     rgba(20, 20, 18, 0.68);
   background-size: 34px 34px;
   border-color: rgba(115, 196, 210, 0.15);
+}
+
+html[data-theme="dark"] .education-simple.education-carousel-section {
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
 }
 
 html[data-theme="dark"] .education-card {
@@ -931,7 +930,9 @@ html[data-theme="dark"] .education-card:hover {
 }
 
 .linear-connections g.is-active rect.data-packet {
-  fill: #FF7517;
+  fill: none;
+  stroke: #FF7517;
+  stroke-width: 1.5;
   filter: drop-shadow(0 0 5px rgba(255, 117, 23, 0.6));
 }
 
@@ -948,27 +949,92 @@ html[data-theme="dark"] .education-card:hover {
   box-shadow: 0 0 0 4px rgba(255, 117, 23, 0.14);
 }
 
-.career-queue-link i {
-  background: linear-gradient(90deg, transparent, rgba(255, 117, 23, 0.52) 18% 82%, transparent);
-  transition: opacity var(--motion-fast) ease, filter var(--motion-base) var(--ease-standard);
+/* Dark Mode Neural Career Progression */
+html[data-theme="dark"] .career-nav-btn {
+  color: rgba(246, 244, 244, 0.72);
+  background: rgba(246, 244, 244, 0.045);
+  border-color: rgba(246, 244, 244, 0.18);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.28),
+    inset 0 1px rgba(255, 255, 255, 0.045);
 }
 
-.career-queue-link svg {
+html[data-theme="dark"] .career-nav-btn:hover:not(:disabled) {
   color: #FF7517;
-  border-color: rgba(255, 117, 23, 0.28);
-  transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease, transform var(--motion-base) var(--ease-emphasized);
+  background: rgba(255, 117, 23, 0.08);
+  border-color: rgba(255, 117, 23, 0.62);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.34),
+    0 0 16px rgba(255, 117, 23, 0.16);
 }
 
-.career-queue:has(.career-role:hover) .career-queue-link i,
-.career-queue:focus-within .career-queue-link i {
+html[data-theme="dark"] .career-nav-btn:disabled {
+  color: rgba(246, 244, 244, 0.34);
+  background: rgba(246, 244, 244, 0.025);
+  border-color: rgba(246, 244, 244, 0.1);
   opacity: 1;
-  filter: drop-shadow(0 0 4px rgba(255, 117, 23, 0.34));
 }
 
-.career-queue:has(.career-role:hover) .career-queue-link svg,
-.career-queue:focus-within .career-queue-link svg {
-  border-color: rgba(255, 117, 23, 0.58);
-  transform: scale(1.06);
+html[data-theme="dark"] .career-edge-line {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 117, 23, 0.1) 0%,
+    rgba(255, 117, 23, 0.3) 50%,
+    rgba(255, 117, 23, 0.1) 100%
+  );
+}
+
+html[data-theme="dark"] .career-data-cube {
+  background: transparent;
+  border-color: #FF7517;
+  box-shadow: 0 0 6px rgba(255, 117, 23, 0.55);
+}
+
+html[data-theme="dark"] .career-arrow-badge {
+  color: #FF7517;
+  background: rgba(27, 27, 25, 0.95);
+  border-color: rgba(255, 117, 23, 0.3);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.4),
+    0 0 12px rgba(255, 117, 23, 0.12),
+    inset 0 1px rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .career-queue-link:hover .career-arrow-badge,
+html[data-theme="dark"] .career-queue-link.is-hovered .career-arrow-badge,
+html[data-theme="dark"] .career-queue-link.is-card-adjacent .career-arrow-badge {
+  color: #ffe8b8;
+  border-color: rgba(255, 170, 112, 0.85);
+  background: rgba(35, 30, 28, 0.98);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(255, 117, 23, 0.4),
+    inset 0 1px rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .career-queue-link:hover .career-edge-line,
+html[data-theme="dark"] .career-queue-link.is-hovered .career-edge-line,
+html[data-theme="dark"] .career-queue-link.is-card-adjacent .career-edge-line {
+  background: rgba(255, 117, 23, 0.7);
+  box-shadow: 0 0 8px rgba(255, 117, 23, 0.5);
+}
+
+html[data-theme="dark"] .career-queue-link:hover .career-data-cube,
+html[data-theme="dark"] .career-queue-link.is-hovered .career-data-cube,
+html[data-theme="dark"] .career-queue-link.is-card-adjacent .career-data-cube {
+  background: transparent;
+  border-color: #ffe8b8;
+  box-shadow: 0 0 10px #FF7517, inset 0 0 3px rgba(255, 232, 184, 0.35);
+}
+
+html[data-theme="dark"] .career-role.is-linked {
+  border-color: rgba(255, 170, 112, 0.55);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42), 0 0 22px rgba(255, 117, 23, 0.18);
+}
+
+html[data-theme="dark"] .education-carousel-queue .education-card.is-linked {
+  border-color: rgba(255, 170, 112, 0.55);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42), 0 0 22px rgba(255, 117, 23, 0.18);
 }
 
 /* Project glyphs need their own dark tile, independent of text tokens. */

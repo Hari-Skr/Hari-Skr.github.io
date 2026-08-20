@@ -440,6 +440,188 @@ html[data-theme="dark"] .layer-node.is-active {
   }
 }
 
+/* ==========================================================================
+   4. Neural Network Style Career Progression Connector
+   ========================================================================== */
+
+.career-queue-link {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+/* Neural Edge Line */
+.career-neural-edge {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(-50%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.career-edge-line {
+  position: absolute;
+  inset: 0;
+  height: 1.5px;
+  background: linear-gradient(
+    90deg,
+    rgba(57, 114, 138, 0.15) 0%,
+    rgba(57, 114, 138, 0.35) 50%,
+    rgba(57, 114, 138, 0.15) 100%
+  );
+  border-radius: 999px;
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+/* Traveling Data Cubes / Packets - Hollow Outline Square without fill */
+.career-data-cube {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  margin-left: -3.5px;
+  background: transparent;
+  border: 1.5px solid var(--blue, #39728a);
+  border-radius: 1px;
+  box-shadow: 0 0 5px rgba(57, 114, 138, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  animation: none;
+}
+
+.career-data-cube.cube-1 {
+  animation-delay: 0s;
+}
+
+.career-data-cube.cube-2 {
+  animation-delay: 0.75s;
+}
+
+.career-data-cube.cube-3 {
+  animation-delay: 1.5s;
+}
+
+/* Stagger Link 1 */
+.career-queue-link[data-link-index="1"] .career-data-cube.cube-1 {
+  animation-delay: 0.38s;
+}
+
+.career-queue-link[data-link-index="1"] .career-data-cube.cube-2 {
+  animation-delay: 1.13s;
+}
+
+.career-queue-link[data-link-index="1"] .career-data-cube.cube-3 {
+  animation-delay: 1.88s;
+}
+
+/* Central Circular Arrow Badge */
+.career-arrow-badge {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: var(--blue);
+  background: var(--paper-light);
+  border: 1px solid rgba(39, 111, 137, 0.25);
+  border-radius: 50%;
+  box-shadow:
+    0 4px 14px rgba(35, 61, 67, 0.08),
+    inset 0 1px rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 240ms var(--ease-emphasized),
+    border-color 200ms ease,
+    background-color 200ms ease,
+    box-shadow 240ms ease,
+    color 200ms ease;
+}
+
+.career-arrow-icon {
+  display: block;
+  transition: transform 220ms var(--ease-emphasized), color 200ms ease;
+}
+
+/* Hover & Active States - Trigger Cube Stream */
+.career-queue-link:hover .career-arrow-badge,
+.career-queue-link.is-hovered .career-arrow-badge,
+.career-queue-link.is-card-adjacent .career-arrow-badge {
+  color: #ff7517;
+  border-color: rgba(255, 117, 23, 0.65);
+  box-shadow:
+    0 6px 20px rgba(255, 117, 23, 0.2),
+    0 0 12px rgba(255, 117, 23, 0.25);
+  transform: scale(1.1);
+}
+
+.career-queue-link:hover .career-arrow-icon,
+.career-queue-link.is-hovered .career-arrow-icon,
+.career-queue-link.is-card-adjacent .career-arrow-icon {
+  color: #ff7517;
+  transform: translateX(2px);
+}
+
+.career-queue-link:hover .career-edge-line,
+.career-queue-link.is-hovered .career-edge-line,
+.career-queue-link.is-card-adjacent .career-edge-line {
+  background: rgba(255, 117, 23, 0.55);
+  box-shadow: 0 0 6px rgba(255, 117, 23, 0.35);
+}
+
+.career-queue-link:hover .career-data-cube,
+.career-queue-link.is-hovered .career-data-cube,
+.career-queue-link.is-card-adjacent .career-data-cube {
+  visibility: visible;
+  animation: career-cube-stream-h 2.25s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  background: transparent;
+  border-color: #ff7517;
+  box-shadow: 0 0 8px rgba(255, 117, 23, 0.7), inset 0 0 2px rgba(255, 117, 23, 0.3);
+}
+
+/* Card linked state */
+.career-role.is-linked {
+  border-color: rgba(57, 114, 138, 0.45);
+  box-shadow: 0 16px 36px rgba(31, 64, 71, 0.1), 0 0 16px rgba(57, 114, 138, 0.12);
+}
+
+/* Keyframes */
+@keyframes career-cube-stream-h {
+  0% {
+    left: 0%;
+    opacity: 0;
+    transform: scale(0.65);
+  }
+  8% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  92% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: scale(0.65);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .project-card::after,
   .career-role::after,
@@ -469,5 +651,9 @@ html[data-theme="dark"] .layer-node.is-active {
   .course-signal::after {
     animation: none;
     background-position: 50% 0;
+  }
+
+  .career-data-cube {
+    animation: none !important;
   }
 }
