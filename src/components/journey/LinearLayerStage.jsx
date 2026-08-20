@@ -487,12 +487,14 @@ export default function LinearLayerStage() {
                       <rect
                         className="data-packet"
                         key={`packet-${path.id}-${i}`}
-                        width="6"
-                        height="6"
-                        rx="1.5"
-                        fill="var(--blue, #39728a)"
-                        x="-3"
-                        y="-3"
+                        width="7"
+                        height="7"
+                        rx="1"
+                        fill="none"
+                        stroke="var(--blue, #39728a)"
+                        strokeWidth="1.5"
+                        x="-3.5"
+                        y="-3.5"
                       >
                         <animateMotion
                           dur="1.6s"

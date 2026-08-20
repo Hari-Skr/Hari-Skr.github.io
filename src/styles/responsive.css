@@ -150,39 +150,118 @@
     gap: 16px;
   }
 
-  /* Experience section */
-  .career-timeline {
-    grid-template-columns: 1fr;
-    gap: 0;
-    padding: 16px 0 0;
+  /* Experience section - Carousel Mode */
+  .career-timeline.career-carousel-section {
+    display: block;
+    padding: 12px 0 0;
+  }
+
+  .career-carousel-frame {
+    padding: 14px 2px 20px;
+    margin: -14px -2px -20px;
   }
 
   .career-queue {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: max-content;
+    gap: 0;
   }
 
   .career-queue .career-role {
-    min-height: auto;
-    padding: 84px 26px 28px;
+    flex: 0 0 calc(100vw - 56px);
+    max-width: 360px;
+    min-height: 380px;
+    padding: 84px 22px 26px;
   }
 
   .career-queue-link {
+    flex: 0 0 52px;
+    height: auto;
+    min-height: 48px;
+    margin: 0;
+  }
+
+  .career-neural-edge {
+    top: 50%;
+    bottom: auto;
+    left: 0;
+    right: 0;
     width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 2px;
+    transform: translateY(-50%);
   }
 
-  .career-queue-link i {
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--blue), var(--violet));
+  .career-edge-line {
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(
+      90deg,
+      rgba(57, 114, 138, 0.15) 0%,
+      rgba(57, 114, 138, 0.35) 50%,
+      rgba(57, 114, 138, 0.15) 100%
+    );
   }
 
-  .career-queue-link svg {
-    transform: rotate(90deg);
+  html[data-theme="dark"] .career-edge-line {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 117, 23, 0.1) 0%,
+      rgba(255, 117, 23, 0.3) 50%,
+      rgba(255, 117, 23, 0.1) 100%
+    );
+  }
+
+  .career-data-cube {
+    top: 50%;
+    left: 0;
+    margin-top: -3.5px;
+    margin-left: -3.5px;
+    background: transparent;
+    animation: none;
+  }
+
+  .career-queue-link:hover .career-data-cube,
+  .career-queue-link.is-hovered .career-data-cube,
+  .career-queue-link.is-card-adjacent .career-data-cube {
+    visibility: visible;
+    animation: career-cube-stream-h 2.25s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .career-arrow-icon {
+    transform: rotate(0deg);
+  }
+
+  .career-queue-link:hover .career-arrow-icon,
+  .career-queue-link.is-hovered .career-arrow-icon,
+  .career-queue-link.is-card-adjacent .career-arrow-icon {
+    transform: translateX(2px);
+  }
+
+  @keyframes career-cube-stream-v {
+    0% {
+      top: 0%;
+      opacity: 0;
+      transform: scale(0.65);
+    }
+    8% {
+      opacity: 0.95;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+    92% {
+      opacity: 0.95;
+      transform: scale(1);
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
+      transform: scale(0.65);
+    }
   }
 
   /* Linear System (Skills & Projects on Tablet/Mobile) */
@@ -1593,13 +1672,24 @@
   }
 
   .career-queue-link {
-    height: 42px;
+    flex: 0 0 44px;
+    height: auto;
+    margin: 0;
   }
 
-  .career-queue-link svg {
-    width: 28px;
-    height: 28px;
-    padding: 6px;
+  .career-arrow-beacon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .career-arrow-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .career-arrow-ping {
+    width: 32px;
+    height: 32px;
   }
 
   /* Skills map: legible nodes replace the desktop's miniature 3-up controls. */
